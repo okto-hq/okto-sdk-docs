@@ -1,5 +1,6 @@
 {
-  "index": "Introduction",
+  "index": "Overview",
+  "getting-started": "Getting Started",
   "another": "Another Page",
   "advanced": "Advanced (A Folder)",
   "about": {
@@ -7,9 +8,9 @@
     "type": "page"
   },
   "contact": {
-    "title": "Contact ↗",
+    "title": "Support ↗",
     "type": "page",
-    "href": "https://twitter.com/shuding_",
+    "href": "https://okto.tech/help",
     "newWindow": true
   }
 }

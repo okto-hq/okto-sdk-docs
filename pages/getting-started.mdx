@@ -1,0 +1,65 @@
+import { Tabs } from 'nextra/components'
+import { Steps } from 'nextra/components'
+import { Callout } from 'nextra/components'
+ 
+In this part we will setup Okto Wallet in your existing react native app but before you can start using the SDK, you will need an API key to get started. 
+<Callout type='info' emoji="🔑">
+    Request an API key from [here](https://form.typeform.com/to/ddXZYQtS).
+</Callout>
+<Steps>
+### Installing
+Add the SDK to your app using your preferred package manager.
+<Tabs items={['pnpm', 'npm', 'yarn']}>
+    <Tabs.Tab>
+        ```bash filename="bash" copy
+        pnpm i okto-sdk-react-native
+        ```
+    </Tabs.Tab>
+    <Tabs.Tab>
+        ```bash filename="bash" copy
+        npm i okto-sdk-react-native
+        ```
+    </Tabs.Tab>
+    <Tabs.Tab>
+        ```bash filename="bash" copy
+        yarn add okto-sdk-react-native
+        ```
+    </Tabs.Tab>
+</Tabs>
+
+### Initialize the SDK
+You need to first intialize the SDK with the API key to get started. 
+You can do this in the root file of your app, for example `App.tsx` or `index.tsx`.
+```javascript filename="App.tsx" copy
+import { init } from "rn-okto-sdk";
+
+...
+
+const apiKey = 'YOUR_API_KEY';
+init(apiKey);
+```
+
+And we are done🎉! You are now ready to use the SDK in your app.
+You can optionally setup the authentication feature of the SDK by following the next step.
+
+### Intialize Authentication (Optional)
+If you want to use the authentication feature of the SDK, you need to initialize it with the `clientId` provided by Google Console Platform.
+The method additonally returns array of all the wallets created on successful authentication.
+```javascript filename="App.tsx" copy
+import { authenticate } from "rn-okto-sdk";
+
+...
+
+const clientId = 'YOUR_CLIENT_ID';
+authenticate(clientId, (result, error) => {
+  if (error) {
+    // Handle errror
+    console.error(error);
+  } else {
+    // Returns an array of all the wallets created
+    const wallet = JSON.parse(result);
+    console.log(wallet);
+  }
+});
+```
+</Steps>
