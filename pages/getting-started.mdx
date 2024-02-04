@@ -35,7 +35,7 @@ import { init } from "rn-okto-sdk";
 
 ...
 
-const apiKey = 'YOUR_API_KEY';
+const apiKey = "YOUR_API_KEY";
 init(apiKey);
 ```
 
@@ -43,15 +43,15 @@ And we are done🎉! You are now ready to use the SDK in your app.
 You can optionally setup the authentication feature of the SDK by following the next step.
 
 ### Intialize Authentication (Optional)
-If you want to use the authentication feature of the SDK, you need to initialize it with the `clientId` provided by Google Console Platform.
+If you want to use the authentication feature of the SDK, you need to initialize it with the `tokenId` which can obtained using [these steps](/oauth-steps).
 The method additonally returns array of all the wallets created on successful authentication.
 ```javascript filename="App.tsx" copy
 import { authenticate } from "rn-okto-sdk";
 
 ...
 
-const clientId = 'YOUR_CLIENT_ID';
-authenticate(clientId, (result, error) => {
+const tokenId = "YOUR_TOKEN_ID";
+authenticate(tokenId, (result, error) => {
   if (error) {
     // Handle errror
     console.error(error);

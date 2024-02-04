@@ -17,8 +17,8 @@ const config: DocsThemeConfig = {
     <>
       <link
         rel="icon"
-        type="image/x-icon"
-        href="/favicon.png"
+        sizes="any"
+        href="/favicon.ico"
       />
     </>
   ),
@@ -37,7 +37,9 @@ const config: DocsThemeConfig = {
       titleTemplate: '%s – Okto Docs'
     }
   },
-  faviconGlyph: '👋',
+  nextThemes: {
+    defaultTheme: 'system',
+  },
 }
 
 export default config
