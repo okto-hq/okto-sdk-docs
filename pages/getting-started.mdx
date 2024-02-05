@@ -27,6 +27,22 @@ Add the SDK to your app using your preferred package manager.
     </Tabs.Tab>
 </Tabs>
 
+### Add project to your build.gradle
+Now before using the SDK, we need to add the following lines to your `android/build.gradle` file under `allprojects` property.
+```gradle filename="android/build.gradle" copy
+allprojects{
+    repositories{
+        String storageUrl = "https://storage.googleapis.com"
+        maven {
+             url "$rootDir/../node_modules/rn-okto-sdk/maven-repo"
+        }
+        maven {
+            url "$storageUrl/download.flutter.io"
+        }
+    }
+}
+```
+
 ### Initialize the SDK
 You need to first intialize the SDK with the API key to get started. 
 You can do this in the root file of your app, for example `App.tsx` or `index.tsx`.
@@ -40,26 +56,5 @@ init(apiKey);
 ```
 
 And we are done🎉! You are now ready to use the SDK in your app.
-You can optionally setup the authentication feature of the SDK by following the next step.
 
-### Intialize Authentication (Optional)
-If you want to use the authentication feature of the SDK, you need to initialize it with the `tokenId` which can obtained using [these steps](/oauth-steps).
-The method additonally returns array of all the wallets created on successful authentication.
-```javascript filename="App.tsx" copy
-import { authenticate } from "rn-okto-sdk";
-
-...
-
-const tokenId = "YOUR_TOKEN_ID";
-authenticate(tokenId, (result, error) => {
-  if (error) {
-    // Handle errror
-    console.error(error);
-  } else {
-    // Returns an array of all the wallets created
-    const wallet = JSON.parse(result);
-    console.log(wallet);
-  }
-});
-```
 </Steps>
