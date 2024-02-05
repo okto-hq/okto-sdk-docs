@@ -1,12 +1,13 @@
 {
-  "index": "Overview",
+  "index": {
+    "title":"Overview"
+  },
   "getting-started": "Getting Started",
   "oauth-steps": {
     "title": "Steps to get OAuth 2.0 Token Id",
     "display": "hidden"
   },
-  "another": "Another Page",
-  "advanced": "Advanced (A Folder)",
+  "guide": "Guide",
   "about": {
     "title": "About",
     "type": "page"
