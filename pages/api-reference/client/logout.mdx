@@ -1,6 +1,6 @@
 import { ColumnLayout } from '../../../components/column-view';
 
-Get user details from token received from Okto.
+Logout the user from the current Okto session. This will remove the user's session from the Okto server and the user will have to login again to access the resources.
 
 <ColumnLayout>
     <>
@@ -10,7 +10,7 @@ Get user details from token received from Okto.
     <>
         ## Code
         ```bash copy
-        curl -X GET '${baseUrl}/api/v1/user_from_token' 
+        curl -X POST '${baseUrl}/api/v1/logout' 
         -H 'accept: application/json' 
         -H 'Authorization: Bearer AUTH_TOKEN'
         ```
@@ -19,13 +19,6 @@ Get user details from token received from Okto.
         ```json
         {
             "status": "success",
-            "data": {
-                "email": "raghav.goyal@coindcx.com",
-                "user_id": "da9d6c93-6486-4f2e-b785-84daf8ccfeba",
-                "created_at": "1702060462",
-                "freezed": false,
-                "freeze_reason": ""
-            }
         }
         ```
     </>

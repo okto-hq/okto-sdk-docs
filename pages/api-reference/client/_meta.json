@@ -1,5 +1,9 @@
 {
     "authenticate": "Authenticate",
     "set-pin": "Set PIN",
-    "user-details": "User Details"
+    "user-details": "User Details",
+    "refresh-token": "Refresh Token",
+    "create-wallet": "Create Wallet",
+    "logout": "Logout",
+    "get-wallet": "Get Wallet"
 }

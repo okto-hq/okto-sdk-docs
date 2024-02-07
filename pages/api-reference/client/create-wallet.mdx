@@ -1,0 +1,35 @@
+import { ColumnLayout } from '../../../components/column-view';
+
+Creates a new wallet for the user. The wallet is created on the network specified in the request. The user can have multiple wallets on different networks.
+
+<ColumnLayout>
+    <>
+        ## Parameters
+        None
+    </>
+    <>
+        ## Code
+        ```bash copy
+        curl -X POST '${baseUrl}/api/v1/wallet' 
+        -H 'accept: application/json' 
+        -H 'Authorization: Bearer AUTH_TOKEN'
+
+        ```
+
+        ## Response
+        ```json
+        {
+            "status": "success",
+            "data": {
+                "wallets": [
+                {
+                    "network_name": "POLYGON_TESTNET",
+                    "address": "0x0342A54DD44E8744FD185579Af57845Cb0ac6cB0",
+                    "success": true
+                }
+                ]
+            }
+        }
+        ```
+    </>
+</ColumnLayout>
