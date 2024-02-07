@@ -1,0 +1,52 @@
+import { ColumnLayout } from '../../../components/column-view';
+
+Sets the pin of a new user after the user has been authenticated by the okto server. The user will be required to set a pin after the first login
+
+<ColumnLayout>
+    <>
+        ## Parameters
+        `id_token` : string <br />
+        The id token of the user received from the google oauth2 provider.
+
+        ---
+        `token` : string <br />
+        The token received from the okto server after authentication.
+
+        ---
+        `relogin_pin` : string <br />
+        The new of the user to be set.
+
+        ---
+        `purpose` : string <br />
+        The purpose of the request. In this case, it is `set_pin`.
+
+        ---
+    </>
+    <>
+        ## Code
+        ```bash copy
+        curl -X 'POST' '${baseUrl}/api/v1/set-pin' -H 'accept: */*' 
+            -H 'Content-Type: application/json' -d '
+                {
+                    "id_token": "YOUR_TOKEN_ID",
+                    "token": "OKTO_TOKEN",
+                    "relogin_pin": "123456",
+                    "purpose": "set_pin"
+                }
+            '
+        ```
+
+        ## Response
+        ```json
+        {
+            "status": "success",
+            "data": {
+                "auth_token": "ACCESS_TOKEN",
+                "message": "success",
+                "refresh_auth_token": "REFRESH_TOKEN",
+                "device_token": "12d1a2676694d482dd453d1231ecdd8c0c87956ed646b3a8115e3ac7c42daf28"
+            }
+        }
+        ```
+    </>
+</ColumnLayout>

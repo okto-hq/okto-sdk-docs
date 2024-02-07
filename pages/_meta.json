@@ -8,6 +8,7 @@
     "display": "hidden"
   },
   "guide": "Guide",
+  "api-reference": "API Reference",
   "about": {
     "title": "About",
     "type": "page"
