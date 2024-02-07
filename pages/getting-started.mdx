@@ -30,11 +30,14 @@ In this part we will integrate Okto Wallet in React Native whether it's for your
             </Tabs.Tab>
         </Tabs>
 
-        ### Add project to your build.gradle
+        ### Setup your build.gradle
         Now before using the SDK, we need to add the following lines to your `android/build.gradle` file under `allprojects` property.
+        > **Fun fact:** In Okto SDK, we've got two ways for your app to chat with the API: Wrappers and the Authenticated Channel. We've cooked up a neat Flutter application binary. It decides which API to call and when to make the call, with the wrappers acting like a guidebook for the binary.<br />
+        > And here's the cool part: The binary not only handles the calls but also ensures that the Authenticated Channel plays nice with Okto SDK servers. It's like having a backstage pass, making sure the JWT validation on your app's side is on point.
         ```gradle filename="android/build.gradle" copy
         allprojects{
             repositories{
+                // other maven repositories
                 String storageUrl = "https://storage.googleapis.com"
                 maven {
                     url "$rootDir/../node_modules/rn-okto-sdk/maven-repo"
@@ -43,6 +46,17 @@ In this part we will integrate Okto Wallet in React Native whether it's for your
                     url "$storageUrl/download.flutter.io"
                 }
             }
+        }
+        ```
+
+        Also make sure the `minSdk` version is set to `24` in your `android/build.gradle` file.
+        ```gradle filename="android/build.gradle" copy
+        buildscript {
+            ext {
+                ...
+                minSdk = 24
+            }
+            ...
         }
         ```
 
@@ -108,11 +122,14 @@ In this part we will integrate Okto Wallet in React Native whether it's for your
             </Tabs.Tab>
         </Tabs>
 
-        ### Add project to your build.gradle
+        ### Setup your build.gradle
         Now before using the SDK, we need to add the following lines to your `android/build.gradle` file under `allprojects` property.
+        > **Fun fact:** In Okto SDK, we've got two ways for your app to chat with the API: Wrappers and the Authenticated Channel. We've cooked up a neat Flutter application binary. It decides which API to call and when to make the call, with the wrappers acting like a guidebook for the binary.<br />
+        > And here's the cool part: The binary not only handles the calls but also ensures that the Authenticated Channel plays nice with Okto SDK servers. It's like having a backstage pass, making sure the JWT validation on your app's side is on point.
         ```gradle filename="android/build.gradle" copy
         allprojects{
             repositories{
+                // other maven repositories
                 String storageUrl = "https://storage.googleapis.com"
                 maven {
                     url "$rootDir/../node_modules/rn-okto-sdk/maven-repo"
@@ -121,6 +138,17 @@ In this part we will integrate Okto Wallet in React Native whether it's for your
                     url "$storageUrl/download.flutter.io"
                 }
             }
+        }
+        ```
+
+        Also make sure the `minSdk` version is set to `24` in your `android/build.gradle` file.
+        ```gradle filename="android/build.gradle" copy
+        buildscript {
+            ext {
+                ...
+                minSdk = 24
+            }
+            ...
         }
         ```
 
