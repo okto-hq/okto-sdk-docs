@@ -5,5 +5,8 @@
     "refresh-token": "Refresh Token",
     "create-wallet": "Create Wallet",
     "logout": "Logout",
-    "get-wallet": "Get Wallet"
+    "get-wallet": "Get Wallet",
+    "supported-networks": "Supported Networks",
+    "supported-tokens": "Supported Tokens",
+    "orders-history": "Orders History"
 }

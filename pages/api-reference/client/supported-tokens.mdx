@@ -1,0 +1,49 @@
+import { ColumnLayout } from '../../../components/column-view';
+
+Get an array of all the whitelisted tokens on your API key.
+
+<ColumnLayout>
+    <>
+        ## Parameters
+        None
+    </>
+    <>
+        ## Code
+        ```bash copy
+        curl -X GET '${baseUrl}/api/v1/supported/tokens' 
+        -H 'accept: application/json' 
+        -H 'Authorization: Bearer AUTH_TOKEN'
+        ```
+
+        ## Response
+        ```json
+        {
+            "status": "success",
+            "data": {
+                "tokens": [
+                {
+                    "token_name": "MATIC",
+                    "token_address": "",
+                    "network_name": "POLYGON_TESTNET"
+                },
+                {
+                    "token_name": "USDT",
+                    "token_address": "0x2f7b97837f2d14ba2ed3a4b2282e259126a9b848",
+                    "network_name": "POLYGON_TESTNET"
+                },
+                {
+                    "token_name": "WMATIC",
+                    "token_address": "0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270",
+                    "network_name": "POLYGON_TESTNET"
+                },
+                {
+                    "token_name": "WMATIC",
+                    "token_address": "0x9c3c9283d3e44854697cd22d3faa240cfb032889",
+                    "network_name": "POLYGON_TESTNET"
+                }
+                ]
+            }
+        }
+        ```
+    </>
+</ColumnLayout>

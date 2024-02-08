@@ -1,6 +1,6 @@
 import { ColumnLayout } from '../../../components/column-view';
 
-Creates a new wallet for the user. The wallet is created for all the whitelisted networks for your API key.
+Get an array of all the whitelisted networks on your API key.
 
 <ColumnLayout>
     <>
@@ -10,10 +10,9 @@ Creates a new wallet for the user. The wallet is created for all the whitelisted
     <>
         ## Code
         ```bash copy
-        curl -X POST '${baseUrl}/api/v1/wallet' 
+        curl -X GET '${baseUrl}/api/v1/supported/networks' 
         -H 'accept: application/json' 
         -H 'Authorization: Bearer AUTH_TOKEN'
-
         ```
 
         ## Response
@@ -21,12 +20,11 @@ Creates a new wallet for the user. The wallet is created for all the whitelisted
         {
             "status": "success",
             "data": {
-                "wallets": [
-                {
-                    "network_name": "POLYGON_TESTNET",
-                    "address": "0x0342A54DD44E8744FD185579Af57845Cb0ac6cB0",
-                    "success": true
-                }
+                "network": [
+                    {
+                        "network_name": "POLYGON_TESTNET",
+                        "chain_id": "80001"
+                    }
                 ]
             }
         }
