@@ -8,5 +8,10 @@
     "get-wallet": "Get Wallet",
     "supported-networks": "Supported Networks",
     "supported-tokens": "Supported Tokens",
-    "orders-history": "Orders History"
+    "orders-history": {"title":"Orders History", "display": "hidden"},
+    "transfer-tokens": "Transfer Tokens",
+    "transfer-nft": "Transfer NFT",
+    "raw-transaction-execute": "Raw Transaction Execute",
+    "raw-transaction-status": "Raw Transaction Status",
+    "user-portfolio": "User Portfolio"
 }

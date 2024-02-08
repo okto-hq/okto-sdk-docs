@@ -1,0 +1,39 @@
+import { ColumnLayout } from '../../../components/column-view';
+
+
+
+<ColumnLayout>
+    <>
+        ## Query Parameters
+        `order_id` : string <br />
+        Order ID of the transaction to check.
+
+        ---
+
+    </>
+    <>
+        ## Code
+        ```bash copy
+        curl -X GET '${baseUrl}/api/v1/rawtransaction/status?order_id=71b8dfd0-4d5c-49d6-9c6f-a39fa3252b24'
+        -H 'accept: application/json' 
+        -H 'Authorization: Bearer AUTH_TOKEN'
+        ```
+
+        ## Response
+        ```json
+        {
+            "status": "success",
+            "data": {
+                "jobs": [
+                    {
+                        "order_id": "71b8dfd0-4d5c-49d6-9c6f-a39fa3252b24",
+                        "network_name": "SOLANA_DEVNET",
+                        "status": "SUCCESS",
+                        "transaction_hash": "45qimRvrsVwRKx2CPxXHS3SCzDjm5gxNqbu6H2yP4fwnnXgKMhJT3NqXpzdxNrv53ftnv2JaHYnu98gXbuNedTnV"
+                    }
+                ]
+            }
+        }
+        ```
+    </>
+</ColumnLayout>

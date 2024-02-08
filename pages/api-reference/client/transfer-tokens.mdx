@@ -1,0 +1,50 @@
+import { ColumnLayout } from '../../../components/column-view';
+
+Place an order by executing a token transfer. This will transfer the specified quantity of tokens to the recipient address. The order ID will be returned in the response. The order ID can be used to track the status of the order.
+
+<ColumnLayout>
+    <>
+        ## Parameters
+        `network_name` : string <br />
+        Network used for the transfer.
+
+        ---
+        `token_address` : string <br />
+        Address of the token to be transferred.
+
+        ---
+        `quantity` : string <br />
+        Quantity of tokens to be transferred.
+
+        ---
+        `recipient_address` : string <br />
+        Address of the recipient address to send tokens to.
+
+        ---
+    </>
+    <>
+        ## Code
+        ```bash copy
+        curl -X POST '${baseUrl}/api/v1/transfers/tokens/execute' 
+        -H 'accept: application/json' 
+        -H 'Authorization: Bearer AUTH_TOKEN' -d '
+            {
+                "network_name": "APTOS TESTNET",
+                "token_address": "0x2f7b97837f2d14ba2ed3a4b2282e259126a9b848",
+                "quantity": "0.0001",
+                "recipient_address": "0x8ff71ae16c88d86f5ec4100951f37a50683e8cd23ca515894854fcfc4ab7399b"
+            }
+        '
+        ```
+
+        ## Response
+        ```json
+        {
+            "status": "success",
+            "data": {
+                "orderId": "20b57c3f-7ea3-4531-8bb8-313c870ebc1a"
+            }
+        }
+        ```
+    </>
+</ColumnLayout>
