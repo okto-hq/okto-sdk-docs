@@ -4,13 +4,20 @@ Get an array of all the whitelisted tokens on your API key.
 
 <ColumnLayout>
     <>
-        ## Parameters
-        None
+        ## Query Parameters
+        `page` : number <br />
+        Page number. Default is 1.
+
+        ---
+        `size` : number <br />
+        Number of items per page. Default is 10.
+
+        ---
     </>
     <>
         ## Code
         ```bash copy
-        curl -X GET '${baseUrl}/api/v1/supported/tokens' 
+        curl -X GET '${baseUrl}/api/v1/supported/tokens?page=1&size=10'
         -H 'accept: application/json' 
         -H 'Authorization: Bearer AUTH_TOKEN'
         ```

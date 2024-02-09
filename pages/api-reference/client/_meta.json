@@ -5,13 +5,15 @@
     "refresh-token": "Refresh Token",
     "create-wallet": "Create Wallet",
     "logout": "Logout",
-    "get-wallet": "Get Wallet",
+    "get-wallet": "Get Wallets",
     "supported-networks": "Supported Networks",
     "supported-tokens": "Supported Tokens",
-    "orders-history": {"title":"Orders History", "display": "hidden"},
+    "orders-history": "Orders History",
+    "order-details-nft": "Order Details NFT",
     "transfer-tokens": "Transfer Tokens",
     "transfer-nft": "Transfer NFT",
     "raw-transaction-execute": "Raw Transaction Execute",
     "raw-transaction-status": "Raw Transaction Status",
-    "user-portfolio": "User Portfolio"
+    "user-portfolio": "User Portfolio",
+    "user-activity": "User Portfolio Activity"
 }

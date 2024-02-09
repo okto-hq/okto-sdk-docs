@@ -1,6 +1,6 @@
 import { ColumnLayout } from '../../../components/column-view';
 
-Fetch all the orders of the user.
+Fetch all the orders of the user. 
 
 <ColumnLayout>
     <>
@@ -17,7 +17,35 @@ Fetch all the orders of the user.
 
         ## Response
         ```json
-        
+        {
+            "status": "success",
+            "data": {
+                "total": 3,
+                "jobs": [
+                    {
+                        "order_id": "20b57c3f-7ea3-4531-8bb8-313c870ebc1a",
+                        "order_type": "DEFI_TO_EXT",
+                        "network_name": "APTOS",
+                        "status": "SUCCESS",
+                        "transaction_hash": "0x837fa598ae893cb307dc9fbeac1a40c464fbd9565337be8f3c0abff8de1f286a"
+                    },
+                    {
+                        "order_id": "e0f1eac5-4f8c-444c-ac57-898553027ab5",
+                        "order_type": "DEFI_TO_EXT",
+                        "network_name": "APTOS",
+                        "status": "SUCCESS",
+                        "transaction_hash": "0xb38fae8adb8c7f907def22d0b132b42e1adc4bc7f99ab378634cc99c9aedf74e"
+                    },
+                    {
+                        "order_id": "f25d2dfb-c3ca-48cd-8e08-f6ea3601854b",
+                        "order_type": "DEFI_TO_EXT",
+                        "network_name": "APTOS",
+                        "status": "SUCCESS",
+                        "transaction_hash": "0xcdd0a0ff73c44d24fcf9653d68876e12ac1fcc87aaecacce4309b59679822ebc"
+                    }
+                ]
+            }
+        }
         ```
     </>
 </ColumnLayout>
