@@ -103,6 +103,12 @@ const LoginScreen = () => {
     }
 }
 ```
+#### Existing user
+If the user already has an Okto wallet, the `result` will contain the user's wallet information.
+
+#### New user
+If the user does not have an Okto wallet, they will get a UI prompt to [create a new wallet](/guide/authenticate/create-wallet.mdx).
+
 After a successful authentication, the `result` will contain the user's wallet information. We can use this information to personalize the user's experience in our app.
 </Steps>
 
