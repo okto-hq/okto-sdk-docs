@@ -2,5 +2,8 @@
     "app-setup": "App Setup",
     "authenticate": "Authenticate",
     "fetch-user": "Fetch User",
-    "fetch-wallets": "Fetch Wallets"
+    "fetch-wallets": "Fetch Wallets",
+    "supported-networks-and-tokens": "Fetch supported Chains",
+
+    "logout": "Logout"
 }

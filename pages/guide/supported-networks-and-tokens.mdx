@@ -1,0 +1,110 @@
+import { Steps } from 'nextra/components';
+
+Once the user can access their wallets, they would like to transfer assets from and to their wallets. But before that user needs to know the networks and tokens supported by your API Key. 
+
+<Steps>
+    ### Fetch Supported Networks and Tokens
+    First, we need to fetch the supported networks and tokens from the Okto. We can use the `getSupportedNetworks` and `getSupportedTokens` methods to fetch the respective data. 
+    We will start by creating a new screen 
+
+    ```tsx filename="screen/supported-chains.tsx" copy
+    import { getSupportedNetworks, getSupportedTokens } from "rn-okto-sdk";
+
+    ...
+    export interface Token {
+        token_name: string
+        token_address: string
+        network_name: string
+    }
+
+    export interface Network {
+        network_name: string
+        chain_id: string
+    }
+
+    const SupportedChainScreen = () => {
+        const [networks, setNetworks] = React.useState<Network[]>([]);
+        const [tokens, setTokens] = React.useState<Token[]>([]);
+
+        React.useEffect(() => {
+            getSupportedNetworks((result, error) => {
+            if (result) {
+                const networks: Network[] = JSON.parse(result);
+                setNetworks(networks)
+            }
+        })
+
+        getSupportedTokens((result, error) => {
+            if (result) {
+                const tokens: Token[] = JSON.parse(result);
+                setTokens(tokens)
+            }
+        })
+        }, [])
+    };
+    ```
+
+    ### Display Supported Networks and Tokens
+    Now that we have the supported networks and tokens, we can display them in the UI.
+
+    ```tsx filename="screen/supported-chains.tsx" copy
+    import { View, Text } from 'react-native';
+
+    const SupportedChainScreen = () => {
+        const [networks, setNetworks] = React.useState<Network[]>([]);
+        const [tokens, setTokens] = React.useState<Token[]>([]);
+        
+        ...
+
+        return (
+            <View style={{ flexDirection: "row", backgroundColor: "#fff", flex: 1 }}>
+                <View style={{ flex: 0.5 }}>
+                    <Text>Supported Networks</Text>
+                    <View>
+                        {networks.map((network, index) => (
+                            <View key={index} style={{ marginVertical: 10 }}>
+                                <Text>{network.network_name}</Text>
+                            </View>
+                        ))}
+                    </View>
+                </View>
+                <View style={{ flex: 0.5 }}>
+                    <Text>Supported Tokens</Text>
+                    <View>
+                        {tokens.map((token, index) => (
+                            <View key={index} style={{ marginVertical: 10 }}>
+                                <Text>{token.token_name}</Text>
+                            </View>
+                        ))}
+                    </View>
+                </View>
+            </View>
+        )
+    }
+    ```
+
+    ### Add navigation
+    Finally, we need to add a way to navigate to this screen. We will add a link in the `UserProfileScreen` to navigate to the `SupportedChainScreen`.
+
+    ```tsx filename="screen/user-profile.tsx" copy
+    import { Pressable, Text, View } from 'react-native';
+
+    const UserProfileScreen = ({ navigation }: { navigation: any }) => {
+        
+        ...
+        
+        return (
+            <View>
+                ...
+
+                <View style={{ alignItems: "center" }}>
+                    <Pressable onPress={() => navigation.navigate("SupportedChains")}>
+                        <Text style={{ color: "#008AE6" }}>Check Supported Chains</Text>
+                    </Pressable>
+                </View>
+            </View>
+        )
+    }
+    ```
+</Steps>
+
