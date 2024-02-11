@@ -1,10 +1,10 @@
 import { Steps } from 'nextra/components';
 
-Now that the user is authenticated and has an Okto wallet, we can fetch the user details from Okto and display them in the app.
+Now that the user is authenticated and has an Okto wallet, you can fetch the user details from Okto and display them in the app.
 
 <Steps>
 ### Fetch User Details
-First lets create a new screen and name it `UserProfileScreen` and fetch the user details using `getUserDetails` from Okto and store it in a state.
+First, let's create a new screen with the name `user-profile.tsx`. Fetch the user details using `getUserDetails` from Okto and store them in a state.
 
 ```tsx filename="screens/user-profile.tsx" copy
 import { getUserDetails } from "rn-okto-sdk";
@@ -25,7 +25,7 @@ const UserProfileScreen = () => {
     React.useEffect(() => {
         getUserDetails((result, error) => {
             if(result){
-                const user = JSON.parse(result);
+                const user: User = JSON.parse(result);
                 setUserDetails(user)
             }
         })
@@ -57,3 +57,5 @@ const UserProfileScreen = () => {
 }
 ```
 </Steps>
+
+Now that the user details are displayed, in the next step, we will fetch user's wallet details and display them in the app.

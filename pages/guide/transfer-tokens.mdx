@@ -1,0 +1,104 @@
+import { Steps } from 'nextra/components';
+
+<Steps>
+    ### Adding required fields
+    We will be using the `transferFunds` method to transfer tokens from one account to another. This method requires the following fields:
+    - `network` - The network to use for the transfer.
+    - `tokenAddress` - The address of the token to transfer.
+    - `amount` - The amount of tokens to transfer.
+    - `recipient` - The address of the recipient.
+
+    We will create a new screen named `transfer-tokens.tsx` and start by creating states and a method to handle the submission of the form fields.
+
+    ```tsx filename="screen/transfer-token.tsx" copy
+    import React, { useState } from 'react';
+    import { transferFunds } from 'rn-okto-sdk';
+
+    const TransferTokensScreen = () => {
+        const [networkName, setNetworkName] = useState("");
+        const [tokenAddress, setTokenAddress] = useState("");
+        const [quantity, setQuantity] = useState("");
+        const [recipientAddress, setRecipientAddress] = useState("");
+    
+        const handleSubmit = () => {
+            transferFunds(
+                networkName,
+                tokenAddress,
+                recipientAddress,
+                quantity,
+                (result, error) => {
+                    console.log(result);
+                    console.log(error);
+                }
+            );
+        }
+    }
+    ```
+
+    ### Add Form
+    We will add form fields to the screen to capture the required fields. Additionally, we will include a button to submit the form.
+
+    ```tsx filename="screen/transfer-token.tsx" copy
+    import { View, TextInput, Button } from 'react-native';
+
+    const TransferTokensScreen = () => {
+        
+        ...
+
+        return (
+            <View style={{ flex: 1, backgroundColor: '#fff' }}>
+                <Text>Transfer Tokens</Text>
+                <TextInput
+                    value={networkName}
+                    onChangeText={(value) => setNetworkName(value)}
+                    placeholder="Enter Network Name"
+                />
+                <TextInput
+                    value={tokenAddress}
+                    onChangeText={(value) => setTokenAddress(value)}
+                    placeholder="Enter Token Address"
+                />
+                <TextInput
+                    value={quantity}
+                    onChangeText={(value) => setQuantity(value)}
+                    placeholder="Enter Quantity"
+                />
+                <TextInput
+                    value={recipientAddress}
+                    onChangeText={(value) => setRecipientAddress(value)}
+                    placeholder="Enter Recipient Address"
+                />
+                <Button
+                    title="Transfer Tokens"
+                    onPress={handleSubmit}
+                />
+            </View>
+        )
+    }
+    ```
+
+    ### Add Navigation
+    Now, let's add a way for the user to navigate to this screen by including a button in the `user-profile.tsx` to navigate to the `transfer-tokens.tsx`.
+
+    ```tsx filename="screen/transfer-token.tsx" copy
+    import { Button, View } from 'react-native';
+
+    const UserProfileScreen = ({ navigation }: { navigation: any }) => {
+        
+        ...
+        
+        return (
+            <View>
+                ...
+
+                <View style={{ alignItems: "center" }}>
+                    <Button
+                        title="Transfer Tokens"
+                        onPress={() => navigation.navigate('TransferTokens')}
+                    />
+                </View>
+            </View>
+        )
+    }
+    ```
+</Steps>

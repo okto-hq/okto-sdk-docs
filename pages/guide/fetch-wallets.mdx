@@ -1,10 +1,10 @@
 import { Steps } from 'nextra/components';
 
-Let us continue by adding more information the User Profile Screen. We will add a new section to the screen that will display the all wallets information of user.
+Let's continue by adding more information to the User Profile Screen. Add a new section to the screen that will display all wallet information of the user.
 
 <Steps>
 ### Fetch Wallets
-First, we will fetch the wallets information of the user and for that we are using the `getWallets` method. We will continue developing in the `UserProfileScreen`.
+First, let's fetch the wallets information of the user using the `getWallets` method. We will continue developing in the `user-profile.tsx`.
 
 ```tsx filename="screens/user-profile.tsx" copy
 import { getWallets } from 'rn-okto-sdk';
@@ -26,7 +26,7 @@ const UserProfileScreen = () => {
 
         getWallets((result, error) => {
             if (result) {
-                const wallets = JSON.parse(result);
+                const wallets: Wallet[] = JSON.parse(result);
                 setUserWallets(wallets);
             }
         })

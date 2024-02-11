@@ -3,7 +3,8 @@
     "authenticate": "Authenticate",
     "fetch-user": "Fetch User",
     "fetch-wallets": "Fetch Wallets",
-    "supported-networks-and-tokens": "Fetch supported Chains",
+    "supported-networks-and-tokens": "Fetch Supported Chains",
+    "transfer-tokens": "Transfer Tokens",
 
     "logout": "Logout"
 }

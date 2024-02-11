@@ -1,19 +1,19 @@
 import { Steps } from 'nextra/components'
 
-Once the user is authenticated and does not have a wallet, the user will be prompted by Okto to create a wallet. 
-Lets go through the steps of creating a wallet that are handled by the Okto SDK.
+Once the user is authenticated and does not have a wallet, Okto will prompt the user to create a wallet. 
+Let's go through the steps of creating a wallet that are handled by the Okto SDK.
 
 <Steps>
 ### Create Wallet Prompt
-THe first screen the user sees is the wallet prompt, where the user can click on the `Activate Wallet` button to create a wallet, which will take the user to the next step.
+The first screen the user sees is the wallet prompt, where the user can click on the `Activate Wallet` button to create a wallet. This action will take the user to the next step.
 <div style={{ width: "30%" }}>
     ![Create Wallet](/auth/create-wallet.jpg)
 </div>
 
-### Set Pin
-The user will be prompted to set a pin for the wallet. The pin is used to secure the wallet and is required to access the wallet.
+### Set PIN
+The user will be prompted to set and confirm a PIN for the wallet. This PIN is used to secure the wallet and is required to access it.
 
-#### Why do we need a pin?
+#### Why do we need a PIN?
 Setting a PIN for your wallet might seem like a small step, but it is important in ensuring trust and security. Okto's wallet spans across platforms, earning user trust by being self-custodial. 
 
 This trust extends to vendors too, with a semi-trust relationship between users, Okto, and vendors. To tackle this trilemma, we believe in not putting all the control in one person's hands. Your wallet is your domain, and transaction confirmations are in your hands alone. 
@@ -25,7 +25,7 @@ By setting up a PIN and embracing a policy grounded in two-factor authentication
 
 
 ### Wallet Created
-Once the pin is set, wallets are created across all the whitelisted chains on your API key and the user is taken to the wallet screen where they can now start using the wallet.
+Once the PIN is set, wallets are created across all the whitelisted chains on your API key, and the user is taken to the wallet screen. Here, they can start using the wallet for various functionalities.
 <div style={{ display: 'flex', gap: 12 }}>
     <div style={{ width: "30%" }}>
         ![Wallet Created](/auth/wallet-created.jpg)

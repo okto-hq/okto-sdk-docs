@@ -1,11 +1,11 @@
 import { Steps } from 'nextra/components';
 
-Once the user can access their wallets, they would like to transfer assets from and to their wallets. But before that user needs to know the networks and tokens supported by your API Key. 
+Before the user can transfer assets from and to their wallets, they need to know the networks and tokens supported by your API Key.
 
 <Steps>
     ### Fetch Supported Networks and Tokens
-    First, we need to fetch the supported networks and tokens from the Okto. We can use the `getSupportedNetworks` and `getSupportedTokens` methods to fetch the respective data. 
-    We will start by creating a new screen 
+    First, let's fetch the supported networks and tokens from Okto. Use the `getSupportedNetworks` and `getSupportedTokens` methods to obtain the respective data.
+    We will start by creating a new screen with the name `supported-chains.tsx` and add the required methods.
 
     ```tsx filename="screen/supported-chains.tsx" copy
     import { getSupportedNetworks, getSupportedTokens } from "rn-okto-sdk";
@@ -84,7 +84,7 @@ Once the user can access their wallets, they would like to transfer assets from 
     ```
 
     ### Add navigation
-    Finally, we need to add a way to navigate to this screen. We will add a link in the `UserProfileScreen` to navigate to the `SupportedChainScreen`.
+    Finally, we need to add a way to navigate to this screen. Let's add a link in the `user-profile.tsx` to navigate to the `supported-chains.tsx`.
 
     ```tsx filename="screen/user-profile.tsx" copy
     import { Pressable, Text, View } from 'react-native';
