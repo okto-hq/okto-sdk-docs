@@ -1,3 +1,6 @@
 {
-    "authenticate": "Authenticate"
+    "app-setup": "App Setup",
+    "authenticate": "Authenticate",
+    "fetch-user": "Fetch User",
+    "fetch-wallets": "Fetch Wallets"
 }

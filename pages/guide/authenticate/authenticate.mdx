@@ -7,6 +7,7 @@ After a successfull log in, Google OAuth2 provides a unique identifier called `t
 
 Let's get coding and see how we can use the `token_id` to authenticate with Okto.
 > Note: if you just want to test and see how it works, you can use the [following steps](/oauth-steps) to get a `token_id` and go directly to the [Authenticate with Okto](#authenticate-with-okto) section.
+
 <Steps>
 ### Setup Google Sign-In
 We will first set up the Google Sign-In library in our project. This involves installing the [@react-native-google-signin](https://www.npmjs.com/package/@react-native-google-signin/google-signin) package and configuring it.
@@ -30,7 +31,7 @@ We will first set up the Google Sign-In library in our project. This involves in
 
 Now we need to configure Google. Now, we will need a web `client id` which if you don't have, you can use the [following steps](https://support.google.com/cloud/answer/6158849?hl=en) to get one.
 Once you have the `client id` we can configure the Google Sign-In library.
-```javascript filename="login/index.tsx"
+```tsx filename="screens/login.tsx"
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
 const webClientId = "YOUR_WEB_CLIENT_ID";
@@ -42,8 +43,8 @@ GoogleSignin.configure({
 ```
 
 ### Handle Google Sign-In
-Now that we have set up the Google Sign-In library, we can handle the sign-in process. We will create a function to handle the Google Sign-In process and call it when the user presses a button.
-```javascript filename="login/index.tsx" copy
+Now that we have set up the Google Sign-In library, we can handle the sign-in process. We will create a new screen and name it `LoginScreen` and here we will create a function to handle the Google Sign-In process and call it when the user presses a button.
+```tsx filename="screens/login.tsx" copy
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { Text, Pressable } from "react-native";
 
@@ -75,7 +76,7 @@ const LoginScreen = () => {
 ### Authenticate with Okto
 Now that we have the `idToken` from Google, we can use it to authenticate with Okto. We will use the `authenticate` function from the sdk to authenticate with Okto.
 > Note: The `idToken` expires in 30 minutes, so it is recommended to authenticate with Okto as soon as possible after getting the `idToken` or `authenticate` will fail.
-```javascript filename="login/index.tsx" copy
+```tsx filename="screens/login.tsx" copy
 import { authenticate } from 'rn-okto-sdk';
 
 ...
@@ -109,12 +110,12 @@ If the user already has an Okto wallet, the `result` will contain the user's wal
 #### New user
 If the user does not have an Okto wallet, they will get a UI prompt to [create a new wallet](/guide/authenticate/create-wallet.mdx).
 
-After a successful authentication, the `result` will contain the user's wallet information. We can use this information to personalize the user's experience in our app.
+After a successful authentication, the `result` will contain the user's wallets information. We can use this information to personalize the user's experience in our app.
 </Steps>
 
-And with that we have successfully authenticated with Okto using Google Sign-In. The `wallet` object contains the user's wallet information.
+And with that we have successfully authenticated with Okto using Google Sign-In.
 
-```javascript filename="login/index.tsx" copy
+```tsx filename="screens/login.tsx" copy
 import { GoogleSignin } from "@react-native-google-signin/google-signin";
 import { Text, Pressable } from "react-native";
 import { authenticate } from 'rn-okto-sdk';

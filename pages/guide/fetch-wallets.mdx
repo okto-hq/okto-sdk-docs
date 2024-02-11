@@ -1,0 +1,65 @@
+import { Steps } from 'nextra/components';
+
+Let us continue by adding more information the User Profile Screen. We will add a new section to the screen that will display the all wallets information of user.
+
+<Steps>
+### Fetch Wallets
+First, we will fetch the wallets information of the user and for that we are using the `getWallets` method. We will continue developing in the `UserProfileScreen`.
+
+```tsx filename="screens/user-profile.tsx" copy
+import { getWallets } from 'rn-okto-sdk';
+
+...
+
+export interface Wallet{
+    network_name: string
+    address: string
+}
+
+const UserProfileScreen = () => {
+    const [userWallets, setUserWallets] = useState<Wallet[]>([])
+
+    ...
+
+    React.useEffect(() => {
+        ...
+
+        getWallets((result, error) => {
+            if (result) {
+                const wallets = JSON.parse(result);
+                setUserWallets(wallets);
+            }
+        })
+    }, [])
+}
+```
+
+### Display Wallets
+Now, we will display the wallets information of the user.
+
+```tsx filename="screens/user-profile.tsx" copy
+import { View, Text } from "react-native";
+
+...
+
+const UserProfileScreen = () => {
+    const [userWallets, setUserWallets] = useState<Wallet[]>([])
+    ...
+
+    return (
+        <View style={{ flex: 1, backgroundColor: '#fff' }}>
+            ...
+            <Text>User Wallets</Text>
+            <View>
+                {userWallets.map((wallet, index) => (
+                    <View key={index} style={{ marginVertical: 10 }}>
+                        <Text>{wallet.network_name}</Text>
+                        <Text>{wallet.address}</Text>
+                    </View>
+                ))}
+            </View>
+        </View>
+    )
+}
+```
+</Steps>
