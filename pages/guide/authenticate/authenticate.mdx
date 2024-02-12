@@ -5,7 +5,7 @@ When a user enters our app, seamless authentication becomes the key to their per
 
 After a successfull log in, Google OAuth2 provides a unique identifier called `token_id` – think of it as their digital fingerprint. This `token_id` becomes crucial for Okto wallet authentication and, if needed, for creating new wallets.
 
-Let's get coding and see how we can use the `token_id` to authenticate with Okto.
+Let's get coding and see how we can use the `token_id` and [`authenticate`](/sdk-reference/authenticate) to authenticate with Okto.
 > Note: if you just want to test and see how it works, you can use the [following steps](/oauth-steps) to get a `token_id` and go directly to the [Authenticate with Okto](#authenticate-with-okto) section.
 
 <Steps>
@@ -75,8 +75,8 @@ const LoginScreen = () => {
 
 
 ### Authenticate with Okto
-Now that we have obtained the `idToken` from Google, we can use it to authenticate with Okto. Utilize the `authenticate` function from the SDK to perform authentication with Okto.
-> Note: The `idToken` expires in 30 minutes, so it is recommended to authenticate with Okto as soon as possible after obtaining the `idToken`, or the `authenticate` process will fail.
+Now that we have obtained the `idToken` from Google, we can use it to authenticate with Okto. Utilize the [`authenticate`](/sdk-reference/authenticate) function from the SDK to perform authentication with Okto.
+> Note: The `idToken` expires in 30 minutes, so it is recommended to authenticate with Okto as soon as possible after obtaining the `idToken`, or the [`authenticate`](/sdk-reference/authenticate) process will fail.
 
 ```tsx filename="screens/login.tsx" copy
 import { authenticate } from 'rn-okto-sdk';
@@ -109,7 +109,7 @@ const LoginScreen = () => {
 }
 ```
 #### Existing user
-If the user already has an Okto wallet, the `result` will contain the user's wallet information.
+If the user already has an Okto wallet, the `result` will contain the user's wallets information.
 
 #### New user
 If the user does not have an Okto wallet, they will get a UI prompt to [create a new wallet](/guide/authenticate/create-wallet.mdx).

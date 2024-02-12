@@ -1,10 +1,8 @@
 {
     "app-setup": "App Setup",
     "authenticate": "Authenticate",
-    "fetch-user": "Fetch User",
-    "fetch-wallets": "Fetch Wallets",
-    "supported-networks-and-tokens": "Fetch Supported Chains",
-    "transfer-tokens": "Transfer Tokens",
+    "get-details": "Get Details",
+    "transfer-assets": "Transfer Assets",
 
     "logout": "Logout"
 }
