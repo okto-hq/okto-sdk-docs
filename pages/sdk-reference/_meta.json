@@ -5,5 +5,7 @@
     "getWallets": "getWallets",
     "getSupportedNetworks": "getSupportedNetworks",
     "getSupportedTokens": "getSupportedTokens",
+    "transferFunds": "transferFunds",
+    
     "logout": "logout"
 }

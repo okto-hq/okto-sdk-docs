@@ -28,18 +28,18 @@ Before the user can transfer assets from and to their wallets, they need to know
 
         React.useEffect(() => {
             getSupportedNetworks((result, error) => {
-            if (result) {
-                const networks: Network[] = JSON.parse(result);
-                setNetworks(networks)
-            }
-        })
+                if (result) {
+                    const networks: Network[] = JSON.parse(result);
+                    setNetworks(networks)
+                }
+            })
 
-        getSupportedTokens((result, error) => {
-            if (result) {
-                const tokens: Token[] = JSON.parse(result);
-                setTokens(tokens)
-            }
-        })
+            getSupportedTokens((result, error) => {
+                if (result) {
+                    const tokens: Token[] = JSON.parse(result);
+                    setTokens(tokens)
+                }
+            })
         }, [])
     };
     ```
