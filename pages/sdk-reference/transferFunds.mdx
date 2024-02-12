@@ -8,7 +8,7 @@ This method is used to transfer tokens from one wallet to another wallet.
 - `recipientAddress` - Address of the recipient wallet.
 - `quantity` - The amount of tokens to transfer.
 - `callback` - Callback function to be called after API is executed. This function contains two parameters:
-  - `result` - Networks if API is successful.
+  - `result` - `order_id` if API is successful.
   - `error` - Error message if any.
 
 ```tsx copy
@@ -25,17 +25,18 @@ transferFunds(
 ```tsx copy
 import { transferFunds } from 'rn-okto-sdk';
 
-const network_name = "POLYGON_TESTNET"
-const token_address = "x2f7b97837f2d14ba2ed3a4b2282e259126a9b848"
+const networkName = "POLYGON_TESTNET"
+const tokenAddress = "x2f7b97837f2d14ba2ed3a4b2282e259126a9b848"
 const quantity = "1"
-const recipient_address = "0x0FC096A53343C68c1086e626661A4bb31486A9e2"
+const recipientAddress = "0x0FC096A53343C68c1086e626661A4bb31486A9e2"
 transferFunds(
     networkName,
     tokenAddress,
     recipientAddress,
     quantity,
     (result, error) => {
-        console.log(result);
+        const order = JSON.parse(result);
+        console.log(order.order_id);
     }
 );
 ```

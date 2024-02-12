@@ -6,6 +6,9 @@
     "getSupportedNetworks": "getSupportedNetworks",
     "getSupportedTokens": "getSupportedTokens",
     "transferFunds": "transferFunds",
-    
-    "logout": "logout"
+    "orderHistory": "orderHistory",
+    "transferNFT": "transferNFT",
+    "getNFTOrderDetails": "getNFTOrderDetails",
+    "logout": "logout",
+    "openOktoBottomsheet": "openOktoBottomsheet"
 }
