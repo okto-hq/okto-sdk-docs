@@ -1,0 +1,9 @@
+{
+    "init": "init",
+    "authenticate": "authenticate",
+    "getUserDetails": "getUserDetails",
+    "getWallets": "getWallets",
+    "getSupportedNetworks": "getSupportedNetworks",
+    "getSupportedTokens": "getSupportedTokens",
+    "logout": "logout"
+}

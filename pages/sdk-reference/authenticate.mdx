@@ -1,0 +1,35 @@
+
+# authenticate Method
+Authenticate user with `idToken` received from Google OAuth2.
+
+## Parameters
+- `idToken` - Token received from Google OAuth2.
+- `callback` - Callback function to be called after authentication. This function contains two parameters:
+  - `result` - User Wallets if authentication is successful.
+  - `error` - Error message if any.
+
+If the user does not have a wallet, a [wallet prompt](/guide/authenticate/create-wallet) will be shown to the user to create a wallet.
+```tsx copy
+authenticate (
+  idToken: string,
+  callback: (result: any, error: any) => void
+) => void;
+```
+
+## Example
+```tsx copy
+import { authenticate } from 'rn-okto-sdk';
+
+interface Wallet {
+    network_name: string
+    address: string
+}
+
+const idToken = 'USER_ID_TOKEN';
+authenticate(idToken, (result, error) => {
+    if(result){
+        const wallet: Wallet[] = JSON.parse(result);
+        console.log(wallet);
+    }
+});
+```

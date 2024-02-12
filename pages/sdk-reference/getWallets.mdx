@@ -1,0 +1,31 @@
+
+# getWallets Method
+This method is used to get all the wallets of the user across all chains. It will return the user wallets if authentication is successful.
+
+## Parameters
+- `callback` - Callback function to be called after API is executed. This function contains two parameters:
+  - `result` - User Wallets if API is successful.
+  - `error` - Error message if any.
+
+```tsx copy
+getWallets(
+    callback: (result: any, error: any) => void
+) => void;
+```
+
+## Example
+```tsx copy
+import { getWallets } from 'rn-okto-sdk';
+
+interface Wallet {
+    network_name: string
+    address: string
+}
+
+getWallets((result, error) => {
+    if(result){
+        const wallet: Wallet[] = JSON.parse(result);
+        console.log(result);
+    }
+});
+```
