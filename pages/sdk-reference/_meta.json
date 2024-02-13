@@ -1,8 +1,10 @@
 {
     "init": "init",
+    "setTheme": "setTheme",
     "authenticate": "authenticate",
     "getUserDetails": "getUserDetails",
     "getWallets": "getWallets",
+    "getPortfolio": "getPortfolio",
     "getSupportedNetworks": "getSupportedNetworks",
     "getSupportedTokens": "getSupportedTokens",
     "transferFunds": "transferFunds",
