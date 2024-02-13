@@ -3,6 +3,7 @@
     "authenticate": "Authenticate",
     "get-details": "Get Details",
     "transfer-assets": "Transfer Assets",
-
+    
+    "customize-okto": "Customize Okto SDK",
     "logout": "Logout"
 }
