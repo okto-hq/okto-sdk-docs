@@ -1,5 +1,7 @@
 import { Steps } from 'nextra/components';
 
+The user can now start transferring tokens from one account to another. We can dive straight into the implementation of the transfer tokens feature.
+
 <Steps>
     ### Adding required fields
     We will be using the [`transferFunds`](/sdk-reference/transferFunds) method to transfer tokens from one account to another. This method requires the following fields:
@@ -14,6 +16,13 @@ import { Steps } from 'nextra/components';
     import React, { useState } from 'react';
     import { transferFunds } from 'rn-okto-sdk';
 
+    interface Result{
+        status: string;
+        data: {
+            order_id: string;
+        }
+    }
+
     const TransferTokensScreen = () => {
         const [networkName, setNetworkName] = useState("");
         const [tokenAddress, setTokenAddress] = useState("");
@@ -27,8 +36,10 @@ import { Steps } from 'nextra/components';
                 recipientAddress,
                 quantity,
                 (result, error) => {
-                    console.log(result);
-                    console.log(error);
+                    if(result){
+                        const result: Result = JSON.parse(result)
+                        console.log(result.data)
+                    }
                 }
             );
         }
@@ -80,7 +91,7 @@ import { Steps } from 'nextra/components';
     ### Add Navigation
     Now, let's add a way for the user to navigate to this screen by including a button in the `user-profile.tsx` to navigate to the `transfer-tokens.tsx`.
 
-    ```tsx filename="screen/transfer-token.tsx" copy
+    ```tsx filename="screen/user-profile.tsx" copy
     import { Button, View } from 'react-native';
 
     const UserProfileScreen = ({ navigation }: { navigation: any }) => {

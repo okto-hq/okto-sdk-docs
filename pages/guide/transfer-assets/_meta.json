@@ -1,3 +1,6 @@
 {
-    "transfer-tokens": "Transfer Tokens"
+    "transfer-tokens": "Transfer Tokens",
+    "order-details": "Order Details",
+    "transfer-nft": "Transfer NFT",
+    "nft-order-details": "NFT Order Details"
 }
