@@ -1,0 +1,94 @@
+import { Steps, Tabs } from "nextra/components";
+
+Now that the transaction is execeuted, we get a `jobId` after the API is successful. We can use the `jobId` to track the status of the transaction. 
+
+<Steps>
+    ### Fetch Transaction Details
+    We will get the transaction details using the [`raw-transaction-status`](/api-reference/client/raw-transaction-status) API. This API will return the status of the transaction and other transaction details.
+    Create a new screen with the name `raw-transaction-status.tsx` and we will fetch the details here. 
+    > Setup navigation to accept the `jobId` as a parameter. You can follow the same steps as we did for [Order Detaiils](/guide/transfer-assets/order-details#fetch-order-details)
+    
+    ```tsx filename="raw-transaction-status.tsx" copy
+    import { api } from "../../api-client";
+
+    interface Result{
+        status: string;
+        data: Data;
+    };
+
+    interface Data {
+        jobs: Job[]
+    };
+
+    interface Job {
+        order_id: string
+        network_name: string
+        status: string
+        transaction_hash: string
+    };
+
+    const FetchRawTransactionScreen = ({ route }: { route: RouteProp<RootStackParamList, "FetchRawTransaction"> }) => {
+        const { jobId } = route.params;
+        const [transactionDetails, setTransactionDetails] = useState<Job[]>([]);
+
+        useEffect(() => {
+            const fetchTransactionDetails = async () => {
+                const result = await api.get<Result>(`/rawtransaction/status?order_id=${jobId}`);
+                if(result.status === 200){
+                    setTransactionDetails(result.data.jobs);
+                }
+            }
+
+            fetchTransactionDetails();
+        }, [])
+    }
+    ```
+
+    ### Dsiplay Transaction Details
+    We will display the transaction details on the screen.
+
+    ```tsx filename="raw-transaction-status.tsx" copy
+    import { View, Text } from "react-native";
+
+    const SendRawTransactionScreen = () => {
+        
+        ...
+
+        return (
+            <View>
+                <Text>Raw Polygon Transaction Statsu</Text>
+                {transactionDetails.map((transaction, index) => (
+                    <View key={index}>
+                        <Text>Network: {transaction.order_id}</Text>
+                        <Text>Status: {transaction.status}</Text>
+                        <Text>Transaction Hash: {transaction.transaction_hash}</Text>
+                    </View>
+                ))}
+            </View>
+        )
+    }
+    ```
+
+    ### Add to Navigation
+    Add the navigation to the `send-raw-transaction.tsx` on the success function to navigate to the `raw-transaction-status.tsx` screen.
+
+    ```tsx filename="send-raw-transaction.tsx" copy
+
+    const SendRawTransactionScreen = ({ navigation }: { navigation: any }) => {
+        
+        const sendTransaction = async () => {
+            
+            ...
+
+            const response = await api.post<Result>("/rawtransaction/execute", requestData)
+            if(response.status === 200){
+                navigation.navigate("FetchRawTransaction", { jobId: response.data.jobId })
+            }
+        }
+
+        ...
+    }
+    ```
+</Steps>
+
+

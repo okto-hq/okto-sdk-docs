@@ -8,8 +8,16 @@ In you `App.tsx` file, we will use the [`setTheme`](/sdk-reference/setTheme) met
 import { init, setTheme } from 'rn-okto-sdk';
 
 init("API_KEY");
-// Just as an example, we are setting the themes primary text to red and the secondary to yellow
-setTheme("#FF0000", "#FFFF00");
+// Just as an example, we are setting the backgroundColor to black
+setTheme("", "", "", "", "", "", "", "", "#000000");
 ```
+<div style={{ display: 'flex', gap: 12 }}>
+    <div style={{ width: "30%" }}>
+        ![Wallet Created](/customize/wallet.jpg)
+    </div>
+    <div style={{ width: "30%" }}>
+        ![Wallet](/customize/others.jpg)
+    </div>
+</div>
 
 And that's it! It's as simple as that. Now, when you pull up the bottom sheet, it will be themed according to your app's design.

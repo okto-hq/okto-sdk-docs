@@ -1,5 +1,6 @@
 {
     "fetch-user": "Fetch User",
     "fetch-wallets": "Fetch Wallets",
+    "fetch-portfolio": "Fetch Portfolio",
     "supported-networks-and-tokens": "Fetch Supported Chains"
 }

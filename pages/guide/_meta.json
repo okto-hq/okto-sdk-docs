@@ -3,7 +3,8 @@
     "authenticate": "Authenticate",
     "get-details": "Get Details",
     "transfer-assets": "Transfer Assets",
-    
+    "raw-transactions": "Raw Transactions",
+    "mint-nft": "Mint NFT (S2S Only)",
     "customize-okto": "Customize Okto SDK",
     "logout": "Logout"
 }
