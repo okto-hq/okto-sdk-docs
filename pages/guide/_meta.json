@@ -5,6 +5,7 @@
     "transfer-assets": "Transfer Assets",
     "raw-transactions": "Raw Transactions",
     "mint-nft": "Mint NFT (S2S Only)",
+    "open-okto-bottomsheet": "Open Okto Bottomsheet",
     "customize-okto": "Customize Okto SDK",
     "logout": "Logout"
 }
