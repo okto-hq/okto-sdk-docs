@@ -77,80 +77,180 @@ If we want to execute a raw transaction directly on chain, Okto provides a way t
     ```
 
     ### Send a transaction
-    Now we can use the `api` instance to send a transaction to the blockchain. Create a new screen and name it `send-raw-transaction.tsx`, for example purposes we will execeute a Ploygon transaction.
-    ```tsx filename="send-raw-transaction.tsx" copy
-    import { api } from "../../api-client";
+    Now we can use the `api` instance to send a transaction to the blockchain. Create a new screen and name it `send-raw-transaction.tsx`, here we will cover both EVM and Non EVM transactions.
+    <Tabs items={["EVM", "Non EVM"]}>
+        <Tabs.Tab>
+        For example purposes we will execute a Polygon transaction.
+        ```tsx filename="send-raw-transaction.tsx" copy
+        import { api } from "../../api-client";
 
-    interface Result{
-        status: string;
-        data: {
-            jobId: string;
+        interface Result{
+            status: string;
+            data: {
+                jobId: string;
+            };
         };
-    };
 
-    const SendRawTransactionScreen = () => {
-        const [network, setNetwork] = useState<string>("POLYGON_TESTNET");
-        const [from, setFrom] = useState<string>("");
-        const [to, setTo] = useState<string>("");
-        const [data, setData] = useState<string>("");
-        const [value, setValue] = useState<string>("");
+        const SendRawTransactionScreen = () => {
+            const [network, setNetwork] = useState<string>("POLYGON_TESTNET");
+            const [from, setFrom] = useState<string>("0x0342A54DD44E8744FD185579Af57845Cb0ac6cB0");
+            const [to, setTo] = useState<string>("0x80322ea18633A1f713e987d65Ae78AcCDAB6e55e");
+            const [data, setData] = useState<string>("0x");
+            const [value, setValue] = useState<string>("0x100000");
 
-        const sendTransaction = async () => {
-            const requestData = {
-                netowrk_name: networkName,
-                transaction: {
-                    from,
-                    to,
-                    data,
-                    value,
-                },
-            }
+            const sendTransaction = async () => {
+                const requestData = {
+                    netowrk_name: networkName,
+                    transaction: {
+                        from,
+                        to,
+                        data,
+                        value,
+                    },
+                }
 
-            const response = await api.post<Result>("/rawtransaction/execute", requestData)
-            if(response.status === 200){
-                console.log(response.data);
+                const response = await api.post<Result>("/rawtransaction/execute", requestData)
+                if(response.status === 200){
+                    console.log(response.data);
+                }
             }
         }
-    }
-    ```
+        ```
+        </Tabs.Tab>
+        <Tabs.Tab>
+        For example purposes we will execute a Solana transaction.
+        ```tsx filename="send-raw-transaction.tsx" copy
+        import { api } from "../../api-client";
+
+        interface Result{
+            status: string;
+            data: {
+                jobId: string;
+            };
+        };
+
+        const SendRawTransactionScreen = () => {
+            const [network, setNetwork] = useState<string>("SOLANA_DEVNET");
+            const [instructions, setInstructions] = useState<any[]>([
+                {
+                    "keys": [
+                        {
+                            "pubkey": "GQkXkHF8LTwyZiZUcBWwYJeJBFEqR4vRCV4J5Xe7zGiQ",
+                            "isSigner": true,
+                            "isWritable": true
+                        },
+                        {
+                            "pubkey": "GEjBy2puN8a53darpz7CTbRvSb6wepzhK7s8C3Dww4yg",
+                            "isSigner": false,
+                            "isWritable": true
+                        }
+                    ],
+                    "programId": "11111111111111111111111111111111",
+                    "data": [
+                        2,
+                        0,
+                        0,
+                        0,
+                        128,
+                        150,
+                        152,
+                        0,
+                        0,
+                        0,
+                        0,
+                        0
+                    ]
+                }
+            ]);
+            const [signers, setSigners] = useState<string[]>(["GQkXkHF8LTwyZiZUcBWwYJeJBFEqR4vRCV4J5Xe7zGiQ"]);
+
+            const sendTransaction = async () => {
+                const requestData = {
+                    netowrk_name: networkName,
+                    transaction: {
+                        instructions,
+                        signers,
+                    },
+                }
+
+                const response = await api.post<Result>("/rawtransaction/execute", requestData)
+                if(response.status === 200){
+                    console.log(response.data);
+                }
+            }
+        }
+        ```
+        </Tabs.Tab>
+    </Tabs>
 
     ### Add Form Fields
     Add the form fields to the `send-raw-transaction.ts` screen.
-    ```tsx filename="send-raw-transaction.tsx" copy
-    import { View, TextInput, Button } from "react-native";
+    <Tabs items={["EVM", "Non EVM"]}>
+        <Tabs.Tab>
+            ```tsx filename="send-raw-transaction.tsx" copy
+            import { View, TextInput, Button } from "react-native";
 
-    const SendRawTransactionScreen = () => {
-        
-        ...
+            const SendRawTransactionScreen = () => {
+                
+                ...
 
-        return (
-            <View>
-                <Text>Execute Raw Polygon Transaction</Text>
-                <TextInput
-                    placeholder="From"
-                    value={from}
-                    onChangeText={setFrom}
-                />
-                <TextInput
-                    placeholder="To"
-                    value={to}
-                    onChangeText={setTo}
-                />
-                <TextInput
-                    placeholder="Data"
-                    value={data}
-                    onChangeText={setData}
-                />
-                <TextInput
-                    placeholder="Value"
-                    value={value}
-                    onChangeText={setValue}
-                />
-                <Button title="Send Transaction" onPress={sendTransaction} />
-            </View>
-        )
-    }
-    ```
+                return (
+                    <View>
+                        <Text>Execute Raw Polygon Transaction</Text>
+                        <TextInput
+                            placeholder="From"
+                            value={from}
+                            onChangeText={setFrom}
+                        />
+                        <TextInput
+                            placeholder="To"
+                            value={to}
+                            onChangeText={setTo}
+                        />
+                        <TextInput
+                            placeholder="Data"
+                            value={data}
+                            onChangeText={setData}
+                        />
+                        <TextInput
+                            placeholder="Value"
+                            value={value}
+                            onChangeText={setValue}
+                        />
+                        <Button title="Send Transaction" onPress={sendTransaction} />
+                    </View>
+                )
+            }
+            ```
+        </Tabs.Tab>
+        <Tabs.Tab>
+            ```tsx filename="send-raw-transaction.tsx" copy
+            import { View, TextInput, Button } from "react-native";
+
+            const SendRawTransactionScreen = () => {
+                
+                ...
+
+                return (
+                    <View>
+                        <Text>Execute Raw Solana Transaction</Text>
+                        <TextInput
+                            placeholder="Instructions"
+                            value={instructions}
+                            onChangeText={setInstructions}
+                        />
+                        <TextInput
+                            placeholder="Signers"
+                            value={signers}
+                            onChangeText={setSigners}
+                        />
+                        <Button title="Send Transaction" onPress={sendTransaction} />
+                    </View>
+                )
+            }
+            ```
+        </Tabs.Tab>
+    </Tabs>
 </Steps>
 
 With that you have successfully setup a way for user to execute a raw transaction to the blockchain. You can customize the `transaction` object depending on the nework you want to send the transaction to.

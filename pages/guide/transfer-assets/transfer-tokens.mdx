@@ -24,10 +24,10 @@ The user can now start transferring tokens from one account to another. We can d
     }
 
     const TransferTokensScreen = () => {
-        const [networkName, setNetworkName] = useState("");
-        const [tokenAddress, setTokenAddress] = useState("");
-        const [quantity, setQuantity] = useState("");
-        const [recipientAddress, setRecipientAddress] = useState("");
+        const [networkName, setNetworkName] = useState("APTOS_TESTNET");
+        const [tokenAddress, setTokenAddress] = useState("0x1::aptos_coin::AptosCoin");
+        const [quantity, setQuantity] = useState("1");
+        const [recipientAddress, setRecipientAddress] = useState("0x6b244684313dd6a9fc75c8e76cb648d407374d59970583dd990c686cda767984");
     
         const handleSubmit = () => {
             transferFunds(
