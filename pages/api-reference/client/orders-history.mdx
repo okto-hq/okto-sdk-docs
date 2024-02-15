@@ -1,16 +1,37 @@
 import { ColumnLayout } from '../../../components/column-view';
 
-Fetch all the orders of the user. 
+Fetch all the orders of the user, which includes the history of tokens sent and received.
 
 <ColumnLayout>
     <>
-        ## Parameters
-        None
+        ## Headers
+        `Authorization` : string <br />
+        Authorization token received from Okto.
+
+        ---
+
+        ## Query Parameters
+        `offset` : number <br />
+        The number of items to skip before starting to collect the result set. Default is 0.
+
+        ---
+        `limit` : number <br />
+        The number of items to return. Default is 10.
+
+        ---
+        `order_id` : string <br />
+        The order id to get the specific order details.
+
+        ---
+        `order_state` : string <br />
+        The order state to filter the orders. Possible values are `PENDING`, `SUCCESS`, `FAILED`.
+
+        ---
     </>
     <>
         ## Code
         ```bash copy
-        curl -X GET '${baseUrl}/api/v1/orders' 
+        curl -X GET '${baseUrl}/api/v1/orders?offset=0&limit=1&order_id=80f5b553-4650-4943-9721-8db41d78ccc9&order_state=SUCCESS' 
         -H 'accept: application/json' 
         -H 'Authorization: Bearer AUTH_TOKEN'
         ```

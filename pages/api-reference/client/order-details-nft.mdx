@@ -1,23 +1,33 @@
 import { ColumnLayout } from '../../../components/column-view';
 
-Get order details of NFTs
+Get order details of all the NFTs transferred and received by the user.
 
 <ColumnLayout>
     <>
+        ## Headers
+        `Authorization` : string <br />
+        Authorization token received from Okto.
+
+        ---
+
         ## Query Parameters
         `page` : number <br />
-        Page number. Default is 1.
+        Page number for pagination. Default is 1.
 
         ---
         `size` : number <br />
-        Number of items per page. Default is 10.
+        Number of records per page. Default is 10.
+
+        ---
+        `order_id` : string <br />
+        Order id of the NFT.
 
         ---
     </>
     <>
         ## Code
         ```bash copy
-        curl -X GET '${baseUrl}/api/v1/nft/order_details?page=1&size=50'
+        curl -X GET '${baseUrl}/api/v1/nft/order_details?order_id=dd784ad9-68f8-49b9-87dc-13723e933eab&page=1&size=500'
         -H 'accept: application/json' 
         -H 'Authorization: Bearer AUTH_TOKEN'
         ```
@@ -27,40 +37,56 @@ Get order details of NFTs
         {
             "status": "success",
             "data": {
-                "aggregated_data": {
-                    "holdings_count": "2",
-                    "holdings_price_inr": "0",
-                    "holdings_price_usdt": "0",
-                    "total_holding_price_inr": "0",
-                    "total_holding_price_usdt": "0"
-                },
-                "group_tokens": [
+                "count": 3,
+                "nfts": [
                     {
-                        "id": "6ddfc36b-55d2-3b1f-8c45-4b076ae3bb9e",
-                        "name": "APT",
-                        "symbol": "APT_TESTNET",
-                        "short_name": "APT_TESTNET",
-                        "token_image": "",
+                        "explorer_smart_contract_url": "https://explorer.aptoslabs.com/0x3834f649bc2ef249898199ffbdfd77abb39b8732c30c4d5c742227feb34e93ed/0x3834f649bc2ef249898199ffbdfd77abb39b8732c30c4d5c742227feb34e93ed?network=testnet",
+                        "description": "pro af",
+                        "type": "NFT",
+                        "collection_id": "267e0396-1148-51e2-8554-708f40c64e73",
+                        "collection_name": "super avengers",
+                        "nft_token_id": "0x3834f649bc2ef249898199ffbdfd77abb39b8732c30c4d5c742227feb34e93ed",
+                        "token_uri": "ipfs://QmVFPvu8aeJHXyNVxpfftVHaKjRsbtH6dXWscJ2TukM3xi",
+                        "id": "de2dfeff-c3cd-57fd-b918-ebbebbd9a1b7",
+                        "image": "",
+                        "collection_address": "0x171e643e8e8dabc66b838b9055dbdf88647cf6601b164f5987f50a497bedfbe1",
+                        "collection_image": "super.avengers.net/vk",
+                        "network_name": "APTOS_TESTNET",
                         "network_id": "d6fd4680-c28d-37b2-994e-b9d3d4026f91",
-                        "is_primary": false,
-                        "balance": "0.006347",
-                        "holdings_price_usdt": "0",
-                        "holdings_price_inr": "0",
-                        "aggregation_type": "token"
+                        "nft_name": "I m pro"
                     },
                     {
-                        "id": "624cdf5d-987b-378e-a7fb-d3839e74e5bb",
-                        "name": "SOL",
-                        "symbol": "SOL_DEVNET",
-                        "short_name": "SOL_DEVNET",
-                        "token_image": "",
-                        "network_id": "fb10a9ca-d197-378d-8fb3-fd95345571f3",
-                        "is_primary": false,
-                        "balance": "0.08",
-                        "holdings_price_usdt": "0",
-                        "holdings_price_inr": "0",
-                        "aggregation_type": "token"
+                        "explorer_smart_contract_url": "https://explorer.aptoslabs.com/0x171e643e8e8dabc66b838b9055dbdf88647cf6601b164f5987f50a497bedfbe1/0x171e643e8e8dabc66b838b9055dbdf88647cf6601b164f5987f50a497bedfbe1?network=testnet",
+                        "description": "Lets check",
+                        "type": "NFT",
+                        "collection_id": "267e0396-1148-51e2-8554-708f40c64e73",
+                        "collection_name": "super avengers",
+                        "nft_token_id": "0xebed26b4575706f5d650e8edb3533ffa54f3499fdddeb4b1ade18337ecf8c20f",
+                        "token_uri": "ipfs://QmVFPvu8aeJHXyNVxpfftVHaKjRsbtH6dXWscJ2TukM3xi",
+                        "id": "e3b6db62-eb6e-5e59-b5ee-d67e239124b4",
+                        "image": "",
+                        "collection_address": "0x171e643e8e8dabc66b838b9055dbdf88647cf6601b164f5987f50a497bedfbe1",
+                        "collection_image": "super.avengers.net/vk",
+                        "network_name": "APTOS_TESTNET",
+                        "network_id": "d6fd4680-c28d-37b2-994e-b9d3d4026f91",
+                        "nft_name": "Starting again"
                     },
+                    {
+                        "explorer_smart_contract_url": "https://explorer.aptoslabs.com/object/0x171e643e8e8dabc66b838b9055dbdf88647cf6601b164f5987f50a497bedfbe1?network=mainnet",
+                        "description": "Lets check",
+                        "type": "NFT",
+                        "collection_id": "267e0396-1148-51e2-8554-708f40c64e73",
+                        "collection_name": "super avengers",
+                        "nft_token_id": "0x7380caecd949b0283e1e73d9231c53512a7f8d8e106d180270d89c8ee9786156",
+                        "token_uri": "ipfs://QmVFPvu8aeJHXyNVxpfftVHaKjRsbtH6dXWscJ2TukM3xi",
+                        "id": "46b95693-4a95-517e-aa3d-7d1439f9a86e",
+                        "image": "",
+                        "collection_address": "0x171e643e8e8dabc66b838b9055dbdf88647cf6601b164f5987f50a497bedfbe1",
+                        "collection_image": "super.avengers.net/vk",
+                        "network_name": "APTOS_TESTNET",
+                        "network_id": "d6fd4680-c28d-37b2-994e-b9d3d4026f91",
+                        "nft_name": "Mint NFT for Stan"
+                    }
                 ]
             }
         }
