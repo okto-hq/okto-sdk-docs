@@ -1,0 +1,65 @@
+import { ColumnLayout } from '../../../components/column-view';
+
+Get order details of the NFT transferred and received by the user using their `user_id` and `order_id`.
+
+<ColumnLayout>
+    <>
+        ## Headers
+        `x-api-key` : string <br />
+        The S2S API Key provided by Okto.
+
+        ---
+
+        ## URL Parameters
+        `user_id` : string <br />
+        User id of the user.
+        
+        ---
+
+        ## Query Parameters
+        `page` : number <br />
+        Page number for pagination. Default is 1.
+
+        ---
+        `size` : number <br />
+        Number of records per page. Default is 10.
+
+        ---
+        `order_id` : string <br />
+        Order id of the NFT.
+
+        ---
+    </>
+    <>
+        ## Code
+        ```bash copy
+        curl -X GET '${baseUrl}/s2s/api/v1/nft/order_details/bb7bee27-a25b-4cff-8784-ae55a3a6ad60?order_id=dd784ad9-68f8-49b9-87dc-13723e933eab&page=1&size=500'
+        -H 'accept: application/json' 
+        -H 'x-api-key: API_KEY'
+        ```
+
+        ## Response
+        ```json
+        {
+            "status": "success",
+            "data": {
+                "total": 1,
+                "details": [
+                    {
+                        "order_id": "dd784ad9-68f8-49b9-87dc-13723e933eab",
+                        "user_id": "bb7bee27-a25b-4cff-8784-ae55a3a6ad60",
+                        "status": "SUCCESS",
+                        "network_name": "APTOS_TESTNET",
+                        "entity_type": "NFT",
+                        "collection_address": "0x171e643e8e8dabc66b838b9055dbdf88647cf6601b164f5987f50a497bedfbe1",
+                        "collection_name": "",
+                        "nft_id": "0xb38cb08ab7123f96a4799681c48489e9aa9fc824df3599b1553b10351ff7f9a7",
+                        "order_type": "NFT_TRANSFER",
+                        "tx_hash": "0x891101c308fc9177c4dac003e868bb9d6c3cb3540161ac8b99bc2374b2df7307"
+                    }
+                ]
+            }
+        }
+        ```
+    </>
+</ColumnLayout>

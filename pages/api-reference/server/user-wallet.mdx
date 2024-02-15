@@ -1,0 +1,56 @@
+import { ColumnLayout } from '../../../components/column-view';
+
+Fetch all the wallets created by a user using their `user_id`.
+
+<ColumnLayout>
+    <>
+        ## Headers
+        `x-api-key` : string <br />
+        The S2S API Key provided by Okto.
+
+        ---
+        
+        ## Query Parameters
+        `user_id` : string <br />
+        The user id of the user whose portfolio data is to be fetched.
+
+        ---
+    </>
+    <>
+        ## Code
+        ```bash copy
+        curl -X GET '${baseUrl}/s2s/api/v1/wallet?user_id=80f5b553-4650-4943-9721-8db41d78ccc9'
+        -H 'accept: application/json' 
+        -H 'x-api-key: API_KEY'
+        ```
+
+        ## Response
+        ```json
+        {
+            "status": "success",
+            "data": {
+                "wallets": [
+                    {
+                        "network_name": "APTOS",
+                        "address": "0x52316b3addb115bedcff4e986d19d013089b99494a5c77bd7439d54301692672",
+                        "network_id": "dd50ef5f-58f4-3133-8e25-9c2673a9122f",
+                        "network_symbol": "APT"
+                    },
+                    {
+                        "network_name": "APTOS_TESTNET",
+                        "address": "0x52316b3addb115bedcff4e986d19d013089b99494a5c77bd7439d54301692672",
+                        "network_id": "d6fd4680-c28d-37b2-994e-b9d3d4026f91",
+                        "network_symbol": "APT TESTNET"
+                    },
+                    {
+                        "network_name": "SOLANA_DEVNET",
+                        "address": "GEjBy2puN8a53darpz7CTbRvSb6wepzhK7s8C3Dww4yg",
+                        "network_id": "fb10a9ca-d197-378d-8fb3-fd95345571f3",
+                        "network_symbol": "SOL DEVNET"
+                    }
+                ]
+            }
+        }
+        ```
+    </>
+</ColumnLayout>
