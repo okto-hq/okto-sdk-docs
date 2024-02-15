@@ -6,9 +6,9 @@ import { Callout } from 'nextra/components';
 In the fast-paced world of Web3, Okto Wallet is all about applications driving widespread adoption. We focus on crafting user-centric applications, making complex infrastructure invisible to end-users. Developers thrive in Web3 with Okto, as we handle the wallet complexities, allowing them to focus solely on creating top-notch applications without worrying about wallet safety and user trust.
 
 ### Okto vs Other Wallet SDK's
-Point of Comparison | Okto Wallet SDK | Other Wallet SDKs |
-| :----- | :----- | :----: |
-Chain Compatibility | Supports all chains: EVM, Non-EVM, Solana, Appto and support for Cosmos is Coming Soon | Limited compatibility, often specific to certain chains |
+| Point of Comparison | Okto Wallet SDK | Other Wallet SDKs |
+| :----- | :----: | :----: |
+Chain Compatibility | Supports all chains: EVM, Non-EVM, Solana, Aptos and support for Cosmos is Coming Soon | Limited compatibility, often specific to certain chains |
 Functionality | Comprehensive toolkit for tokens, NFTs, and advanced contract interactions | Basic functionalities with limited contract interaction |
 Application Consistency | Single SDK for all chains, ensuring uniformity across applications | Different SDKs for different chains, causing inconsistency |
 Interoperability | Wallet interoperable across multiple applications built on the Okto SDK | Limited interoperability, often tied to specific applications |
@@ -23,7 +23,7 @@ Now, you might be wondering which API is right for you. That brings us to the ne
 Choosing between Client API and S2S API depends on your specific use case. We have a points of comparison to help you decide which API is best for your application.
 
 | Feature | Client API   | S2S API |
-| :----- | :----- | :----: |
+| :---- | :----: | :----: |
 **User Intended App** | Designed for user-facing applications (dApps) | Primarily used for Admin/Superadmin operations |
 **Independence** | dApp functions independently of servers | Executes operations across all users centrally |
 **Runtime Logic** | Handles runtime application logic | Performs admin-related operations on behalf of users |
@@ -49,15 +49,15 @@ Simple answer: Yes, we do. Okto Wallet supports all tokens and chains, provided 
 ### How whitelisting works
 To unlock the full collection of networks and tokens, a simple communication with our team will update the permissions for your API key. But let's not just talk theory; for your sandbox testing needs, we have already whitelisted some key networks with their native tokens.
 
-| Network | Solana | Polygon | Apptos |
-| :----- | :----- | :----: | :----:
+| Network | Solana | Polygon | Aptos |
+| :----- | :----- | :----: | :----: |
 | **Token** | SOL | MATIC | APT |
 
 And as a bonus we have also whitelisted `USDT` token for all the networks.
 
 Some NFT contracts are also whitelisted for testing purposes. 
-network | name | address
---- | --- | ---
+| network | name | address |
+| :---- | :----: | :----: |
 APTOS_TESTNET | Lion King 2 | 0x4b01180418d49e2fee603c3a009b9b8f27b2f27b4ceb5decbbd52f405586f4ea 
 APTOS_TESTNET | avengers | 0x8ada8b640dc8f72f3d1a3ec1275db6529eae2a8d9b7af7cdc663610cf14bca94 
 APTOS_TESTNET | super avengers | 0x171e643e8e8dabc66b838b9055dbdf88647cf6601b164f5987f50a497bedfbe1 

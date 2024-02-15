@@ -39,7 +39,8 @@ Before we begin exploring Okto, we will use some packages and tools to assist us
         );
     }
     ```
-    Now, import the `Navigation` component in `App.tsx` and wrap it with `NavigationContainer` from `@react-navigation/native`.
+    Import the `Navigation` component into `App.tsx` and wrap it with `NavigationContainer` from `@react-navigation/native`.
+
     ```tsx filename="App.tsx" copy
     import { NavigationContainer } from '@react-navigation/native';
     import Navigation from './navigation';
@@ -56,7 +57,7 @@ Before we begin exploring Okto, we will use some packages and tools to assist us
     ```
 
     ### Setup Screens
-    Now, let's create a dummy screen to test the navigation. Add a new folder named `screens` in the root of the project and create a file with the name `HomeScreen.tsx` in this folder.
+    Next, create a dummy screen for navigation testing. Make a new folder named `screens` at the project's root and create a file named `HomeScreen.tsx` inside this folder.
     
     ```tsx filename="HomeScreen.tsx" copy
     import { View, Text } from 'react-native';
@@ -72,7 +73,7 @@ Before we begin exploring Okto, we will use some packages and tools to assist us
     export default HomeScreen;
     ```
 
-    Now we will import `HomeScreen` component in `navigation.tsx` and add it to the stack navigator.
+    Add the `HomeScreen` component in `navigation.tsx` and integrate it into the stack navigator.
     ```tsx filename="navigation.tsx" copy
     import HomeScreen from './screens/HomeScreen';
 
@@ -85,7 +86,7 @@ Before we begin exploring Okto, we will use some packages and tools to assist us
     }
     ```
 
-    Now, you can use `navigation.navigate("Home")` to navigate to the `HomeScreen` from any other screen.
+    From any screen, you can navigate to the `HomeScreen` using `navigation.navigate("Home")`.
 
     Great! With that, the setup is complete. You can now start building the app with Okto. 🚀
 </Steps>
