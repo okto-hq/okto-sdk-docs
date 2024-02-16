@@ -77,8 +77,8 @@ If we want to execute a raw transaction directly on chain, Okto provides a way t
     ```
 
     ### Send a transaction
-    Now we can use the `api` instance to send a transaction to the blockchain. Create a new screen and name it `send-raw-transaction.tsx`, here we will cover both EVM and Non EVM transactions.
-    <Tabs items={["EVM", "Non EVM"]}>
+    Now we can use the `api` instance to send a transaction to the blockchain. Create a new screen and name it `send-raw-transaction.tsx`, here we will cover both EVM and Solana transactions.
+    <Tabs items={["EVM", "Solana"]}>
         <Tabs.Tab>
         For example purposes we will execute a Polygon transaction.
         ```tsx filename="send-raw-transaction.tsx" copy
@@ -185,7 +185,7 @@ If we want to execute a raw transaction directly on chain, Okto provides a way t
 
     ### Add Form Fields
     Add the form fields to the `send-raw-transaction.ts` screen.
-    <Tabs items={["EVM", "Non EVM"]}>
+    <Tabs items={["EVM", "Solana"]}>
         <Tabs.Tab>
             ```tsx filename="send-raw-transaction.tsx" copy
             import { View, TextInput, Button } from "react-native";
