@@ -1,23 +1,28 @@
-# Nextra Docs Template 
+<div align="center">
+  <br/>
+  <img src="https://pbs.twimg.com/profile_images/1650407904036687874/Ek5Q2hla_400x400.png" width="100px" height="auto" />
+  <h1>Okto Docs</h1>
+    
+  [![NPM package](https://img.shields.io/npm/v/rn-okto-sdk?logo=npm&label=rn-okto-sdk)](https://www.npmjs.com/package/rn-okto-sdk)
+  [![Follow](https://img.shields.io/twitter/follow/okto.svg?style=social)](https://twitter.com/Okto_app)
+  
+</div>
 
-This is a template for creating documentation with [Nextra](https://nextra.site).
+## Okto Docs
+This is the react native sdk docs and api reference of [Okto SDK](https://www.npmjs.com/package/rn-okto-sdk).
 
-[**Live Demo →**](https://nextra-docs-template.vercel.app)
+## Development Setup
+1. Fork the Repo and clone it
+```bash
+git clone https://github.com/RevTpark/okto-example-app.git
+```
 
-[![](.github/screenshot.png)](https://nextra-docs-template.vercel.app)
+2. Install the dependencies
+```bash
+pnpm i
+```
 
-## Quick Start
-
-Click the button to clone this repository and deploy it on Vercel:
-
-[![](https://vercel.com/button)](https://vercel.com/new/clone?s=https%3A%2F%2Fgithub.com%2Fshuding%2Fnextra-docs-template&showOptionalTeamCreation=false)
-
-## Local Development
-
-First, run `pnpm i` to install the dependencies.
-
-Then, run `pnpm dev` to start the development server and visit localhost:3000.
-
-## License
-
-This project is licensed under the MIT License.
+3. Run the server
+```bash
+pnpm run dev
+```
