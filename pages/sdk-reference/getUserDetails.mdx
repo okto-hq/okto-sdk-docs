@@ -1,0 +1,34 @@
+
+# getUserDetails Method
+This method is used to get the current user details from the Okto SDK. It will only return the user details if the user is authenticated.
+
+## Parameters
+- `callback` - Callback function to be called after API is executed. This function contains two parameters:
+  - `result` - User if the API is successful.
+  - `error` - Error message if any.
+
+```tsx copy
+getUserDetails(
+    callback: (result: any, error: any) => void
+) => void;
+```
+
+## Example
+```tsx copy
+import { getUserDetails } from 'rn-okto-sdk';
+
+export interface User {
+    email: string
+    user_id: string
+    created_at: string
+    freezed: string
+    freeze_reason: string
+}
+
+getUserDetails((result, error) => {
+    if(result){
+        const user: User = JSON.parse(result);
+        console.log(user)
+    }
+});
+```

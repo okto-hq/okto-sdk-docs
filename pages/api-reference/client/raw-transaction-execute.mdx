@@ -1,0 +1,51 @@
+import { ColumnLayout } from '../../../components/column-view';
+
+Execute a raw transaction on a network. The API returns a `jobId` which can be used to track the status of the transaction.
+
+<ColumnLayout>
+    <>
+        ## Headers
+        `Authorization` : string <br />
+        Authorization token received from Okto.
+
+        ---
+        
+        ## Parameters
+        `network_name` : string <br />
+        Name of network to execute transaction on.
+
+        ---
+        `transaction` : object <br />
+        The revelant transaction object of the network. Example: [Solana](https://solana-labs.github.io/solana-web3.js/classes/Transaction.html), [Ethereum](https://web3js.readthedocs.io/en/v1.3.4/web3-eth.html#sendtransaction), [Polygon](https://polygon.technology/docs/develop/transactions#sending-a-transaction)
+        
+        ---
+    </>
+    <>
+        ## Code
+        ```bash copy
+        curl -X POST '${baseUrl}/api/v1/rawtransaction/execute' 
+        -H 'accept: application/json' 
+        -H 'Authorization: Bearer AUTH_TOKEN' -d '
+            {
+                "network_name": "POLYGON_TESTNET",
+                "transaction": {
+                    "from": "0x0342A54DD44E8744FD185579Af57845Cb0ac6cB0",
+                    "to": "0x80322ea18633A1f713e987d65Ae78AcCDAB6e55e",
+                    "data": "0x",
+                    "value": "0x10000"
+                }
+            }
+        '
+        ```
+
+        ## Response
+        ```json
+        {
+            "status": "success",
+            "data": {
+                "jobId": "d6ce7f0c-1a7d-441d-bb3e-4e431fae84c9"
+            }
+        }
+        ```
+    </>
+</ColumnLayout>

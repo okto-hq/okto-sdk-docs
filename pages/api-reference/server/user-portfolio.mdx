@@ -1,0 +1,71 @@
+import { ColumnLayout } from '../../../components/column-view';
+
+Get the portfolio data of a user using their `user_id`, which includes all the tokens owned by the user across all the networks.
+
+<ColumnLayout>
+    <>
+        ## Headers
+        `x-api-key` : string <br />
+        The S2S API Key provided by Okto.
+
+        ---
+
+        ## Query Parameters
+        `user_id` : string <br />
+        The user id of the user whose portfolio data is to be fetched.
+
+        ---
+    </>
+    <>
+        ## Code
+        ```bash copy
+        curl -X GET '${baseUrl}/s2s/api/v1/portfolio?user_id=80f5b553-4650-4943-9721-8db41d78ccc9'
+        -H 'accept: application/json' 
+        -H 'x-api-key: API_KEY'
+        ```
+
+        ## Response
+        ```json
+        {
+            "status": "success",
+            "data": {
+                "aggregated_data": {
+                    "holdings_count": "2",
+                    "holdings_price_inr": "0",
+                    "holdings_price_usdt": "0",
+                    "total_holding_price_inr": "0",
+                    "total_holding_price_usdt": "0"
+                },
+                "group_tokens": [
+                    {
+                        "id": "6ddfc36b-55d2-3b1f-8c45-4b076ae3bb9e",
+                        "name": "APT",
+                        "symbol": "APT_TESTNET",
+                        "short_name": "APT_TESTNET",
+                        "token_image": "",
+                        "network_id": "d6fd4680-c28d-37b2-994e-b9d3d4026f91",
+                        "is_primary": false,
+                        "balance": "0.006347",
+                        "holdings_price_usdt": "0",
+                        "holdings_price_inr": "0",
+                        "aggregation_type": "token"
+                    },
+                    {
+                        "id": "624cdf5d-987b-378e-a7fb-d3839e74e5bb",
+                        "name": "SOL",
+                        "symbol": "SOL_DEVNET",
+                        "short_name": "SOL_DEVNET",
+                        "token_image": "",
+                        "network_id": "fb10a9ca-d197-378d-8fb3-fd95345571f3",
+                        "is_primary": false,
+                        "balance": "0.08",
+                        "holdings_price_usdt": "0",
+                        "holdings_price_inr": "0",
+                        "aggregation_type": "token"
+                    },
+                ]
+            }
+        }
+        ```
+    </>
+</ColumnLayout>

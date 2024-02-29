@@ -1,0 +1,1 @@
+export const baseUrl = 'https://apigw.oktostage.com/health';

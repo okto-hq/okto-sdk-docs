@@ -1,0 +1,31 @@
+import { ColumnLayout } from '../../../components/column-view';
+
+Logout the user from the current Okto session. This will remove the user's session from the Okto server and the user will have to login again to access the resources.
+
+<ColumnLayout>
+    <>
+        ## Headers
+        `Authorization` : string <br />
+        Authorization token received from Okto.
+
+        ---
+        
+        ## Parameters
+        None
+    </>
+    <>
+        ## Code
+        ```bash copy
+        curl -X POST '${baseUrl}/api/v1/logout' 
+        -H 'accept: application/json' 
+        -H 'Authorization: Bearer AUTH_TOKEN'
+        ```
+
+        ## Response
+        ```json
+        {
+            "status": "success",
+        }
+        ```
+    </>
+</ColumnLayout>

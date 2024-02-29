@@ -1,0 +1,38 @@
+import { ColumnLayout } from '../../../components/column-view';
+
+Authenticates the user and on successfull authentication, it will return the token of the user.
+
+<ColumnLayout>
+    <>
+        ## Parameters
+        `id_token` : string <br />
+        The id token of the user received from the google oauth2 provider.
+
+        ---
+    </>
+    <>
+        ## Code
+        ```bash copy
+        curl -X 'POST' '${baseUrl}/api/v1/authenticate' -H 'accept: */*' 
+            -H 'Content-Type: application/json' -d '
+                {
+                    "id_token": "YOUR_TOKEN_ID"
+                }
+            '
+        ```
+
+        ## Response
+        ```json
+        {
+            "status": "success",
+            "data": {
+                "token": "da9d6c93-6486-4f2e-b785-84daf8ccfeba",
+                "message": "success",
+                "status": 200,
+                "action": "signup",
+                "code": 200
+            }
+        }
+        ```
+    </>
+</ColumnLayout>

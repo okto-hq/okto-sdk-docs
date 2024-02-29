@@ -1,0 +1,19 @@
+{
+  "index": {
+    "title":"Overview"
+  },
+  "getting-started": "Getting Started",
+  "oauth-steps": {
+    "title": "Steps to get OAuth 2.0 Token Id",
+    "display": "hidden"
+  },
+  "guide": "Guide",
+  "sdk-reference": "SDK Reference",
+  "api-reference": "API Reference",
+  "contact": {
+    "title": "Support ↗",
+    "type": "page",
+    "href": "https://okto.tech/help",
+    "newWindow": true
+  }
+}

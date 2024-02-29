@@ -1,0 +1,31 @@
+
+# getSupportedNetworks Method
+This method is used to get all whitelisted networks on your API Key.
+
+## Parameters
+- `callback` - Callback function to be called after API is executed. This function contains two parameters:
+  - `result` - Networks if API is successful.
+  - `error` - Error message if any.
+
+```tsx copy
+getSupportedNetworks(
+    callback: (result: any, error: any) => void
+) => void;
+```
+
+## Example
+```tsx copy
+import { getSupportedNetworks } from 'rn-okto-sdk';
+
+interface Network {
+    network_name: string
+    chain_id: string
+}
+
+getSupportedNetworks((result, error) => {
+    if(result){
+        const networks: Network[] = JSON.parse(result);
+        console.log(network);
+    }
+});
+```

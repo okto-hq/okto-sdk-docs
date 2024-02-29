@@ -1,0 +1,22 @@
+{
+    "authenticate": "Authenticate",
+    "set-pin": "Set PIN",
+    "create-wallet": "Create Wallet",
+    "refresh-token": "Refresh Token",
+    "logout": "Logout",
+
+    "user-details": "User Details",
+    "get-wallet": "Get Wallets",
+    "supported-networks": "Supported Networks",
+    "supported-tokens": "Supported Tokens",
+    "user-portfolio": "User Portfolio",
+    "user-activity": "User Portfolio Activity",
+
+    "transfer-tokens": "Transfer Tokens",
+    "orders-history": "Orders History",
+    "transfer-nft": "Transfer NFT",
+    "order-details-nft": "Order Details NFT",
+
+    "raw-transaction-execute": "Raw Transaction Execute",
+    "raw-transaction-status": "Raw Transaction Status"
+}

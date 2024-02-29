@@ -1,0 +1,39 @@
+import { ColumnLayout } from '../../../components/column-view';
+
+Get fresh pair of access and refresh tokens for the user using the previous obtained `refresh_token`, `auth_token` and `device_token`.
+
+<ColumnLayout>
+    <>
+        ## Headers
+        `Authorization` : string <br />
+        Authorization token received from Okto.
+
+        ---
+        
+        ## Parameters
+        None
+    </>
+    <>
+        ## Code
+        ```bash copy
+        curl -X 'POST' '${baseUrl}/api/v1/refresh_token' -H  'accept: application/json'
+        -H 'Authorization: Bearer AUTH_TOKEN'
+        -H 'x-refresh-authorization: Bearer REFRESH_TOKEN'
+        -H 'x-device-token: DEVICE_TOKEN'
+        -d ''
+        ```
+
+        ## Response
+        ```json
+        {
+            "status": "success",
+            "data": {
+                "auth_token": "NEW_AUTH_TOKEN",
+                "message": "success",
+                "refresh_auth_token": "NEW_REFRESH_TOKEN",
+                "device_token": "12d1a2676694d482dd453d1231ecdd8c0c87956ed646b3a8115e3ac7c42daf28"
+            }
+        }
+        ```
+    </>
+</ColumnLayout>

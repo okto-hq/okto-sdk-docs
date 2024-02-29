@@ -1,0 +1,38 @@
+import { ColumnLayout } from '../../../components/column-view';
+
+Get user details using token received from Okto.
+
+<ColumnLayout>
+    <>
+        ## Headers
+        `Authorization` : string <br />
+        Authorization token received from Okto.
+
+        ---
+
+        ## Parameters
+        None
+    </>
+    <>
+        ## Code
+        ```bash copy
+        curl -X GET '${baseUrl}/api/v1/user_from_token' 
+        -H 'accept: application/json' 
+        -H 'Authorization: Bearer AUTH_TOKEN'
+        ```
+
+        ## Response
+        ```json
+        {
+            "status": "success",
+            "data": {
+                "email": "raghav.goyal@coindcx.com",
+                "user_id": "da9d6c93-6486-4f2e-b785-84daf8ccfeba",
+                "created_at": "1702060462",
+                "freezed": false,
+                "freeze_reason": ""
+            }
+        }
+        ```
+    </>
+</ColumnLayout>

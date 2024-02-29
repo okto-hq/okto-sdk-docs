@@ -1,0 +1,129 @@
+import { Steps } from 'nextra/components';
+
+Once the NFT transfer is initiated, the API will return a `order_id`, which can be used to track the status of the transfer along with other order details.
+
+<Steps>
+    ### Fetch Order Details
+    We will be using the [`getNFTOrderDetails`](/sdk-reference/getNFTOrderDetails) method to fetch all the NFT order details for the user. Then we can use the `order_id` to check our current order details.
+    
+    We will create a new screen named `nft-order-details.tsx` and fetch all the orders and filter the order details using the `order_id`.
+
+    And similar to the `transfer-tokens.tsx` screen, we will register the screen in the `navigation.tsx` file with `orderId` as parameter
+
+    ```tsx filename="navigation.tsx" copy
+    export type RootStackParamList = {
+        
+        ...
+
+        NftOrderDetails: { 
+            order_id: string 
+        };
+    }
+
+    export default function Navigation(){
+        return (
+            <Stack.Navigator initialRouteName="Login">
+                
+                ...
+
+                <Stack.Screen name="NftOrderDetails" component={NftOrderDetailsScreen} />
+            </Stack.Navigator>
+        )
+    }
+    ```
+
+    Now we can accept the `order_id` as a parameter in the `nft-order-details.tsx` screen.
+
+    ```tsx filename="screen/nft-order-details.tsx" copy
+    import React, { useState } from 'react';
+    import { RootStackParamList } from "../navigtion";
+    import { getNFTOrderDetails } from 'rn-okto-sdk';
+
+    interface NftOrder {
+        order_id: string;
+        user_id: string;
+        status: string;
+        network_name: string;
+        entity_type: string;
+        collection_address: string;
+        nft_id: string;
+        order_type: string;
+        tx_hash: string;
+    }
+
+    const NftOrderDetailsScreen = ({ route }: { route: RouteProp<RootStackParamList, "NftOrderDetails"> }) => {
+        const { orderId } = route.params;
+        const [order, setOrder] = React.useState<NftOrder | null>(null);
+
+        React.useEffect(() => {
+            orderHistory((result, error) => {
+                if (result) {
+                    const orders: NftOrder[] = JSON.parse(result);
+                    const order = orders.find((order: any) => order.order_id === orderId);
+                    if(order) setOrder(order);
+                }
+            })
+        }, [])
+    }
+    ```
+
+    ### Display Order Details
+    We will now display the order details on the screen. We will use the `order` state to display the details.
+
+    ```tsx filename="screen/nft-order-details.tsx" copy
+    import { RootStackParamList } from "../navigtion";
+    import { View, TextInput, Button } from 'react-native';
+
+    const NftOrderDetailsScreen = ({ route }: { route: RouteProp<RootStackParamList, "OrderDetails"> }) => {
+        
+        ...
+
+        return (
+            <View style={{ flex: 1, backgroundColor: '#fff' }}>
+                <Text>NFT Order Details</Text>
+                {order && <View>
+                    <Text>Order ID: {order.order_id}</Text>
+                    <Text>Order NFT ID: {order.nft_id}</Text>
+                    <Text>Order Type: {order.order_type}</Text>
+                    <Text>Order Status: {order.status}</Text>
+                    <Text>Order Entity Type: {order.entity_type}</Text>
+                    <Text>Order Transaction Hash: {order.tx_hash}</Text>
+                    <Text>Order Network Name: {order.network_name}</Text>
+                    <Text>Order Collection Address: {order.collection_address}</Text>
+                </View>}
+            </View>
+        )
+    }
+    ```
+
+    ### Add Navigation
+    Now, let's add a automatic navigation from `transfer-nft.tsx` to take the user to `nft-order-details.tsx` for checking the order details.
+
+    ```tsx filename="screen/transfer-nft.tsx" copy
+
+    const TransferNFTScreen = ({ navigation }: { navigation: any }) => {
+        
+        const handleSubmit = () => {
+            transferNFT(
+                operationType,
+                quantity,
+                recipientAddress,
+                networkName,
+                nftAddress,
+                collectionAddress,
+                collectionName,
+                (result, error) => {
+                    if(result){
+                        const result = JSON.parse(result)
+                        navigation.navigate('NftOrderDetails', { order_id: result.data.order_id })
+                    }
+                }
+            );
+        }
+        
+        return (
+            ...
+        )
+    }
+    ```
+</Steps>

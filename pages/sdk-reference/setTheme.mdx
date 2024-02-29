@@ -1,0 +1,36 @@
+
+# setTheme Method
+This method is used to customize the theme of the Okto Wallet Bottomsheet.
+
+## Parameters
+- `textPrimaryColor` (optional) - Text primary color of the theme.
+- `textSecondaryColor` (optional) - Text secondary color of the theme.
+- `textTertiaryColor` (optional) - Text tertiary color of the theme.
+- `accentColor` (optional) - Accent color of the theme.
+- `accent2Color` (optional) - Accent2 color of the theme.
+- `strokBorderColor` (optional) - Stroke border color of the theme.
+- `strokDividerColor` (optional) - Stroke divider color of the theme.
+- `surfaceColor` (optional) - Surface color of the theme.
+- `backgroundColor` (optional) - Background color of the theme.
+
+```tsx copy
+setTheme(
+    textPrimaryColor: string, 
+    textSecondaryColor: string, 
+    textTertiaryColor: string, 
+    accentColor: string, 
+    accent2Color: string, 
+    strokBorderColor: string, 
+    strokDividerColor: string, 
+    surfaceColor: string, 
+    backgroundColor: string
+) => void;
+```
+
+## Example
+```tsx copy
+import { setTheme } from 'rn-okto-sdk';
+
+
+setTheme("#14AEDE", "#F3F3F3")
+```

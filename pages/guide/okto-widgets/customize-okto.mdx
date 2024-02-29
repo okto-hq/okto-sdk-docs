@@ -1,0 +1,32 @@
+
+Now, you might have noticed that the Okto Bottomsheet looks the same for any app, regardless of its design. What if we told you there was a way to theme the bottom sheet to fit your app's design?
+
+### Customizing the Bottom Sheet
+In you `App.tsx` file, we will use the [`setTheme`](/sdk-reference/setTheme) method to customize the bottom sheet. This method should be ideally called at the root of your app. Here are some of parameters that you can customize:
+- `textPrimaryColor` (optional) - Text primary color of the theme.
+- `textSecondaryColor` (optional) - Text secondary color of the theme.
+- `textTertiaryColor` (optional) - Text tertiary color of the theme.
+- `accentColor` (optional) - Accent color of the theme.
+- `accent2Color` (optional) - Accent2 color of the theme.
+- `strokBorderColor` (optional) - Stroke border color of the theme.
+- `strokDividerColor` (optional) - Stroke divider color of the theme.
+- `surfaceColor` (optional) - Surface color of the theme.
+- `backgroundColor` (optional) - Background color of the theme.
+
+```tsx filename="App.tsx" copy
+import { init, setTheme } from 'rn-okto-sdk';
+
+init("API_KEY");
+// Just as an example, we are setting the backgroundColor to black
+setTheme("", "", "", "", "", "", "", "", "#000000");
+```
+<div style={{ display: 'flex', gap: 12 }}>
+    <div style={{ width: "30%" }}>
+        ![Wallet Created](/customize/wallet.jpg)
+    </div>
+    <div style={{ width: "30%" }}>
+        ![Wallet](/customize/others.jpg)
+    </div>
+</div>
+
+And that's it! It's as simple as that. Now, when you pull up the bottom sheet, it will be themed according to your app's design.

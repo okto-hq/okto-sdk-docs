@@ -1,0 +1,10 @@
+{
+    "app-setup": "App Setup",
+    "authenticate": "Authenticate",
+    "get-details": "Get Details",
+    "transfer-assets": "Transfer Assets",
+    "raw-transactions": "Raw Transactions",
+    "mint-nft": "Mint NFT (S2S Only)",
+    "okto-widgets": "Okto Widgets",
+    "logout": "Logout"
+}

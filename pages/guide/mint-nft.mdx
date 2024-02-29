@@ -1,0 +1,113 @@
+import { Steps, Tabs } from "nextra/components";
+
+Imagine this: your user wants to mint an NFT, but they prefer to do it quietly in the background without any direct user involvement. This is where the server-to-server API feature comes in handy. 
+
+With this, you can easily integrate NFT minting into automated processes or workflows without bothering the user. 
+
+We will now explore how to mint an NFT using the Server-to-Server API. For example purposes, we will be using Express and Node.js to create a server, and then we will consume the S2S API to mint an NFT.
+
+<Steps>
+    ### Setup a server
+    First lets initialize a new node.js project and install the required packages.
+    <Tabs items={['pnpm', 'npm', 'yarn']}>
+        <Tabs.Tab>
+            ```bash filename="bash" copy
+            pnpm init -y
+            pnpm install express typescript @types/node @types/express ts-node axios --save
+            ```
+        </Tabs.Tab>
+        <Tabs.Tab>
+            ```bash filename="bash" copy
+            npm init -y
+            npm install express typescript @types/node @types/express ts-node axios --save
+            ```
+        </Tabs.Tab>
+        <Tabs.Tab>
+            ```bash filename="bash" copy
+            yarn init -y
+            yarn add express typescript @types/node @types/express ts-node axios
+            ```
+        </Tabs.Tab>
+    </Tabs>
+
+    ### Create a server
+    Now lets create a server using express and typescript.
+    
+    ```typescript filename="index.ts" copy
+    import express, { Request, Response } from 'express';
+
+    const app = express();
+    const port = 3000;
+
+    app.get('/', (req: Request, res: Response) => {
+        res.send('Hello, World!');
+    });
+
+    app.listen(port, () => {
+        console.log(`⚡ Server is running at http://localhost:${port}`);
+    });
+    ```
+
+    ### Add a route to mint NFT
+    Now lets add a route to mint NFT. We will utilize the [Mint NFT API]() for this. This route will accept the required parameters in the body:
+    - `networkName` - The network name of the NFT
+    - `collectionName` - The name of the collection
+    - `collectionAddress` - The address of the collection
+    - `quantity` - The quantity of NFTs to mint
+    - `metadata` - The metadata of the NFT
+        - `uri` - The image of the NFT
+        - `nftName` - The name of the NFT
+        - `description` - The description of the NFT
+
+    You will need your S2S API Key obtained from [Okto](/getting-started).
+    ```typescript filename="index.ts" copy
+    import express, { Request, Response } from 'express';
+    import axios from 'axios';
+
+    ...
+    
+    app.post('/mint-nft', async (req: Request, res: Response) => {
+        try{
+            const apiEndpoint = '${baseUrl}/s2s/api/v1/nft/mint';
+             const {
+                networkName,
+                collectionName,
+                collectionAddress,
+                quantity,
+                metadata,
+            } = req.body;
+
+            const apiKey = "YOUR_S2S_API_KEY"
+            const headers = {
+                headers: {
+                    'x-api-key': apiKey,
+                },
+            }
+
+            const requestBody = {
+                operation_type: 'NFT_MINT',
+                ercType: 'ERC721',
+                network_name: networkName,
+                collection_name: collectionName,
+                collection_address: collectionAddress,
+                quantity: quantity,
+                metadata: metadata,
+            };
+
+            const response = await axios.post(apiEndpoint, requestBody, headers);
+            if(response.status === 200){
+                const { data: { order_id } }  = response.data;
+                res.send('NFT Minted');
+            }
+        }
+        catch(error){
+            console.error('Error:', error.message);
+            res.status(500).send('Internal Server Error');
+        }
+
+    })
+
+    ```
+</Steps>
+
+And thats it, you can now start using your own server to mint NFTs using your own frontend apps.

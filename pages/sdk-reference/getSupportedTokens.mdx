@@ -1,0 +1,32 @@
+
+# getSupportedTokens Method
+This method is used to get all whitelisted tokens on your API Key.
+
+## Parameters
+- `callback` - Callback function to be called after API is executed. This function contains two parameters:
+  - `result` - Tokens if API is successful.
+  - `error` - Error message if any.
+
+```tsx copy
+getSupportedTokens(
+    callback: (result: any, error: any) => void
+) => void;
+```
+
+## Example
+```tsx copy
+import { getSupportedTokens } from 'rn-okto-sdk';
+
+export interface Token {
+    token_name: string
+    token_address: string
+    network_name: string
+}
+
+getSupportedTokens((result, error) => {
+    if(result){
+        const tokens: Token[] = JSON.parse(result);
+        console.log(tokens);
+    }
+});
+```

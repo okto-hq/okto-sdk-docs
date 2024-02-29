@@ -1,0 +1,91 @@
+import { Steps } from 'nextra/components';
+
+We have received the user details and their wallets sa well, now we will get the user's portfolio details. This returns all the token assets owned by the user across all the wallets.
+
+<Steps>
+### Fetch Portfolio
+First, let's create a new screen with the name `user-portfolio.tsx`. Fetch the user portfolio details using [`getPortfolio`](/sdk-reference/getPortfolio) from Okto and store them in a state.
+
+```tsx filename="screens/user-portfolio.tsx" copy
+import { getPortfolio } from "rn-okto-sdk";
+
+export interface Portfolio {
+  token_name: string
+  token_image: string
+  quantity: string
+  amount_in_inr: string
+}
+
+const UserPortfolio = () => {
+    const [portfolio, setPortfolio] = useState<Portfolio[]>([])
+
+    ...
+
+    React.useEffect(() => {
+        getPortfolio((result, error) => {
+            if(result){
+                const portfolio: Portfolio = JSON.parse(result);
+                setPortfolio(portfolio)
+            }
+        })
+    }, [])
+}
+```
+
+### Display Portfolio Details
+Now that we have the portfolio details, we can display them in the app.
+
+```tsx filename="screens/user-portfolio.tsx" copy
+import { View, Text } from "react-native";
+
+...
+
+const UserPortfolioScreen = () => {
+    const [portfolio, setPortfolio] = useState<Portfolio[]>([])
+    ...
+
+    return (
+        <View style={{ flex: 1, backgroundColor: '#fff' }}>
+            <Text>User Portfolio</Text>
+            <View>
+                {portfolio.map((item, index) => (
+                    <View key={index} style={{ flexDirection: "row", justifyContent: "space-between", alignItems: 'center' }}>
+                        <View style={{ flexDirection: "row", gap: 10 }}>
+                            <Text>{item.token_name}</Text>
+                            <Text>{item.quantity}</Text>
+                        </View>
+                        <Text>{item.amount_in_inr}</Text>
+                    </View>
+                ))}
+            </View>
+        </View>
+    )
+}
+```
+
+### Add to Navigation
+Finally, add the `user-portfolio.tsx` screen to the navigate from `user-profile.tsx`.
+
+```tsx filename="screens/user-profile.tsx" copy
+import { View, Button } from 'react-native';
+
+const UserProfileScreen = ({ navigation }: { navigation: any }) => {
+    
+    ...
+
+    return (
+        <View style={{ flex: 1, backgroundColor: '#fff' }}>
+            <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 10 }}>
+                <Button
+                    title="Portofolio"
+                    onPress={() => navigation.navigate("UserPortfolio")}
+                />
+            </View>
+
+            ...
+
+        </View>
+    )
+}
+```
+</Steps>

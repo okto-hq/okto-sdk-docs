@@ -1,0 +1,115 @@
+import { Steps } from 'nextra/components';
+
+The user can now start transferring tokens from one account to another. We can dive straight into the implementation of the transfer tokens feature.
+
+<Steps>
+    ### Adding required fields
+    We will be using the [`transferFunds`](/sdk-reference/transferFunds) method to transfer tokens from one account to another. This method requires the following fields:
+    - `network` - The network to use for the transfer.
+    - `tokenAddress` - The address of the token to transfer.
+    - `amount` - The amount of tokens to transfer.
+    - `recipient` - The address of the recipient.
+
+    We will create a new screen named `transfer-tokens.tsx` and start by creating states and a method to handle the submission of the form fields.
+
+    ```tsx filename="screen/transfer-token.tsx" copy
+    import React, { useState } from 'react';
+    import { transferFunds } from 'rn-okto-sdk';
+
+    interface Result{
+        status: string;
+        data: {
+            order_id: string;
+        }
+    }
+
+    const TransferTokensScreen = () => {
+        const [networkName, setNetworkName] = useState("APTOS_TESTNET");
+        const [tokenAddress, setTokenAddress] = useState("0x1::aptos_coin::AptosCoin");
+        const [quantity, setQuantity] = useState("1");
+        const [recipientAddress, setRecipientAddress] = useState("0x6b244684313dd6a9fc75c8e76cb648d407374d59970583dd990c686cda767984");
+    
+        const handleSubmit = () => {
+            transferFunds(
+                networkName,
+                tokenAddress,
+                recipientAddress,
+                quantity,
+                (result, error) => {
+                    if(result){
+                        const result: Result = JSON.parse(result)
+                        console.log(result.data)
+                    }
+                }
+            );
+        }
+    }
+    ```
+
+    ### Add Form
+    We will add form fields to the screen to capture the required fields. Additionally, we will include a button to submit the form.
+
+    ```tsx filename="screen/transfer-token.tsx" copy
+    import { View, TextInput, Button } from 'react-native';
+
+    const TransferTokensScreen = () => {
+        
+        ...
+
+        return (
+            <View style={{ flex: 1, backgroundColor: '#fff' }}>
+                <Text>Transfer Tokens</Text>
+                <TextInput
+                    value={networkName}
+                    onChangeText={(value) => setNetworkName(value)}
+                    placeholder="Enter Network Name"
+                />
+                <TextInput
+                    value={tokenAddress}
+                    onChangeText={(value) => setTokenAddress(value)}
+                    placeholder="Enter Token Address"
+                />
+                <TextInput
+                    value={quantity}
+                    onChangeText={(value) => setQuantity(value)}
+                    placeholder="Enter Quantity"
+                />
+                <TextInput
+                    value={recipientAddress}
+                    onChangeText={(value) => setRecipientAddress(value)}
+                    placeholder="Enter Recipient Address"
+                />
+                <Button
+                    title="Transfer Tokens"
+                    onPress={handleSubmit}
+                />
+            </View>
+        )
+    }
+    ```
+
+    ### Add Navigation
+    Now, let's add a way for the user to navigate to this screen by including a button in the `user-profile.tsx` to navigate to the `transfer-tokens.tsx`.
+
+    ```tsx filename="screen/user-profile.tsx" copy
+    import { Button, View } from 'react-native';
+
+    const UserProfileScreen = ({ navigation }: { navigation: any }) => {
+        
+        ...
+        
+        return (
+            <View>
+                ...
+
+                <View style={{ alignItems: "center" }}>
+                    <Button
+                        title="Transfer Tokens"
+                        onPress={() => navigation.navigate('TransferTokens')}
+                    />
+                </View>
+            </View>
+        )
+    }
+    ```
+</Steps>

@@ -1,0 +1,119 @@
+import { ColumnLayout } from '../../../components/column-view';
+
+Get user portfolio activity
+
+<ColumnLayout>
+    <>
+        ## Headers
+        `Authorization` : string <br />
+        Authorization token received from Okto.
+
+        ---
+        
+        ## Query Parameters
+        `limit` : number <br />
+        Number of records to return. Default is 10.
+
+        ---
+        `offset` : number <br />
+        Number of records to skip. Default is 0.
+
+        ---
+    </>
+    <>
+        ## Code
+        ```bash copy
+        curl -X GET '${baseUrl}/api/v1/portfolio/activity?limit=10&offset=1'
+        -H 'accept: application/json' 
+        -H 'Authorization: Bearer AUTH_TOKEN'
+        ```
+
+        ## Response
+        ```json
+        {
+            "status": "success",
+            "data": {
+                "count": 75,
+                "activity": [
+                    {
+                        "symbol": "USDC",
+                        "image": "",
+                        "name": "USD Coin",
+                        "short_name": "USDC",
+                        "id": "113b8bdb-d0a5-33f4-a95e-46f87f1f34fa",
+                        "group_id": "",
+                        "description": "Transaction with DAPP",
+                        "quantity": "0.1",
+                        "order_type": "WALLET_CONNECT",
+                        "transfer_type": "DEPOSIT",
+                        "status": "COMPLETED",
+                        "timestamp": 0,
+                        "tx_hash": "5eZVUhHAw5uwbnHUEofPFESZCcY65RMaqbkbkS6WzC5HAthcsuDXzpYcu3uRqcXJvyqbvfzQ79nX9cdTKmkkCghz",
+                        "network_id": "fb10a9ca-d197-378d-8fb3-fd95345571f3",
+                        "network_name": "SOLANA_DEVNET",
+                        "network_explorer_url": "https://solscan.io/tx/5eZVUhHAw5uwbnHUEofPFESZCcY65RMaqbkbkS6WzC5HAthcsuDXzpYcu3uRqcXJvyqbvfzQ79nX9cdTKmkkCghz?cluster=devnet",
+                        "network_symbol": "SOL DEVNET"
+                    },
+                    {
+                        "symbol": "SOL_DEVNET",
+                        "image": "",
+                        "name": "SOL",
+                        "short_name": "SOL_DEVNET",
+                        "id": "624cdf5d-987b-378e-a7fb-d3839e74e5bb",
+                        "group_id": "",
+                        "description": "Transaction with DAPP",
+                        "quantity": "0.01",
+                        "order_type": "WALLET_CONNECT",
+                        "transfer_type": "DEPOSIT",
+                        "status": "COMPLETED",
+                        "timestamp": 0,
+                        "tx_hash": "45qimRvrsVwRKx2CPxXHS3SCzDjm5gxNqbu6H2yP4fwnnXgKMhJT3NqXpzdxNrv53ftnv2JaHYnu98gXbuNedTnV",
+                        "network_id": "fb10a9ca-d197-378d-8fb3-fd95345571f3",
+                        "network_name": "SOLANA_DEVNET",
+                        "network_explorer_url": "https://solscan.io/tx/45qimRvrsVwRKx2CPxXHS3SCzDjm5gxNqbu6H2yP4fwnnXgKMhJT3NqXpzdxNrv53ftnv2JaHYnu98gXbuNedTnV?cluster=devnet",
+                        "network_symbol": "SOL DEVNET"
+                    },
+                    {
+                        "symbol": "USDC",
+                        "image": "",
+                        "name": "USD Coin",
+                        "short_name": "USDC",
+                        "id": "113b8bdb-d0a5-33f4-a95e-46f87f1f34fa",
+                        "group_id": "",
+                        "description": "Transaction with DAPP",
+                        "quantity": "0.1",
+                        "order_type": "WALLET_CONNECT",
+                        "transfer_type": "DEPOSIT",
+                        "status": "COMPLETED",
+                        "timestamp": 0,
+                        "tx_hash": "3vCj5mWrLS4qR1oUdBcQ7ajfcWH4FhTG7NDwfbVuWdS8Q8pQAED8XsR3XW3JFU4md5fTAFoGDyDiJGBRhz5Ga1Af",
+                        "network_id": "fb10a9ca-d197-378d-8fb3-fd95345571f3",
+                        "network_name": "SOLANA_DEVNET",
+                        "network_explorer_url": "https://solscan.io/tx/3vCj5mWrLS4qR1oUdBcQ7ajfcWH4FhTG7NDwfbVuWdS8Q8pQAED8XsR3XW3JFU4md5fTAFoGDyDiJGBRhz5Ga1Af?cluster=devnet",
+                        "network_symbol": "SOL DEVNET"
+                    },
+                    {
+                        "symbol": "SOL_DEVNET",
+                        "image": "",
+                        "name": "SOL",
+                        "short_name": "SOL_DEVNET",
+                        "id": "624cdf5d-987b-378e-a7fb-d3839e74e5bb",
+                        "group_id": "",
+                        "description": "Transaction with DAPP",
+                        "quantity": "0.01",
+                        "order_type": "WALLET_CONNECT",
+                        "transfer_type": "DEPOSIT",
+                        "status": "COMPLETED",
+                        "timestamp": 0,
+                        "tx_hash": "x1NgirgPhjeb8njuJ2tSjdP5jc4i1iPc3VzQc923XsEZq1wsGcSndRkSH2ns1PPkA7qyQWrUfFZ8VWCYFJBHvpm",
+                        "network_id": "fb10a9ca-d197-378d-8fb3-fd95345571f3",
+                        "network_name": "SOLANA_DEVNET",
+                        "network_explorer_url": "https://solscan.io/tx/x1NgirgPhjeb8njuJ2tSjdP5jc4i1iPc3VzQc923XsEZq1wsGcSndRkSH2ns1PPkA7qyQWrUfFZ8VWCYFJBHvpm?cluster=devnet",
+                        "network_symbol": "SOL DEVNET"
+                    }
+                ]
+            }
+        }
+        ```
+    </>
+</ColumnLayout>

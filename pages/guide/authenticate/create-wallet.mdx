@@ -1,0 +1,38 @@
+import { Steps } from 'nextra/components'
+
+Once the user is authenticated and does not have a wallet, Okto will prompt the user to create a wallet. 
+Let's go through the steps of creating a wallet that are handled by the Okto SDK.
+
+<Steps>
+### Create Wallet Prompt
+The first screen the user sees is the wallet prompt, where the user can click on the `Activate Wallet` button to create a wallet. This action will take the user to the next step.
+<div style={{ width: "30%" }}>
+    ![Create Wallet](/auth/create-wallet.jpg)
+</div>
+
+### Set PIN
+The user will be prompted to set and confirm a PIN for the wallet. This PIN is used to secure the wallet and is required to access it.
+
+#### Why do we need a PIN?
+Setting a PIN for your wallet might seem like a small step, but it is important in ensuring trust and security. Okto's wallet spans across platforms, earning user trust by being self-custodial. 
+
+This trust extends to vendors too, with a semi-trust relationship between users, Okto, and vendors. To tackle this trilemma, we believe in not putting all the control in one person's hands. Your wallet is your domain, and transaction confirmations are in your hands alone. 
+
+By setting up a PIN and embracing a policy grounded in two-factor authentication (2FA), we strengthen the security link, making your digital assets safer and sounder. It's about putting control where it belongs – in your hands.
+<div style={{ width: "30%" }}>
+    ![Set Pin](/auth/set-pin.jpg)
+</div>
+
+
+### Wallet Created
+Once the PIN is set, wallets are created across all the whitelisted chains on your API key, and the user is taken to the wallet screen. Here, they can start using the wallet for various functionalities.
+<div style={{ display: 'flex', gap: 12 }}>
+    <div style={{ width: "30%" }}>
+        ![Wallet Created](/auth/wallet-created.jpg)
+    </div>
+    <div style={{ width: "30%" }}>
+        ![Wallet](/auth/wallet.jpg)
+    </div>
+</div>
+
+</Steps>
