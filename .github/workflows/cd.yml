@@ -1,0 +1,34 @@
+# CD Workflow, uses remote central workflow
+# Maintainer: Nishith Kulshrestha <nishith.kulshrestha@coindcx.com>
+
+name: Continuous Deployment
+on:
+  push:
+    branches:
+      - "release/master"
+jobs:
+  env:
+    uses: coindcx-devops/golden-images/.github/workflows/cd_parse_env.yml@main
+    with:
+      BRANCH: ${{ github.ref_name }}
+  cd_push_app:
+    uses: coindcx-devops/golden-images/.github/workflows/cd_push.yml@main
+    needs: env
+    with:
+      RUNNERS: '["ARM64","ubuntu-latest"]'
+      IMAGE_TAG: "${{ needs.env.outputs.env }}-${{ github.run_id }}"
+      REPOSITORY: "okto/${{ vars.REPOSITORY || github.event.repository.name }}"
+      BUILD_ARGS: |
+        "ENV=${{ needs.env.outputs.env }}"
+    secrets: inherit
+  cd_deploy:
+    uses: coindcx-devops/golden-images/.github/workflows/cd_deploy_okto.yml@main
+    needs:
+      - env
+      - cd_push_app
+    with:
+      ENV: "${{ needs.env.outputs.env }}"
+      IMAGE_TAG: "${{ needs.env.outputs.env }}-${{ github.run_id }}"
+      CONTAINER_NAMES: "${{ vars.REPOSITORY || github.event.repository.name }}"
+      SERVICE: "${{ vars.REPOSITORY || github.event.repository.name }}"
+    secrets: inherit
