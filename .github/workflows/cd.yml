@@ -1,34 +1,30 @@
-# CD Workflow, uses remote central workflow
-# Maintainer: Hemanth Krishna <hemanth.krishna@coindcx.com>
+name: GitHub Pages deploy
 
-name: Continuous Deployment
 on:
   push:
-    branches:
-      - "release/master"
+    branches: [release/master]
+
 jobs:
-  env:
-    uses: coindcx-devops/golden-images/.github/workflows/cd_parse_env.yml@main
-    with:
-      BRANCH: ${{ github.ref_name }}
-  cd_push_app:
-    uses: coindcx-devops/golden-images/.github/workflows/cd_push.yml@main
-    needs: env
-    with:
-      RUNNERS: '["ARM64","ubuntu-latest"]'
-      IMAGE_TAG: "${{ needs.env.outputs.env }}-${{ github.run_id }}"
-      REPOSITORY: "okto/${{ vars.REPOSITORY || github.event.repository.name }}"
-      BUILD_ARGS: |
-        "ENV=${{ needs.env.outputs.env }}"
-    secrets: inherit
-  cd_deploy:
-    uses: coindcx-devops/golden-images/.github/workflows/cd_deploy_okto.yml@main
-    needs:
-      - env
-      - cd_push_app
-    with:
-      ENV: "${{ needs.env.outputs.env }}"
-      IMAGE_TAG: "${{ needs.env.outputs.env }}-${{ github.run_id }}"
-      CONTAINER_NAMES: "${{ vars.REPOSITORY || github.event.repository.name }}"
-      SERVICE: "${{ vars.REPOSITORY || github.event.repository.name }}"
-    secrets: inherit
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2.3.1
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: '18.x'
+
+      - name: Installing my packages
+        run: npm ci
+
+      - name: Build my App
+        run: npm run build && npm run export && touch ./out/.nojekyll
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4.4.1
+        with:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          BRANCH: public # The branch the action will deploy to
+          FOLDER: out # The folder the action will deploy to
