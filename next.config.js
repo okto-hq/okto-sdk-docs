@@ -8,5 +8,6 @@ module.exports = {
   images: {
     unoptimized: true,
   },
+  basePath: '/okto-sdk-docs'
 };
 
