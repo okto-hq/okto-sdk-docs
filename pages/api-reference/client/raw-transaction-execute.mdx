@@ -25,6 +25,7 @@ Execute a raw transaction on a network. The API returns a `jobId` which can be u
         ```bash copy
         curl -X POST '${baseUrl}/api/v1/rawtransaction/execute' 
         -H 'accept: application/json' 
+        -H 'Content-Type: application/json' 
         -H 'Authorization: Bearer AUTH_TOKEN' -d '
             {
                 "network_name": "POLYGON_TESTNET",
