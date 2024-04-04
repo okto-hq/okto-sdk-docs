@@ -14,9 +14,9 @@ In you `App.tsx` file, we will use the [`setTheme`](/sdk-reference/setTheme) met
 - `backgroundColor` (optional) - Background color of the theme.
 
 ```tsx filename="App.tsx" copy
-import { init, setTheme } from 'rn-okto-sdk';
+import { BuildType, init, setTheme } from 'rn-okto-sdk';
 
-init("API_KEY");
+init("API_KEY", BuildType.SANDBOX);
 // Just as an example, we are setting the backgroundColor to black
 setTheme("", "", "", "", "", "", "", "", "#000000");
 ```
