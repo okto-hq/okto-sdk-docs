@@ -7,7 +7,6 @@ module.exports = {
   ...withNextra(),
   images: {
     unoptimized: true,
-  },
-  basePath: '/okto-sdk-docs'
+  }
 };
 
