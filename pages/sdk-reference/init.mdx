@@ -4,17 +4,19 @@ This method is used to initialize the SDK with the API Key.
 
 ## Parameters
 - `apiKey` - API Key received from Okto.
+- `buildType` - Enviornment of Okto ["SANDBOX", "PRODUCTION"]
 
 ```tsx copy
 init(
-    apiKey: string,    
+    apiKey: string, 
+    buildType: BuildType   
 ) => void;
 ```
 
 ## Example
 ```tsx copy
-import { init } from 'rn-okto-sdk';
+import { BuildType, init } from 'rn-okto-sdk';
 
 const API_KEY = ""
-init(API_KEY);
+init(API_KEY, BuildType.SANDBOX);
 ```

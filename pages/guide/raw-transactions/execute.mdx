@@ -78,7 +78,7 @@ If we want to execute a raw transaction directly on chain, Okto provides a way t
 
     ### Send a transaction
     Now we can use the `api` instance to send a transaction to the blockchain. Create a new screen and name it `send-raw-transaction.tsx`, here we will cover both EVM and Solana transactions.
-    <Tabs items={["EVM", "Solana"]}>
+    <Tabs items={["EVM", "Solana", "Aptos"]}>
         <Tabs.Tab>
         For example purposes we will execute a Polygon transaction.
         ```tsx filename="send-raw-transaction.tsx" copy
@@ -181,11 +181,50 @@ If we want to execute a raw transaction directly on chain, Okto provides a way t
         }
         ```
         </Tabs.Tab>
+        <Tabs.Tab>
+        For example purposes we will execute a Aptos transaction.
+        ```tsx filename="send-raw-transaction.tsx" copy
+        import { api } from "../../api-client";
+
+        interface Result{
+            status: string;
+            data: {
+                jobId: string;
+            };
+        };
+
+        const SendRawTransactionScreen = () => {
+            const [network, setNetwork] = useState<string>("APTOS_TESTNET");
+            const [function, setFunction] = useState<string>("0x1::aptos_account::transfer");
+            const [typeArguments, setTypeArguments] = useState<any[]>([]);
+            const [functionArguments, setFunctionArguments] = useState<any[]>([
+                    "0xb7c18d4389feb18d819fbe1c2806fd7f753d2cd42ec04e7ed5f2b19e267737c6",
+                    "1000000"
+                ]);
+
+            const sendTransaction = async () => {
+                const requestData = {
+                    netowrk_name: networkName,
+                    transaction: {
+                        function,
+                        typeArguments,
+                        functionArguments
+                    },
+                }
+
+                const response = await api.post<Result>("/rawtransaction/execute", requestData)
+                if(response.status === 200){
+                    console.log(response.data);
+                }
+            }
+        }
+        ```
+        </Tabs.Tab>
     </Tabs>
 
     ### Add Form Fields
     Add the form fields to the `send-raw-transaction.ts` screen.
-    <Tabs items={["EVM", "Solana"]}>
+    <Tabs items={["EVM", "Solana", "Aptos"]}>
         <Tabs.Tab>
             ```tsx filename="send-raw-transaction.tsx" copy
             import { View, TextInput, Button } from "react-native";
@@ -243,6 +282,38 @@ If we want to execute a raw transaction directly on chain, Okto provides a way t
                             placeholder="Signers"
                             value={signers}
                             onChangeText={setSigners}
+                        />
+                        <Button title="Send Transaction" onPress={sendTransaction} />
+                    </View>
+                )
+            }
+            ```
+        </Tabs.Tab>
+        <Tabs.Tab>
+            ```tsx filename="send-raw-transaction.tsx" copy
+            import { View, TextInput, Button } from "react-native";
+
+            const SendRawTransactionScreen = () => {
+                
+                ...
+
+                return (
+                    <View>
+                        <Text>Execute Raw Aptos Transaction</Text>
+                        <TextInput
+                            placeholder="Function"
+                            value={function}
+                            onChangeText={setFunction}
+                        />
+                        <TextInput
+                            placeholder="Type Arguments"
+                            value={typeArguments}
+                            onChangeText={setTypeArguments}
+                        />
+                        <TextInput
+                            placeholder="Function Arguments"
+                            value={functionArguments}
+                            onChangeText={setFunctionArguments}
                         />
                         <Button title="Send Transaction" onPress={sendTransaction} />
                     </View>
