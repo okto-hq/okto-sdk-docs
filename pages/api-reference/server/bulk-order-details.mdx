@@ -1,0 +1,62 @@
+import { ColumnLayout } from '../../../components/column-view';
+
+Get order details of the all the jobs ongoing by the user using their `user_id` and `bulk_order_id`.
+
+<ColumnLayout>
+    <>
+        ## Headers
+        `x-api-key` : string <br />
+        The S2S API Key provided by Okto.
+
+        ---
+
+        ## URL Parameters
+        `user_id` : string <br />
+        User id of the user.
+        
+        ---
+
+        ## Query Parameters
+        `page` : number <br />
+        Page number for pagination. Default is 1.
+
+        ---
+        `size` : number <br />
+        Number of records per page. Default is 10.
+
+        ---
+        `bulk_order_id` : string <br />
+        Order id of the NFT.
+
+        ---
+    </>
+    <>
+        ## Code
+        ```bash copy
+        curl -X GET '${baseUrl}/s2s/api/v1/nft/order_details/bb7bee27-a25b-4cff-8784-ae55a3a6ad60?bulk_order_id=dd784ad9-68f8-49b9-87dc-13723e933eab&page=1&size=500'
+        -H 'accept: application/json' 
+        -H 'x-api-key: API_KEY'
+        ```
+
+        ## Response
+        ```json
+        {
+            "status": "success",
+            "data": {
+                    // These are orders that are in terminal state
+                "executed": [
+                    {
+                        "bulk_order_id": "53825c2a-50c1-49bf-84ef-9b2fe7487b52",
+                        "job_id": "afac7dca-942c-4081-bd88-7cea1d651ccb",
+                        "status": "SUCCESS",
+                        "order_type": "TOKEN_TRANSFER_EXECUTE",
+                        "network_id": "APTOS_TESTNET"
+                    }
+                ],
+                "open": []// Orders which are being processed at that point of time,
+                "pending": [] // Acknowledged orders, queued. Will be processed after open orders are completed
+            }
+        }
+        ```
+    </>
+</ColumnLayout>
