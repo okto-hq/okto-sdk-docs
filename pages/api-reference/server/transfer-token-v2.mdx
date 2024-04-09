@@ -1,0 +1,61 @@
+import { ColumnLayout } from '../../../components/column-view';
+
+Used to transfer ERC20/Native Tokens from user wallet address to recipient address. The order ID will be returned in the response. The bulk order ID can be used to track the status of the order.
+
+<ColumnLayout>
+    <>
+        ## Headers
+        `x-api-key` : string <br />
+        The S2S API Key provided by Okto.
+
+        ---
+        
+        ## Parameters
+        `operation_type` : string <br />
+        Type of operation to be performed.
+
+        ---
+        `network_name` : string <br />
+        Name of the network to perform tranfer on.
+
+        ---
+        `token_address` : string <br />
+        Address of the token to be transferred.
+
+        ---
+        `quantity` : string <br />
+        Quantity of tokens to be transferred.
+
+        ---
+        `recipient_address` : string <br />
+        Address of the recipient address to send tokens to.
+
+        ---
+    </> 
+    <>
+        ## Code
+        ```bash copy
+        curl -X POST '${baseUrl}/s2s/api/v2/transfer/tokens/execute/:userId' 
+        -H 'accept: application/json' 
+        -H 'x-api-key: API_KEY' -d '
+            {
+                "network_name": "APTOS TESTNET",
+                "token_address": "0x2f7b97837f2d14ba2ed3a4b2282e259126a9b848",
+                "quantity": "0.0001",
+                "recipient_address": "0x8ff71ae16c88d86f5ec4100951f37a50683e8cd23ca515894854fcfc4ab7399b"
+            }
+        '
+        ```
+
+        ## Response
+        ```json
+        {
+            "status": "success",
+            "data": {
+                "bulk_order_id": "dd784ad9-68f8-49b9-87dc-13723e933eab"
+            }
+        }
+        ```
+        The developer should use the bulk-order-details APIs for checking the order status
+    </>
+</ColumnLayout>

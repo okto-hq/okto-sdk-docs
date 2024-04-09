@@ -1,0 +1,88 @@
+import { ColumnLayout } from '../../../components/column-view';
+
+Used to mint a new NFT on a specific network.
+
+<ColumnLayout>
+    <>
+        ## Headers
+        `x-api-key` : string <br />
+        The S2S API Key provided by Okto.
+
+        ---
+        
+        ## Parameters
+        `operation_type` : string <br />
+        The operation type to be performed. 
+
+        ---
+        `ercType` : string <br />
+        The type of ERC standard to be used.
+
+        ---
+        `network_name` : string <br />
+        The network name on which the NFT is to be minted.
+
+        ---
+        `collection_address` : string <br />
+        The address of the collection on which the NFT is to be minted.
+
+        ---
+        `collection_name` : string <br />
+        The name of the collection on which the NFT is to be minted.
+
+        ---
+        `quantity` : string <br />
+        The quantity of NFTs to be minted.
+
+        ---
+        `metadata` : object <br />
+        The metadata of the NFT to be minted.
+
+        ---
+        `metadata.uri` : string <br />
+        The URI of the NFT metadata.
+
+        ---
+        `metadata.nftName` : string <br />
+        The name of the NFT.
+
+        ---
+        `metadata.description` : string <br />
+        The description of the NFT.
+
+        ---
+    </>
+    <>
+        ## Code
+        ```bash copy
+        curl -X POST '${baseUrl}/s2s/api/v2/nft/mint'
+        -H 'accept: application/json' 
+        -H 'x-api-key: API_KEY' -d '
+            {
+                "operation_type": "NFT_MINT",
+                "ercType": "ERC721",
+                "network_name": "APTOS_TESTNET",
+                "collection_address": "0x171e643e8e8dabc66b838b9055dbdf88647cf6601b164f5987f50a497bedfbe1",
+                "collection_name": "super avengers",
+                "quantity": "1",
+                "metadata": {
+                    "uri": "ipfs://QmVFPvu8aeJHXyNVxpfftVHaKjRsbtH6dXWscJ2TukM3xi",
+                    "nftName": "Mint a NFT",
+                    "description": "Lets check"
+                }
+            }
+        '
+        ```
+
+        ## Response
+        ```json
+        {
+            "status": "success",
+            "data": {
+                "bulk_order_id": "ec887fc8-74f5-4342-8ca2-43ac239733f6"
+            }
+        }
+        ```
+        The developer should use the bulk-order-details APIs for checking the order status
+    </>
+</ColumnLayout>

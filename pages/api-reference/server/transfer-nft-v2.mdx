@@ -1,0 +1,77 @@
+import { ColumnLayout } from '../../../components/column-view';
+
+Used to transfer nft from user wallet address to recipient address. The order ID will be returned in the response. The order ID can be used to track the status of the order.
+
+<ColumnLayout>
+    <>
+        ## Headers
+        `x-api-key` : string <br />
+        The S2S API Key provided by Okto.
+
+        ---
+        
+        ## Parameters
+        `operation_type` : string <br />
+        Type of operation to be performed.
+
+        ---
+        `network_name` : string <br />
+        Name of the network to perform tranfer on.
+
+        ---
+        `collection_address` : string <br />
+        Address of the collection which needs to be transferred.
+
+        ---
+        `collection_name` : string <br />
+        Name of the collection which needs to be transferred.
+
+        ---
+        `quantity` : string <br />
+        Quantity of the nft to be transferred.
+
+        ---
+        `recipient_address` : string <br />
+        Address of the recipient to whom nft needs to be transferred.
+
+        ---
+        `nft_address` : string <br />
+        Address of the nft which needs to be transferred.
+
+        ---
+        `user_id` : string <br />
+        User ID of the user who is transferring the nft.
+
+        ---
+    </> 
+    <>
+        ## Code
+        ```bash copy
+        curl -X POST '${baseUrl}/s2s/api/v2/nft/tranfer' 
+        -H 'accept: application/json' 
+        -H 'x-api-key: API_KEY' -d '
+            {
+                "operation_type": "NFT_TRANSFER",
+                "network_name": "APTOS TESTNET",
+                "collection_address": "0x171e643e8e8dabc66b838b9055dbdf88647cf6601b164f5987f50a497bedfbe1",
+                "collection_name": "super avengers",
+                "quantity": "1",
+                "user_id": "d6061eab-2da6-4d79-a225-71f995791e45",
+                "recipient_address": "0x7c0c2c20facfd3a321d82da7b3c2fcd5e75a3e5d8226ce26c5533f2342e57e0b",
+                "nft_address": "0x719dad0b2800205ab7bff539bd617b04e21fe311bc30fce6d6d2d3beecd8a14e"
+            }
+        '
+        ```
+
+        ## Response
+        ```json
+        {
+            "status": "success",
+            "data": {
+                "bulk_order_id": "dd784ad9-68f8-49b9-87dc-13723e933eab"
+            }
+        }
+        ```
+        The developer should use the bulk-order-details APIs for checking the order status
+    </>
+</ColumnLayout>

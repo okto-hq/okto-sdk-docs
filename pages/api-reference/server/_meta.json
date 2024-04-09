@@ -1,10 +1,14 @@
 {
-    "mint-nft": "Mint NFT",
-    "transfer-nft": "Transfer NFT",
-    "order-details-nft": "Order Details NFT",
+    "mint-nft-v2": "Mint NFT V2",
+    "transfer-nft-v2": "Transfer NFT V2",
+    "transfer-token-v2": "Transfer Tokens V2",
+    "bulk-order-details": "Bulk Order Details",
     "user-wallet": "User Wallet",
     "user-portfolio": "User Portfolio",
     "user-nft": "User NFT",
     "user-activity": "User Activity",
-    "supported-tokens": "Supported Tokens"
+    "supported-tokens": "Supported Tokens",
+    "mint-nft": "Mint NFT",
+    "transfer-nft": "Transfer NFT",
+    "order-details-nft": "Order Details NFT"
 }
