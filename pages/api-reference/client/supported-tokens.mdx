@@ -25,6 +25,7 @@ Get an array of all the whitelisted tokens on your API key.
         ## Code
         ```bash copy
         curl -X GET '${baseUrl}/api/v1/supported/tokens?page=1&size=10'
+        -H 'x-api-key: YOUR_CLIENT_API_KEY'
         -H 'accept: application/json' 
         -H 'Authorization: Bearer AUTH_TOKEN'
         ```

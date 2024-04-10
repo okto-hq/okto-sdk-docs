@@ -18,6 +18,7 @@ Get an array of all the whitelisted networks on your API key.
         ## Code
         ```bash copy
         curl -X GET '${baseUrl}/api/v1/supported/networks' 
+        -H 'x-api-key: YOUR_CLIENT_API_KEY'
         -H 'accept: application/json' 
         -H 'Authorization: Bearer AUTH_TOKEN'
         ```

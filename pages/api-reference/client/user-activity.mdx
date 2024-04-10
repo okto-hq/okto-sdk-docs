@@ -24,6 +24,7 @@ Get user portfolio activity
         ## Code
         ```bash copy
         curl -X GET '${baseUrl}/api/v1/portfolio/activity?limit=10&offset=1'
+        -H 'x-api-key: YOUR_CLIENT_API_KEY'
         -H 'accept: application/json' 
         -H 'Authorization: Bearer AUTH_TOKEN'
         ```

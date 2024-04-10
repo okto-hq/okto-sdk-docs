@@ -17,6 +17,7 @@ Logout the user from the current Okto session. This will remove the user's sessi
         ## Code
         ```bash copy
         curl -X POST '${baseUrl}/api/v1/logout' 
+        -H 'x-api-key: YOUR_CLIENT_API_KEY'
         -H 'accept: application/json' 
         -H 'Authorization: Bearer AUTH_TOKEN'
         ```
