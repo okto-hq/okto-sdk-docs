@@ -28,6 +28,7 @@ Get order details of all the NFTs transferred and received by the user.
         ## Code
         ```bash copy
         curl -X GET '${baseUrl}/api/v1/nft/order_details?order_id=dd784ad9-68f8-49b9-87dc-13723e933eab&page=1&size=500'
+        -H 'x-api-key: YOUR_CLIENT_API_KEY'
         -H 'accept: application/json' 
         -H 'Authorization: Bearer AUTH_TOKEN'
         ```

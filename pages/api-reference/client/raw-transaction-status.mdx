@@ -21,6 +21,7 @@ Get the details of the raw transaction status by providing the `order_id` of the
         ## Code
         ```bash copy
         curl -X GET '${baseUrl}/api/v1/rawtransaction/status?order_id=71b8dfd0-4d5c-49d6-9c6f-a39fa3252b24'
+        -H 'x-api-key: YOUR_CLIENT_API_KEY'
         -H 'accept: application/json' 
         -H 'Authorization: Bearer AUTH_TOKEN'
         ```

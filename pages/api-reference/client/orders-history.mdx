@@ -31,7 +31,8 @@ Fetch all the orders of the user, which includes the history of tokens sent and 
     <>
         ## Code
         ```bash copy
-        curl -X GET '${baseUrl}/api/v1/orders?offset=0&limit=1&order_id=80f5b553-4650-4943-9721-8db41d78ccc9&order_state=SUCCESS' 
+        curl -X GET '${baseUrl}/api/v1/orders?offset=0&limit=1&order_id=80f5b553-4650-4943-9721-8db41d78ccc9&order_state=SUCCESS'
+        -H 'x-api-key: YOUR_CLIENT_API_KEY' 
         -H 'accept: application/json' 
         -H 'Authorization: Bearer AUTH_TOKEN'
         ```

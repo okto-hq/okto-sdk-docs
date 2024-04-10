@@ -44,6 +44,7 @@ Used to transfer nft from user wallet address to recipient address. The order ID
         ## Code
         ```bash copy
         curl -X POST '${baseUrl}/api/v1/nft/transfer'
+        -H 'x-api-key: YOUR_CLIENT_API_KEY'
         -H 'accept: application/json' 
         -H 'Authorization: Bearer AUTH_TOKEN' -d '
             {

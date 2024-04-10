@@ -17,6 +17,7 @@ Get user details using token received from Okto.
         ## Code
         ```bash copy
         curl -X GET '${baseUrl}/api/v1/user_from_token' 
+        -H 'x-api-key: YOUR_CLIENT_API_KEY'
         -H 'accept: application/json' 
         -H 'Authorization: Bearer AUTH_TOKEN'
         ```
