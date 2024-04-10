@@ -25,7 +25,8 @@ Sets the pin of a new user after the user has been authenticated by the Okto ser
     <>
         ## Code
         ```bash copy
-        curl -X 'POST' '${baseUrl}/api/v1/set_pin' -H 'accept: */*' 
+        curl -X 'POST' '${baseUrl}/api/v1/set_pin' -H 'accept: */*'
+            -H 'x-api-key: YOUR_CLIENT_API_KEY' 
             -H 'Content-Type: application/json' -d '
                 {
                     "id_token": "YOUR_TOKEN_ID",
