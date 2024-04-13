@@ -1,5 +1,6 @@
 {
     "app-setup": "App Setup",
+    "google-authentication-setup": "Google Authentication Setup",
     "authenticate": "Authenticate",
     "get-details": "Get Details",
     "transfer-assets": "Transfer Assets",
