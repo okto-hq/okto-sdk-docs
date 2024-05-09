@@ -14,11 +14,22 @@ In you `App.tsx` file, we will use the [`setTheme`](/sdk-reference/setTheme) met
 - `backgroundColor` (optional) - Background color of the theme.
 
 ```tsx filename="App.tsx" copy
-import { BuildType, init, setTheme } from 'rn-okto-sdk';
+import { useOkto, type OktoContextType} from 'okto-sdk-react-native';
 
-init("API_KEY", BuildType.SANDBOX);
+
+const { setTheme, getTheme } = useOkto() as OktoContextType;
 // Just as an example, we are setting the backgroundColor to black
-setTheme("", "", "", "", "", "", "", "", "#000000");
+setTheme({
+  textPrimaryColor: '0xFFFFFFFF',
+  textSecondaryColor: '0xFFFFFFFF',
+  textTertiaryColor: '0xFFFFFFFF',
+  accentColor: '0x80433454',
+  accent2Color: '0x80905BF5',
+  strokBorderColor: '0xFFACACAB',
+  strokDividerColor: '0x4DA8A8A8',
+  surfaceColor: '0xFF1F0A2F',
+  backgroundColor: '0xFF000000',
+});
 ```
 <div style={{ display: 'flex', gap: 12 }}>
     <div style={{ width: "30%" }}>

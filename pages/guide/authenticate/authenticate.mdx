@@ -79,16 +79,14 @@ Now that we have obtained the `idToken` from Google, we can use it to authentica
 > Note: The `idToken` expires in 30 minutes, so it is recommended to authenticate with Okto as soon as possible after obtaining the `idToken`, or the [`authenticate`](/sdk-reference/authenticate) process will fail.
 
 ```tsx filename="screens/login.tsx" copy
-import { authenticate } from 'rn-okto-sdk';
-
+import {
+  useOkto,
+  type OktoContextType,
+} from 'okto-sdk-react-native';
 ...
 
-interface Wallet {
-    network_name: string
-    address: string
-}
-
 const LoginScreen = () => {
+    const { authenticate } = useOkto() as OktoContextType;
     
     ...
 
@@ -97,9 +95,11 @@ const LoginScreen = () => {
             ...
             const { idToken } = response;
             authenticate(idToken, (result, error) => {
-                if(result){
-                    const wallet: Wallet[] = JSON.parse(result);
-                    console.log(result);
+                if (result) {
+                    console.log('authentication successful');
+                }
+                if (error) {
+                    console.error('authentication error:', error);
                 }
             });
         } catch (error) {
@@ -109,12 +109,12 @@ const LoginScreen = () => {
 }
 ```
 #### Existing user
-If the user already has an Okto wallet, the `result` will contain the user's wallets information.
+If the user already has an Okto wallet, the `result` will contain the authentication status
 
 #### New user
 If the user does not have an Okto wallet, they will get a UI prompt to [create a new wallet](/guide/authenticate/create-wallet.mdx).
 
-After a successful authentication, the `result` will contain the user's wallet information. You can use this information to personalize the user's experience in the app.
+After a successful authentication, the `result` will contain the authentication status. You can use this information to determine if the user has authenticated or not.
 </Steps>
 
 Great! With that, you have successfully authenticated with Okto using Google Sign-In.

@@ -3,32 +3,34 @@
 This method is used to get all the order details of the current user.
 
 ## Parameters
-- `callback` - Callback function to be called after API is executed. This function contains two parameters:
-  - `result` - Orders if API is successful.
-  - `error` - Error message if any.
+- `order_id` - The order id to get the specific order details.
+- `offset`-  The number of items to skip before starting to collect the result set. Default is 0.
+- `limit` - The number of items to return. Default is 10.
+- `order_state` - The order state to filter the orders. Possible values are `PENDING`, `SUCCESS`, `FAILED`.
 
 ```tsx copy
-orderHistory(
-    callback: (result: any, error: any) => void
-) => void;
+interface OrderQuery {
+  offset: number;
+  limit: number;
+  order_id: string;
+  order_state: string;
+}
+
+orderHistory: (query?: Partial<OrderQuery>) => Promise<OrderData>;
 ```
 
 ## Example
 ```tsx copy
-import { orderHistory } from 'rn-okto-sdk';
+import { useOkto, type OktoContextType, type Order} from 'okto-sdk-react-native';
 
-interface Order {
-    order_id: string
-    network_name: string
-    order_type: string
-    status: string
-    transaction_hash: string
-}
+const { orderHistory } = useOkto() as OktoContextType;
 
-orderHistory((result, error) => {
-      if(result){
-          const orderHistory: Order[] = JSON.parse(result);
-          console.log(orderHistory);
-      }
-});
+orderHistory({order_id: orderId})
+          .then((orders) => {
+            const order = orders.find((order: any) => order.order_id === orderId);
+            if(order) console.log(order)
+          })
+          .catch((error) => {
+            console.error(`error:`, error);
+          });
 ```

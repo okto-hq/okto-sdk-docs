@@ -15,22 +15,36 @@ This method is used to customize the theme of the Okto Wallet Bottomsheet.
 
 ```tsx copy
 setTheme(
-    textPrimaryColor: string, 
-    textSecondaryColor: string, 
-    textTertiaryColor: string, 
-    accentColor: string, 
-    accent2Color: string, 
-    strokBorderColor: string, 
-    strokDividerColor: string, 
-    surfaceColor: string, 
-    backgroundColor: string
+    {
+        textPrimaryColor: string, 
+        textSecondaryColor: string, 
+        textTertiaryColor: string, 
+        accentColor: string, 
+        accent2Color: string, 
+        strokBorderColor: string, 
+        strokDividerColor: string, 
+        surfaceColor: string, 
+        backgroundColor: string
+    }
 ) => void;
 ```
 
 ## Example
 ```tsx copy
-import { setTheme } from 'rn-okto-sdk';
+import { useOkto, type OktoContextType} from 'okto-sdk-react-native';
+ 
+ 
+const { setTheme, getTheme } = useOkto() as OktoContextType;
 
-
-setTheme("#14AEDE", "#F3F3F3")
+setTheme({
+  textPrimaryColor: '0xFFFFFFFF',
+  textSecondaryColor: '0xFFFFFFFF',
+  textTertiaryColor: '0xFFFFFFFF',
+  accentColor: '0x80433454',
+  accent2Color: '0x80905BF5',
+  strokBorderColor: '0xFFACACAB',
+  strokDividerColor: '0x4DA8A8A8',
+  surfaceColor: '0xFF1F0A2F',
+  backgroundColor: '0xFF000000',
+});
 ```

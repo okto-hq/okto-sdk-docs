@@ -5,7 +5,7 @@ Authenticate user with `idToken` received from Google OAuth2.
 ## Parameters
 - `idToken` - Token received from Google OAuth2.
 - `callback` - Callback function to be called after authentication. This function contains two parameters:
-  - `result` - User Wallets if authentication is successful.
+  - `result` - if authentication is successful.
   - `error` - Error message if any.
 
 If the user does not have a wallet, a [wallet prompt](/guide/authenticate/create-wallet) will be shown to the user to create a wallet.
@@ -18,18 +18,19 @@ authenticate (
 
 ## Example
 ```tsx copy
-import { authenticate } from 'rn-okto-sdk';
+import {
+  useOkto,
+  type OktoContextType,
+} from 'okto-sdk-react-native';
 
-interface Wallet {
-    network_name: string
-    address: string
-}
-
+const { authenticate } = useOkto() as OktoContextType;
 const idToken = 'USER_ID_TOKEN';
 authenticate(idToken, (result, error) => {
-    if(result){
-        const wallet: Wallet[] = JSON.parse(result);
-        console.log(wallet);
+    if (result) {
+        console.log('authentication successful');
+    }
+    if (error) {
+        console.error('authentication error:', error);
     }
 });
 ```

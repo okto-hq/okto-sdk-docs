@@ -3,95 +3,16 @@ import { Steps, Tabs } from "nextra/components";
 If we want to execute a raw transaction directly on chain, Okto provides a way to use one of the API's to send a transaction to the blockchain and execute it for the user.
 
 <Steps>
-    ### Setup axios and storage
-    We will be using the [`raw transaction execute`](/api-reference/client/raw-transaction-execute) endpoint to send a transaction to the blockchain. So first we need to install `axios` to make the request to the API.
-    <Tabs items={['pnpm', 'npm', 'yarn']}>
-        <Tabs.Tab>
-            ```bash filename="bash" copy
-            pnpm install axios react-native-mmkv 
-            ```
-        </Tabs.Tab>
-        <Tabs.Tab>
-            ```bash filename="bash" copy
-            npm install axios react-native-mmkv
-            ```
-        </Tabs.Tab>
-        <Tabs.Tab>
-            ```bash filename="bash" copy
-            yarn add axios react-native-mmkv
-            ```
-        </Tabs.Tab>
-    </Tabs>
-
-    Create a new file called `storage.ts` and intialize a new instance of `MMKV` from `react-native-mmkv` package. This will be used to store the `idToken` from the user after they login.
-    ```typescript filename="storage.ts" copy
-    import { MMKV } from "react-native-mmkv";
-    export const storage = new MMKV();
-    ```
-
-    Now in `login.tsx` we will store the `idToken` in the storage after the user logs in.
-    ```tsx filename="login.tsx" copy
-    import { storage } from "./storage";
-
-    const LoginScreen= () => {
-        
-        ...
-
-        const handleSignIn = async () => {
-            try {
-                    ...
-
-                    authenticate(idToken, (result, error) => {
-                        if(result){
-                            storage.setString("idToken", idToken);
-                            navigation.navigate("UserProfile");
-                        }
-                    })
-                }
-            } catch (error) {
-                console.log("GAuth Error",error);
-            }
-        }
-    }
-    ```
-
-    Create a new file called `api-client.ts`. Here we will create a new instance of axios and set the base URL to the API endpoint with the headers.
-    ```typescript filename="api-client.ts" copy
-    import { storage } from "./storage";
-    import axios from "axios";
-
-    const api = axios.create({
-        baseURL: baseUrl,
-    });
-
-    api.interceptors.request.use(
-        (config) => {
-            const idToken = storage.getString("idToken");
-            if (idToken) {
-                config.headers["Authorization"] = `Bearer ${idToken}`;
-            }
-            return config;
-        },
-        (error) => Promise.reject(error)
-    );
-    ```
-
     ### Send a transaction
-    Now we can use the `api` instance to send a transaction to the blockchain. Create a new screen and name it `send-raw-transaction.tsx`, here we will cover both EVM and Solana transactions.
+    Create a new screen and name it `send-raw-transaction.tsx`, here we will cover both EVM and Solana transactions.
     <Tabs items={["EVM", "Solana", "Aptos"]}>
         <Tabs.Tab>
         For example purposes we will execute a Polygon transaction.
         ```tsx filename="send-raw-transaction.tsx" copy
-        import { api } from "../../api-client";
-
-        interface Result{
-            status: string;
-            data: {
-                jobId: string;
-            };
-        };
+        import { useOkto, type OktoContextType} from 'okto-sdk-react-native';
 
         const SendRawTransactionScreen = () => {
+            const { executeRawTransaction } = useOkto() as OktoContextType;
             const [network, setNetwork] = useState<string>("POLYGON_TESTNET");
             const [from, setFrom] = useState<string>("0x0342A54DD44E8744FD185579Af57845Cb0ac6cB0");
             const [to, setTo] = useState<string>("0x80322ea18633A1f713e987d65Ae78AcCDAB6e55e");
@@ -109,10 +30,13 @@ If we want to execute a raw transaction directly on chain, Okto provides a way t
                     },
                 }
 
-                const response = await api.post<Result>("/rawtransaction/execute", requestData)
-                if(response.status === 200){
-                    console.log(response.data);
-                }
+                executeRawTransaction(requestData)
+                        .then((result) => {
+                            console.log(result.jobId)
+                        })
+                        .catch((error) => {
+                            console.error(`error:`, error);
+                        });
             }
         }
         ```
@@ -120,16 +44,10 @@ If we want to execute a raw transaction directly on chain, Okto provides a way t
         <Tabs.Tab>
         For example purposes we will execute a Solana transaction.
         ```tsx filename="send-raw-transaction.tsx" copy
-        import { api } from "../../api-client";
-
-        interface Result{
-            status: string;
-            data: {
-                jobId: string;
-            };
-        };
+        import { useOkto, type OktoContextType} from 'okto-sdk-react-native';
 
         const SendRawTransactionScreen = () => {
+            const { executeRawTransaction } = useOkto() as OktoContextType;
             const [network, setNetwork] = useState<string>("SOLANA_DEVNET");
             const [instructions, setInstructions] = useState<any[]>([
                 {
@@ -173,10 +91,13 @@ If we want to execute a raw transaction directly on chain, Okto provides a way t
                     },
                 }
 
-                const response = await api.post<Result>("/rawtransaction/execute", requestData)
-                if(response.status === 200){
-                    console.log(response.data);
-                }
+                executeRawTransaction(requestData)
+                        .then((result) => {
+                            console.log(result.jobId)
+                        })
+                        .catch((error) => {
+                            console.error(`error:`, error);
+                        });
             }
         }
         ```
@@ -184,16 +105,10 @@ If we want to execute a raw transaction directly on chain, Okto provides a way t
         <Tabs.Tab>
         For example purposes we will execute a Aptos transaction.
         ```tsx filename="send-raw-transaction.tsx" copy
-        import { api } from "../../api-client";
-
-        interface Result{
-            status: string;
-            data: {
-                jobId: string;
-            };
-        };
+        import { useOkto, type OktoContextType} from 'okto-sdk-react-native';
 
         const SendRawTransactionScreen = () => {
+            const { executeRawTransaction } = useOkto() as OktoContextType;
             const [network, setNetwork] = useState<string>("APTOS_TESTNET");
             const [function, setFunction] = useState<string>("0x1::aptos_account::transfer");
             const [typeArguments, setTypeArguments] = useState<any[]>([]);
@@ -212,10 +127,13 @@ If we want to execute a raw transaction directly on chain, Okto provides a way t
                     },
                 }
 
-                const response = await api.post<Result>("/rawtransaction/execute", requestData)
-                if(response.status === 200){
-                    console.log(response.data);
-                }
+                executeRawTransaction(requestData)
+                        .then((result) => {
+                            console.log(result.jobId)
+                        })
+                        .catch((error) => {
+                            console.error(`error:`, error);
+                        });
             }
         }
         ```

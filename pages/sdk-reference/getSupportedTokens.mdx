@@ -3,30 +3,23 @@
 This method is used to get all whitelisted tokens on your API Key.
 
 ## Parameters
-- `callback` - Callback function to be called after API is executed. This function contains two parameters:
-  - `result` - Tokens if API is successful.
-  - `error` - Error message if any.
+None
 
 ```tsx copy
-getSupportedTokens(
-    callback: (result: any, error: any) => void
-) => void;
+getSupportedTokens() => Promise<WalletData>;
 ```
 
 ## Example
 ```tsx copy
-import { getSupportedTokens } from 'rn-okto-sdk';
+import { useOkto, type OktoContextType} from 'okto-sdk-react-native';
 
-export interface Token {
-    token_name: string
-    token_address: string
-    network_name: string
-}
+const { getSupportedTokens } = useOkto() as OktoContextType;
 
-getSupportedTokens((result, error) => {
-    if(result){
-        const tokens: Token[] = JSON.parse(result);
-        console.log(tokens);
-    }
-});
+getSupportedTokens()
+    .then((result) => {
+    console.log(result)
+    })
+    .catch((error) => {
+    console.error(`error:`, error);
+    });
 ```

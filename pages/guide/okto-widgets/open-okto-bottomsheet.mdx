@@ -1,16 +1,17 @@
 
 Okto Bottomsheet is opened first when a new user `authenticates` with Okto and gets prompted to [`create wallet`](/guide/authenticate/create-wallet). 
-Now if you want the user to access this botom sheet again, Okto provides [`openOktoBottomsheet`](/sdk-reference/openOktoBottomsheet) method to open the bottom sheet again.
+Now if you want the user to access this botom sheet again, Okto provides [`showWidgetSheet`](/sdk-reference/showWidgetSheet) method to open the bottom sheet again.
 
 
 Lets add a button in `user-profile.tsx` to open the bottom sheet.
 
 ```tsx filename="user-profile.tsx" copy
 import { View, Button } from 'react-native';
-import { openOktoBottomsheet } from 'rn-okto-sdk';
+import { useOkto, type OktoContextType } from 'okto-sdk-react-native';
+
 
 const UserProfileScreen = () => {
-
+  const { showWidgetSheet, closeBottomSheet } = useOkto() as OktoContextType;
   return (
     <View>
       <Text>User Profile</Text>
@@ -20,7 +21,7 @@ const UserProfileScreen = () => {
       <Button
         title="Open Okto Profile"
         onPress={() => {
-          openOktoBottomsheet();
+          showWidgetSheet();
         }}
       />
     </View>

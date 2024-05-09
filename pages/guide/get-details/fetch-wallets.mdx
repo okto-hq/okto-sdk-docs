@@ -7,16 +7,13 @@ Let's continue by adding more information to the User Profile Screen. Add a new 
 First, let's fetch the wallets information of the user using the [`getWallets`](/sdk-reference/getWallets) method. We will continue developing in the `user-profile.tsx`.
 
 ```tsx filename="screens/user-profile.tsx" copy
-import { getWallets } from 'rn-okto-sdk';
+import { useOkto, type OktoContextType, type Wallet} from 'okto-sdk-react-native';
 
 ...
 
-export interface Wallet{
-    network_name: string
-    address: string
-}
 
 const UserProfileScreen = () => {
+    const { getWallets } = useOkto() as OktoContextType;
     const [userWallets, setUserWallets] = useState<Wallet[]>([])
 
     ...
@@ -24,12 +21,13 @@ const UserProfileScreen = () => {
     React.useEffect(() => {
         ...
 
-        getWallets((result, error) => {
-            if (result) {
-                const wallets: Wallet[] = JSON.parse(result);
-                setUserWallets(wallets);
-            }
-        })
+        getWallets()
+              .then((result) => {
+                setUserWallets(result)
+              })
+              .catch((error) => {
+                console.error(`error:`, error);
+              });
     }, [])
 }
 ```

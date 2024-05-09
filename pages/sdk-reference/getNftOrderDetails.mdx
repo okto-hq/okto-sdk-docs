@@ -1,0 +1,36 @@
+
+# getNftOrderDetails Method
+This method is used to get all the NFT order details of the current user.
+
+## Parameters
+- `order_id` - Order id of the NFT.
+- `page`-  Page number for pagination. Default is 1.
+- `size` - Number of records per page. Default is 10.
+
+
+```tsx copy
+interface NftOrderDetailsQuery {
+  page: number;
+  size: number;
+  order_id: string;
+}
+
+getNftOrderDetails(
+    query: Partial<NftOrderDetailsQuery>
+  ): Promise<NftOrderDetailsData>;
+```
+
+## Example
+```tsx copy
+import { useOkto, type OktoContextType, type NftOrderDetails} from 'okto-sdk-react-native';
+const { getNftOrderDetails } = useOkto() as OktoContextType;
+
+getNftOrderDetails({order_id: orderId})
+.then((orders) => {
+  const order = orders.find((order: any) => order.order_id === orderId);
+  if(order) console.log(order)
+})
+.catch((error) => {
+  console.error(`error:`, error);
+});
+```
