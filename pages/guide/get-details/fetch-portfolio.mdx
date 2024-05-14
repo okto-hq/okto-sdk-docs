@@ -7,27 +7,23 @@ We have received the user details and their wallets sa well, now we will get the
 First, let's create a new screen with the name `user-portfolio.tsx`. Fetch the user portfolio details using [`getPortfolio`](/sdk-reference/getPortfolio) from Okto and store them in a state.
 
 ```tsx filename="screens/user-portfolio.tsx" copy
-import { getPortfolio } from "rn-okto-sdk";
+import { useOkto, type OktoContextType, type Portfolio} from 'okto-sdk-react-native';
 
-export interface Portfolio {
-  token_name: string
-  token_image: string
-  quantity: string
-  amount_in_inr: string
-}
 
 const UserPortfolio = () => {
+    const { getPortfolio } = useOkto() as OktoContextType;
     const [portfolio, setPortfolio] = useState<Portfolio[]>([])
 
     ...
 
     React.useEffect(() => {
-        getPortfolio((result, error) => {
-            if(result){
-                const portfolio: Portfolio = JSON.parse(result);
-                setPortfolio(portfolio)
-            }
-        })
+        getPortfolio()
+                .then((result) => {
+                        setPortfolio(portfolio)
+                    })
+                    .catch((error) => {
+                        console.error(`error:`, error);
+                    });
     }, [])
 }
 ```

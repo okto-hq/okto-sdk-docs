@@ -14,62 +14,31 @@ In this part we will integrate Okto Wallet in React Native whether it's for your
         <Tabs items={['pnpm', 'npm', 'yarn']}>
             <Tabs.Tab>
                 ```bash filename="bash" copy
-                pnpm i rn-okto-sdk
+                pnpm i okto-sdk-react-native @react-native-async-storage/async-storage axios react-native-webview
                 ```
             </Tabs.Tab>
             <Tabs.Tab>
                 ```bash filename="bash" copy
-                npm i rn-okto-sdk
+                npm i okto-sdk-react-native @react-native-async-storage/async-storage axios react-native-webview
                 ```
             </Tabs.Tab>
             <Tabs.Tab>
                 ```bash filename="bash" copy
-                yarn add rn-okto-sdk
+                yarn add okto-sdk-react-native @react-native-async-storage/async-storage axios react-native-webview
                 ```
             </Tabs.Tab>
         </Tabs>
 
-        ### Setup your build.gradle
-        Now before using the SDK, we need to add the following lines to your `android/build.gradle` file under `allprojects` property.
-        > **Fun fact:** In Okto SDK, we've got two ways for your app to chat with the API: Wrappers and the Authenticated Channel. We've cooked up a neat Flutter application binary. It decides which API to call and when to make the call, with the wrappers acting like a guidebook for the binary.<br />
-        > And here's the cool part: The binary not only handles the calls but also ensures that the Authenticated Channel plays nice with Okto SDK servers. It's like having a backstage pass, making sure the JWT validation on your app's side is on point.
-        ```gradle filename="android/build.gradle" copy
-        allprojects{
-            repositories{
-                // other maven repositories
-                String storageUrl = "https://storage.googleapis.com"
-                maven {
-                    url "$rootDir/../node_modules/rn-okto-sdk/maven-repo"
-                }
-                maven {
-                    url "$storageUrl/download.flutter.io"
-                }
-            }
-        }
-        ```
-
-        Also make sure the `minSdk` version is set to `24` in your `android/build.gradle` file.
-        ```gradle filename="android/build.gradle" copy
-        buildscript {
-            ext {
-                ...
-                minSdk = 24
-            }
-            ...
-        }
-        ```
 
         ### Initialize the SDK
         You need to first intialize the SDK with the API key to get started. 
         You can do this in the root file of your app, for example `App.tsx` or `index.tsx`.
         ```tsx filename="App.tsx" copy
-        import { BuildType, init } from "rn-okto-sdk";
+        import { OktoProvider, BuildType } from 'okto-sdk-react-native';
 
-        ...
-
-        const apiKey = "YOUR_API_KEY";
-        const baseUrl = "https://sandbox-api.okto.tech";
-        init(apiKey, BuildType.SANDBOX);
+        <OktoProvider apiKey={OKTO_CLIENT_API} buildType={BuildType.SANDBOX}>
+            <App />
+        </OktoProvider>
         ```
 
         And we are done🎉! You are now ready to use the SDK in your app.

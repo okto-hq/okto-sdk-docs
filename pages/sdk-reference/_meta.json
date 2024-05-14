@@ -1,5 +1,4 @@
 {
-    "init": "init",
     "setTheme": "setTheme",
     "authenticate": "authenticate",
     "getUserDetails": "getUserDetails",
@@ -7,10 +6,10 @@
     "getPortfolio": "getPortfolio",
     "getSupportedNetworks": "getSupportedNetworks",
     "getSupportedTokens": "getSupportedTokens",
-    "transferFunds": "transferFunds",
+    "transferTokens": "transferTokens",
     "orderHistory": "orderHistory",
     "transferNFT": "transferNFT",
-    "getNFTOrderDetails": "getNFTOrderDetails",
+    "getNftOrderDetails": "getNftOrderDetails",
     "logout": "logout",
-    "openOktoBottomsheet": "openOktoBottomsheet"
+    "showWidgetSheet": "showWidgetSheet"
 }

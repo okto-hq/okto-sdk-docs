@@ -8,39 +8,31 @@ Before the user can transfer assets from and to their wallets, they need to know
     We will start by creating a new screen with the name `supported-chains.tsx` and add the required methods.
 
     ```tsx filename="screen/supported-chains.tsx" copy
-    import { getSupportedNetworks, getSupportedTokens } from "rn-okto-sdk";
+    import { useOkto, type OktoContextType, type Token, type Network} from 'okto-sdk-react-native';
+
 
     ...
-    
-    export interface Token {
-        token_name: string
-        token_address: string
-        network_name: string
-    }
-
-    export interface Network {
-        network_name: string
-        chain_id: string
-    }
-
     const SupportedChainScreen = () => {
+        const { getSupportedNetworks, getSupportedTokens } = useOkto() as OktoContextType;
         const [networks, setNetworks] = React.useState<Network[]>([]);
         const [tokens, setTokens] = React.useState<Token[]>([]);
 
         React.useEffect(() => {
-            getSupportedNetworks((result, error) => {
-                if (result) {
-                    const networks: Network[] = JSON.parse(result);
-                    setNetworks(networks)
-                }
-            })
+            getSupportedNetworks()
+              .then((result) => {
+                setNetworks(result)
+              })
+              .catch((error) => {
+                console.error(`error:`, error);
+              });
 
-            getSupportedTokens((result, error) => {
-                if (result) {
-                    const tokens: Token[] = JSON.parse(result);
-                    setTokens(tokens)
-                }
-            })
+            getSupportedTokens()
+              .then((result) => {
+                setTokens(result)
+              })
+              .catch((error) => {
+                console.error(`error:`, error);
+              });
         }, [])
     };
     ```

@@ -3,23 +3,16 @@
 This method is used to logout the user from the Okto Wallet. It will only work if the user is already logged in.
 
 ## Parameters
-- `callback` - Callback function to be called after API is executed. This function contains two parameters:
-  - `result` - Used to check if the API was successful.
-  - `error` - Error message if any.
+None
 
 ```tsx copy
-logout(
-    callback: (result: any, error: any) => void
-) => void;
+logout() => Promise<Boolean>;
 ```
 
 ## Example
 ```tsx copy
-import { logout } from 'rn-okto-sdk';
+import { useOkto, type OktoContextType} from 'okto-sdk-react-native';
 
-logout((result, error) => {
-    if(result){
-        console.log("Logged out successfully")
-    }
-});
+const { logout } = useOkto() as OktoContextType;
+logout().then(result => console.log("logged out"));
 ```

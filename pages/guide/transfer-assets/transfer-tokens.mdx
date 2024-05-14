@@ -4,7 +4,7 @@ The user can now start transferring tokens from one account to another. We can d
 
 <Steps>
     ### Adding required fields
-    We will be using the [`transferFunds`](/sdk-reference/transferFunds) method to transfer tokens from one account to another. This method requires the following fields:
+    We will be using the [`transferTokens`](/sdk-reference/transferTokens) method to transfer tokens from one account to another. This method requires the following fields:
     - `network` - The network to use for the transfer.
     - `tokenAddress` - The address of the token to transfer.
     - `amount` - The amount of tokens to transfer.
@@ -14,34 +14,27 @@ The user can now start transferring tokens from one account to another. We can d
 
     ```tsx filename="screen/transfer-token.tsx" copy
     import React, { useState } from 'react';
-    import { transferFunds } from 'rn-okto-sdk';
-
-    interface Result{
-        status: string;
-        data: {
-            order_id: string;
-        }
-    }
+    import { useOkto, type OktoContextType} from 'okto-sdk-react-native';
 
     const TransferTokensScreen = () => {
+        const { transferTokens } = useOkto() as OktoContextType;
         const [networkName, setNetworkName] = useState("APTOS_TESTNET");
         const [tokenAddress, setTokenAddress] = useState("0x1::aptos_coin::AptosCoin");
         const [quantity, setQuantity] = useState("1");
         const [recipientAddress, setRecipientAddress] = useState("0x6b244684313dd6a9fc75c8e76cb648d407374d59970583dd990c686cda767984");
     
         const handleSubmit = () => {
-            transferFunds(
-                networkName,
-                tokenAddress,
-                recipientAddress,
-                quantity,
-                (result, error) => {
-                    if(result){
-                        const result: Result = JSON.parse(result)
-                        console.log(result.data)
-                    }
-                }
-            );
+            transferTokens({
+                network_name: networkName,
+                token_address: tokenAddress,
+                recipient_address: recipientAddress,
+                quantity: quantity
+            }).then((result) => {
+                    console.log('Transfer success', result);
+            })
+            .catch((error) => {
+                console.log('Transfer error', error);
+            });
         }
     }
     ```

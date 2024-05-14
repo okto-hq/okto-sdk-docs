@@ -9,37 +9,23 @@ Now that the transaction is execeuted, we get a `jobId` after the API is success
     > Setup navigation to accept the `jobId` as a parameter. You can follow the same steps as we did for [Order Detaiils](/guide/transfer-assets/order-details#fetch-order-details)
     
     ```tsx filename="raw-transaction-status.tsx" copy
-    import { api } from "../../api-client";
-
-    interface Result{
-        status: string;
-        data: Data;
-    };
-
-    interface Data {
-        jobs: Job[]
-    };
-
-    interface Job {
-        order_id: string
-        network_name: string
-        status: string
-        transaction_hash: string
-    };
+    import { useOkto, type OktoContextType} from 'okto-sdk-react-native';
 
     const FetchRawTransactionScreen = ({ route }: { route: RouteProp<RootStackParamList, "FetchRawTransaction"> }) => {
+        const { getRawTransactionStatus } = useOkto() as OktoContextType;
         const { jobId } = route.params;
         const [transactionDetails, setTransactionDetails] = useState<Job[]>([]);
 
         useEffect(() => {
-            const fetchTransactionDetails = async () => {
-                const result = await api.get<Result>(`/rawtransaction/status?order_id=${jobId}`);
-                if(result.status === 200){
-                    setTransactionDetails(result.data.jobs);
-                }
-            }
 
-            fetchTransactionDetails();
+            getRawTransactionStatus({order_id: jobId})
+                        .then((result) => {
+                            const job = orders.find((order: any) => order.order_id === jobId);
+                            if(job) setTransactionDetails(job);
+                        })
+                        .catch((error) => {
+                            console.error(`error:`, error);
+                        });
         }, [])
     }
     ```
@@ -80,10 +66,15 @@ Now that the transaction is execeuted, we get a `jobId` after the API is success
             
             ...
 
-            const response = await api.post<Result>("/rawtransaction/execute", requestData)
-            if(response.status === 200){
-                navigation.navigate("FetchRawTransaction", { jobId: response.data.jobId })
-            }
+            executeRawTransaction(requestData)
+                        .then((result) => {
+                            console.log(result.jobId)
+                            navigation.navigate("FetchRawTransaction", { jobId: result.jobId })
+                        })
+                        .catch((error) => {
+                            console.error(`error:`, error);
+                        });
+         
         }
 
         ...
