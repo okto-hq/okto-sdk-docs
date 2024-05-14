@@ -17,16 +17,10 @@ After being able to transfer tokens and track the orders, we will add a Function
 
     ```tsx filename="screen/transfer-nft.tsx" copy
     import React, { useState } from 'react';
-    import { transferFunds } from 'rn-okto-sdk';
-
-    interface Result{
-        status: string;
-        data: {
-            order_id: string;
-        }
-    }
+    import { useOkto, type OktoContextType} from 'okto-sdk-react-native';
 
     const TransferNFTScreen = () => {
+        const { transferNft } = useOkto() as OktoContextType;
         const operationType = "NFT_TRANSFER"
         const [networkName, setNetworkName] = useState<string>("APTOS_TESTNET")
         const [collectionAddress, setCollectionAddress] = useState<string>("0x171e643e8e8dabc66b838b9055dbdf88647cf6601b164f5987f50a497bedfbe1")
@@ -36,21 +30,21 @@ After being able to transfer tokens and track the orders, we will add a Function
         const [nftAddress, setNftAddress] = useState<string>("0xf137ad32d4d695c9eb7cb4831e6198924afe5fb8c51576e8a5b5b07f6da8e0d3")
 
         const handleSubmit = () => {
-            transferNFT(
-                operationType,
-                quantity,
-                recipientAddress,
-                networkName,
-                nftAddress,
-                collectionAddress,
-                collectionName,
-                (result, error) => {
-                    if(result){
-                        const result: Result = JSON.parse(result)
-                        console.log(result.data)
-                    }
-                }
-            );
+            transferNft(
+                {
+                    operation_type: operationType,
+                    network_name: networkName,
+                    collection_address: collection_address,
+                    collection_name: collection_name,
+                    quantity: quantity,
+                    recipient_address: recipientAddress,
+                    nft_address: nftAddress
+                }).then((result) => {
+                    console.log(result)
+                }).catch((error) => {
+                    console.error(`error:`, error);
+                });
+           
         }
     }
     ```

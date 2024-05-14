@@ -4,7 +4,7 @@ Once the NFT transfer is initiated, the API will return a `order_id`, which can 
 
 <Steps>
     ### Fetch Order Details
-    We will be using the [`getNFTOrderDetails`](/sdk-reference/getNFTOrderDetails) method to fetch all the NFT order details for the user. Then we can use the `order_id` to check our current order details.
+    We will be using the [`getNftOrderDetails`](/sdk-reference/getNftOrderDetails) method to fetch all the NFT order details for the user. Then we can use the `order_id` to check our current order details.
     
     We will create a new screen named `nft-order-details.tsx` and fetch all the orders and filter the order details using the `order_id`.
 
@@ -37,32 +37,22 @@ Once the NFT transfer is initiated, the API will return a `order_id`, which can 
     ```tsx filename="screen/nft-order-details.tsx" copy
     import React, { useState } from 'react';
     import { RootStackParamList } from "../navigtion";
-    import { getNFTOrderDetails } from 'rn-okto-sdk';
-
-    interface NftOrder {
-        order_id: string;
-        user_id: string;
-        status: string;
-        network_name: string;
-        entity_type: string;
-        collection_address: string;
-        nft_id: string;
-        order_type: string;
-        tx_hash: string;
-    }
+    import { useOkto, type OktoContextType, type NftOrderDetails} from 'okto-sdk-react-native';
 
     const NftOrderDetailsScreen = ({ route }: { route: RouteProp<RootStackParamList, "NftOrderDetails"> }) => {
+        const { getNftOrderDetails } = useOkto() as OktoContextType;
         const { orderId } = route.params;
-        const [order, setOrder] = React.useState<NftOrder | null>(null);
+        const [order, setOrder] = React.useState<NftOrderDetails | null>(null);
 
         React.useEffect(() => {
-            orderHistory((result, error) => {
-                if (result) {
-                    const orders: NftOrder[] = JSON.parse(result);
-                    const order = orders.find((order: any) => order.order_id === orderId);
-                    if(order) setOrder(order);
-                }
-            })
+            getNftOrderDetails({order_id: orderId})
+              .then((orders) => {
+                const order = orders.find((order: any) => order.order_id === orderId);
+                if(order) setOrder(order);
+              })
+              .catch((error) => {
+                console.error(`error:`, error);
+              });
         }, [])
     }
     ```
@@ -82,12 +72,9 @@ Once the NFT transfer is initiated, the API will return a `order_id`, which can 
             <View style={{ flex: 1, backgroundColor: '#fff' }}>
                 <Text>NFT Order Details</Text>
                 {order && <View>
-                    <Text>Order ID: {order.order_id}</Text>
-                    <Text>Order NFT ID: {order.nft_id}</Text>
-                    <Text>Order Type: {order.order_type}</Text>
-                    <Text>Order Status: {order.status}</Text>
-                    <Text>Order Entity Type: {order.entity_type}</Text>
-                    <Text>Order Transaction Hash: {order.tx_hash}</Text>
+                    <Text>Order ID: {order.id}</Text>
+                    <Text>Order NFT Name: {order.nft_name}</Text>
+                    <Text>Order Type: {order.type}</Text>
                     <Text>Order Network Name: {order.network_name}</Text>
                     <Text>Order Collection Address: {order.collection_address}</Text>
                 </View>}
@@ -104,20 +91,18 @@ Once the NFT transfer is initiated, the API will return a `order_id`, which can 
     const TransferNFTScreen = ({ navigation }: { navigation: any }) => {
         
         const handleSubmit = () => {
-            transferNFT(
-                operationType,
-                quantity,
-                recipientAddress,
-                networkName,
-                nftAddress,
-                collectionAddress,
-                collectionName,
-                (result, error) => {
-                    if(result){
-                        const result = JSON.parse(result)
-                        navigation.navigate('NftOrderDetails', { order_id: result.data.order_id })
-                    }
-                }
+            transferNft(
+                {
+                    operation_type: operationType,
+                    network_name: networkName,
+                    collection_address: collection_address,
+                    collection_name: collection_name,
+                    quantity: quantity,
+                    recipient_address: recipientAddress,
+                    nft_address: nftAddress
+                }).then((result) => {
+                    navigation.navigate('NftOrderDetails', { order_id: result.order_id })
+                })
             );
         }
         

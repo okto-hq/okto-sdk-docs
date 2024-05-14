@@ -3,31 +3,24 @@
 This method is used to get all the token assets in the user's portfolio.
 
 ## Parameters
-- `callback` - Callback function to be called after API is executed. This function contains two parameters:
-  - `result` - Tokens if API is successful.
-  - `error` - Error message if any.
+None
 
 ```tsx copy
-getPortfolio(
-    callback: (result: any, error: any) => void
-) => void;
+getPortfolio(): Promise<Portfolio[]>;
 ```
 
 ## Example
 ```tsx copy
-import { getPortfolio } from 'rn-okto-sdk';
+import { useOkto, type OktoContextType, type Portfolio} from 'okto-sdk-react-native';
 
-export interface Portfolio {
-  token_name: string;
-  token_image: string;
-  quantity: string;
-  amount_in_inr: string;
-}
+const { getPortfolio } = useOkto() as OktoContextType;
 
-getPortfolio((result, error) => {
-    if(result){
-        const tokens: Portfolio[] = JSON.parse(result);
-        console.log(result);
-    }
+getPortfolio()
+  .then((result) => {
+          console.log(portfolio)
+      })
+      .catch((error) => {
+          console.error(`error:`, error);
+      });
 });
 ```
