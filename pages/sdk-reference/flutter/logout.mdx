@@ -5,14 +5,38 @@ This method is used to logout the user from the Okto Wallet. It will only work i
 ## Parameters
 None
 
-```tsx copy
-logout() => Promise<Boolean>;
-```
+
 
 ## Example
-```tsx copy
-import { useOkto, type OktoContextType} from 'okto-sdk-react-native';
+```dart copy
+import 'package:flutter/material.dart';
+import 'package:okto_flutter_sdk/okto_wallet_sdk.dart';
+import 'package:okto_test/okto.dart';
 
-const { logout } = useOkto() as OktoContextType;
-logout().then(result => console.log("logged out"));
+class OktoWalletFlutter extends StatefulWidget {
+  const OktoWalletFlutter({super.key});
+
+  @override
+  State<OktoWalletFlutter> createState() => _OktoWalletFlutter();
+}
+
+class _OktoWalletFlutter extends State<OktoWalletFlutter> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: TextButton(
+            onPressed: () async {
+              try {
+                await okto.logout();
+              } catch (e) {
+                print(e);
+              }
+            },
+            child: const Text('logout')),
+      ),
+    );
+  }
+}
+
 ```
