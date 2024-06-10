@@ -1,55 +1,103 @@
-import { Steps } from 'nextra/components';
+import { Steps, Tabs } from 'nextra/components';
 
 Now that the user is authenticated and has an Okto wallet, you can fetch the user details from Okto and display them in the app.
 
-<Steps>
-### Fetch User Details
-First, let's create a new screen with the name `user-profile.tsx`. Fetch the user details using [`getUserDetails`](/sdk-reference/getUserDetails) from Okto and store them in a state.
+<Tabs items={['React Native', 'Flutter']}>
+  <Tabs.Tab>
+    <Steps>
+      ### Fetch User Details
+      First, let's create a new screen with the name `user-profile.tsx`. Fetch the user details using [`getUserDetails`](/sdk-reference/getUserDetails) from Okto and store them in a state.
 
-```tsx filename="screens/user-profile.tsx" copy
-import { useOkto, type OktoContextType, type User} from 'okto-sdk-react-native';
+      ```tsx filename="screens/user-profile.tsx" copy
+      import { useOkto, type OktoContextType, type User} from 'okto-sdk-react-native';
+      import React, { useState } from 'react';
+      import { View, Text } from "react-native";
 
-const UserProfileScreen = () => {
-    const { getUserDetails } = useOkto() as OktoContextType;
-    const [userDetails, setUserDetails] = useState<User | null>(null)
+      const UserProfileScreen = () => {
+          const { getUserDetails } = useOkto() as OktoContextType;
+          const [userDetails, setUserDetails] = useState<User | null>(null);
 
-    ...
+          React.useEffect(() => {
+              getUserDetails()
+                    .then((result) => {
+                      setUserDetails(result);
+                    })
+                    .catch((error) => {
+                      console.error(`error:`, error);
+                    });
+          }, []);
 
-    React.useEffect(() => {
-        getUserDetails()
-              .then((result) => {
-                setUserDetails(result)
-              })
-              .catch((error) => {
-                console.error(`error:`, error);
-              });
-    }, [])
-}
-```
+          return (
+              <View style={{ flex: 1, backgroundColor: '#fff' }}>
+                  <Text>User Details</Text>
+                  {userDetails && <View>
+                      <Text>{userDetails.user_id}</Text>
+                      <Text>{userDetails.email}</Text>
+                  </View>}
+              </View>
+          );
+      };
 
-### Display User Details
-Now that we have the user details, we can display them in the app.
+      export default UserProfileScreen;
+      ```
+    </Steps>
+  </Tabs.Tab>
 
-```tsx filename="screens/user-profile.tsx" copy
-import { View, Text } from "react-native";
+  <Tabs.Tab>
+    <Steps>
+      ### Fetch User Details
+      First, let's create a new screen with the name `user_profile.dart`. Fetch the user details using [`getUserDetails`](/sdk-reference/getUserDetails) from Okto and store them in a state.
 
-...
+      ```dart filename="lib/screens/user_profile.dart" copy
+      import 'package:flutter/material.dart';
+      import 'package:okto_sdk_flutter/okto_sdk_flutter.dart';
 
-const UserProfileScreen = () => {
-    const [userDetails, setUserDetails] = useState<User | null>(null)
-    ...
+      class UserProfileScreen extends StatefulWidget {
+        @override
+        _UserProfileScreenState createState() => _UserProfileScreenState();
+      }
 
-    return (
-        <View style={{ flex: 1, backgroundColor: '#fff' }}>
-            <Text>User Details</Text>
-            {userDetails && <View>
-                <Text>{userDetails.user_id}</Text>
-                <Text>{userDetails.email}</Text>
-            </View>}
-        </View>
-    )
-}
-```
-</Steps>
+      class _UserProfileScreenState extends State<UserProfileScreen> {
+        UserDetails? userDetails;
+        @override
+        void initState() {
+          super.initState();
+          _fetchUserDetails();
+        }
 
-Now that the user details are displayed, in the next step, we will fetch user's wallet details and display them in the app.
+        Future<void> _fetchUserDetails() async {
+          try {
+            final user = await okto.userDetails();
+            setState(() {
+              userDetails = user;
+            });
+          } catch (error) {
+            print('Error fetching user details: $error');
+          }
+        }
+
+        @override
+        Widget build(BuildContext context) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text('User Profile'),
+            ),
+            body: Center(
+              child: userDetails == null
+                  ? CircularProgressIndicator()
+                  : Column(
+                      children: [
+                        Text('User ID: ${userDetails!.userId}'),
+                        Text('Email: ${userDetails!.email}'),
+                      ],
+                    ),
+            ),
+          );
+        }
+      }
+      ```
+    </Steps>
+  </Tabs.Tab>
+</Tabs>
+
+Now that the user details are displayed, in the next step, we will fetch the user's wallet details and display them in the app.
