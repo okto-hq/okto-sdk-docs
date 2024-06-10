@@ -8,91 +8,121 @@ Let's get started with the setup.
 <Callout type="info" emoji="📱">
     We have a react native sample app integrated with Okto SDK that you can use as a starting point. You can find it [here](https://github.com/okto-hq/okto-sdk-rn-sample) 
 </Callout>
-<Steps>
-    ### Install required packages
-    First, let's install the necessary packages for navigation and screens. We will use `@react-navigation/native`. You can check the installation guide [here](https://reactnavigation.org/docs/getting-started). We will also be using `react-native-dropdown` for the dropdown component.
-    <Tabs items={['pnpm', 'npm', 'yarn']}>
-        <Tabs.Tab>
-            ```bash filename="bash" copy
-            pnpm i @react-navigation/native react-native-screens react-native-safe-area-context react-native-dropdown-picker
-            ```
-        </Tabs.Tab>
-        <Tabs.Tab>
-            ```bash filename="bash" copy
-            npm i @react-navigation/native react-native-screens react-native-safe-area-context react-native-dropdown-picker
-            ```
-        </Tabs.Tab>
-        <Tabs.Tab>
-            ```bash filename="bash" copy
-            yarn add @react-navigation/native react-native-screens react-native-safe-area-context react-native-dropdown-picker
-            ```
-        </Tabs.Tab>
-    </Tabs>
+<Tabs items={['React Native', 'Flutter']}>
+  <Tabs.Tab>
+    <Steps>
+        ### Install required packages
+        First, let's install the necessary packages for navigation and screens. We will use `@react-navigation/native`. You can check the installation guide [here](https://reactnavigation.org/docs/getting-started). We will also be using `react-native-dropdown` for the dropdown component.
+        <Tabs items={['pnpm', 'npm', 'yarn']}>
+            <Tabs.Tab>
+                ```bash filename="bash" copy
+                pnpm i @react-navigation/native react-native-screens react-native-safe-area-context react-native-dropdown-picker
+                ```
+            </Tabs.Tab>
+            <Tabs.Tab>
+                ```bash filename="bash" copy
+                npm i @react-navigation/native react-native-screens react-native-safe-area-context react-native-dropdown-picker
+                ```
+            </Tabs.Tab>
+            <Tabs.Tab>
+                ```bash filename="bash" copy
+                yarn add @react-navigation/native react-native-screens react-native-safe-area-context react-native-dropdown-picker
+                ```
+            </Tabs.Tab>
+        </Tabs>
 
-    ### Setup Navigation
-    We will start by creating a file named `navigation.tsx` in the root of the project. Then, we will add a stack navigator as shown below.
+        ### Setup Navigation
+        We will start by creating a file named `navigation.tsx` in the root of the project. Then, we will add a stack navigator as shown below.
 
-    ```tsx filename="navigation.tsx" copy
-    import { createNativeStackNavigator } from 'react-native-screens/native-stack';
+        ```tsx filename="navigation.tsx" copy
+        import { createNativeStackNavigator } from 'react-native-screens/native-stack';
 
-    const Stack = createNativeStackNavigator();
+        const Stack = createNativeStackNavigator();
 
-    export default function Navigation() {
-        return (
-            <Stack.Navigator>
-                // Add screens here
-            </Stack.Navigator>
-        );
-    }
-    ```
-    Import the `Navigation` component into `App.tsx` and wrap it with `NavigationContainer` from `@react-navigation/native`.
+        export default function Navigation() {
+            return (
+                <Stack.Navigator>
+                    // Add screens here
+                </Stack.Navigator>
+            );
+        }
+        ```
+        Import the `Navigation` component into `App.tsx` and wrap it with `NavigationContainer` from `@react-navigation/native`.
 
-    ```tsx filename="App.tsx" copy
-    import { NavigationContainer } from '@react-navigation/native';
-    import Navigation from './navigation';
+        ```tsx filename="App.tsx" copy
+        import { NavigationContainer } from '@react-navigation/native';
+        import Navigation from './navigation';
 
-    ...
+        ...
 
-    export default function App() {
-        return (
-            <NavigationContainer>
-                <Navigation />
-            </NavigationContainer>
-        );
-    }
-    ```
+        export default function App() {
+            return (
+                <NavigationContainer>
+                    <Navigation />
+                </NavigationContainer>
+            );
+        }
+        ```
 
-    ### Setup Screens
-    Next, create a dummy screen for navigation testing. Make a new folder named `screens` at the project's root and create a file named `HomeScreen.tsx` inside this folder.
-    
-    ```tsx filename="HomeScreen.tsx" copy
-    import { View, Text } from 'react-native';
+        ### Setup Screens
+        Next, create a dummy screen for navigation testing. Make a new folder named `screens` at the project's root and create a file named `HomeScreen.tsx` inside this folder.
+        
+        ```tsx filename="HomeScreen.tsx" copy
+        import { View, Text } from 'react-native';
 
-    const HomeScreen = () => {
-        return (
-            <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-                <Text>Home Screen</Text>
-            </View>
-        );
-    }
+        const HomeScreen = () => {
+            return (
+                <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
+                    <Text>Home Screen</Text>
+                </View>
+            );
+        }
 
-    export default HomeScreen;
-    ```
+        export default HomeScreen;
+        ```
 
-    Add the `HomeScreen` component in `navigation.tsx` and integrate it into the stack navigator.
-    ```tsx filename="navigation.tsx" copy
-    import HomeScreen from './screens/HomeScreen';
+        Add the `HomeScreen` component in `navigation.tsx` and integrate it into the stack navigator.
+        ```tsx filename="navigation.tsx" copy
+        import HomeScreen from './screens/HomeScreen';
 
-    export default function Navigation(){
-        return (
-            <Stack.Navigator initialRouteName="Home">
-                <Stack.Screen name="Home" component={HomeScreen} />
-            </Stack.Navigator>
-        )
-    }
-    ```
+        export default function Navigation(){
+            return (
+                <Stack.Navigator initialRouteName="Home">
+                    <Stack.Screen name="Home" component={HomeScreen} />
+                </Stack.Navigator>
+            )
+        }
+        ```
 
-    From any screen, you can navigate to the `HomeScreen` using `navigation.navigate("Home")`.
+        From any screen, you can navigate to the `HomeScreen` using `navigation.navigate("Home")`.
 
-    Great! With that, the setup is complete. You can now start building the app with Okto. 🚀
-</Steps>
+        Great! With that, the setup is complete. You can now start building the app with Okto. 🚀
+    </Steps>
+  </Tabs.Tab>
+  <Tabs.Tab>
+    <Steps>
+        ### Setup Screens
+        Create a dummy screen for navigation testing. Make a new folder named `screens` inside the `lib` folder and create a file named `home_screen.dart` inside this folder.
+        
+        ```dart filename="home_screen.dart" copy
+        import 'package:flutter/material.dart';
+
+        class HomeScreen extends StatelessWidget {
+          @override
+          Widget build(BuildContext context) {
+            return Scaffold(
+              appBar: AppBar(
+                title: Text('Home Screen'),
+              ),
+              body: Center(
+                child: Text('Home Screen'),
+              ),
+            );
+          }
+        }
+        ```
+
+        Great! With that, the setup is complete. You can now start building the app with Okto. 🚀
+    </Steps>
+  </Tabs.Tab>
+</Tabs>
