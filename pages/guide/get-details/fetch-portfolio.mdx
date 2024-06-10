@@ -1,87 +1,220 @@
-import { Steps } from 'nextra/components';
+import { Steps, Tabs } from "nextra/components";
 
-We have received the user details and their wallets sa well, now we will get the user's portfolio details. This returns all the token assets owned by the user across all the wallets.
+We have received the user details and their wallets as well. Now we will get the user's portfolio details. This returns all the token assets owned by the user across all the wallets.
 
-<Steps>
-### Fetch Portfolio
-First, let's create a new screen with the name `user-portfolio.tsx`. Fetch the user portfolio details using [`getPortfolio`](/sdk-reference/getPortfolio) from Okto and store them in a state.
+<Tabs items={['React Native', 'Flutter']}>
+  <Tabs.Tab>
+    <Steps>
+      ### Fetch Portfolio
+      First, let's create a new screen with the name `user-portfolio.tsx`. Fetch the user portfolio details using [`getPortfolio`](/sdk-reference/getPortfolio) from Okto and store them in a state.
 
-```tsx filename="screens/user-portfolio.tsx" copy
-import { useOkto, type OktoContextType, type Portfolio} from 'okto-sdk-react-native';
+      ```tsx filename="screens/user-portfolio.tsx" copy
+      import { useOkto, type OktoContextType, type Portfolio } from 'okto-sdk-react-native';
+      import React, { useState } from 'react';
+      import { View, Text } from "react-native";
 
+      const UserPortfolioScreen = () => {
+          const { getPortfolio } = useOkto() as OktoContextType;
+          const [portfolio, setPortfolio] = useState<Portfolio[]>([]);
 
-const UserPortfolio = () => {
-    const { getPortfolio } = useOkto() as OktoContextType;
-    const [portfolio, setPortfolio] = useState<Portfolio[]>([])
-
-    ...
-
-    React.useEffect(() => {
-        getPortfolio()
-                .then((result) => {
-                        setPortfolio(portfolio)
+          React.useEffect(() => {
+              getPortfolio()
+                    .then((result) => {
+                        setPortfolio(result);
                     })
                     .catch((error) => {
                         console.error(`error:`, error);
                     });
-    }, [])
-}
-```
+          }, []);
 
-### Display Portfolio Details
-Now that we have the portfolio details, we can display them in the app.
+          return (
+              <View style={{ flex: 1, backgroundColor: '#fff' }}>
+                  <Text>User Portfolio</Text>
+                  <View>
+                      {portfolio.map((item, index) => (
+                          <View key={index} style={{ flexDirection: "row", justifyContent: "space-between", alignItems: 'center' }}>
+                              <View style={{ flexDirection: "row", gap: 10 }}>
+                                  <Text>{item.token_name}</Text>
+                                  <Text>{item.quantity}</Text>
+                              </View>
+                              <Text>{item.amount_in_inr}</Text>
+                          </View>
+                      ))}
+                  </View>
+              </View>
+          );
+      };
 
-```tsx filename="screens/user-portfolio.tsx" copy
-import { View, Text } from "react-native";
+      export default UserPortfolioScreen;
+      ```
 
-...
+      ### Display Portfolio Details
+      Now that we have the portfolio details, we can display them in the app.
 
-const UserPortfolioScreen = () => {
-    const [portfolio, setPortfolio] = useState<Portfolio[]>([])
-    ...
+      ```tsx filename="screens/user-portfolio.tsx" copy
+      import { View, Text } from "react-native";
+      import React, { useState } from 'react';
+      import { useOkto, type OktoContextType, type Portfolio } from 'okto-sdk-react-native';
 
-    return (
-        <View style={{ flex: 1, backgroundColor: '#fff' }}>
-            <Text>User Portfolio</Text>
-            <View>
-                {portfolio.map((item, index) => (
-                    <View key={index} style={{ flexDirection: "row", justifyContent: "space-between", alignItems: 'center' }}>
-                        <View style={{ flexDirection: "row", gap: 10 }}>
-                            <Text>{item.token_name}</Text>
-                            <Text>{item.quantity}</Text>
-                        </View>
-                        <Text>{item.amount_in_inr}</Text>
-                    </View>
-                ))}
-            </View>
-        </View>
-    )
-}
-```
+      const UserPortfolioScreen = () => {
+          const { getPortfolio } = useOkto() as OktoContextType;
+          const [portfolio, setPortfolio] = useState<Portfolio[]>([]);
 
-### Add to Navigation
-Finally, add the `user-portfolio.tsx` screen to the navigate from `user-profile.tsx`.
+          React.useEffect(() => {
+              getPortfolio()
+                    .then((result) => {
+                        setPortfolio(result);
+                    })
+                    .catch((error) => {
+                        console.error(`error:`, error);
+                    });
+          }, []);
 
-```tsx filename="screens/user-profile.tsx" copy
-import { View, Button } from 'react-native';
+          return (
+              <View style={{ flex: 1, backgroundColor: '#fff' }}>
+                  <Text>User Portfolio</Text>
+                  <View>
+                      {portfolio.map((item, index) => (
+                          <View key={index} style={{ flexDirection: "row", justifyContent: "space-between", alignItems: 'center' }}>
+                              <View style={{ flexDirection: "row", gap: 10 }}>
+                                  <Text>{item.token_name}</Text>
+                                  <Text>{item.quantity}</Text>
+                              </View>
+                              <Text>{item.amount_in_inr}</Text>
+                          </View>
+                      ))}
+                  </View>
+              </View>
+          );
+      };
 
-const UserProfileScreen = ({ navigation }: { navigation: any }) => {
-    
-    ...
+      export default UserPortfolioScreen;
+      ```
 
-    return (
-        <View style={{ flex: 1, backgroundColor: '#fff' }}>
-            <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 10 }}>
-                <Button
-                    title="Portofolio"
-                    onPress={() => navigation.navigate("UserPortfolio")}
-                />
-            </View>
+      ### Add to Navigation
+      Finally, add the `user-portfolio.tsx` screen to the navigate from `user-profile.tsx`.
 
-            ...
+      ```tsx filename="screens/user-profile.tsx" copy
+      import { View, Button } from 'react-native';
+      import React from 'react';
+      import { useNavigation } from '@react-navigation/native';
 
-        </View>
-    )
-}
-```
-</Steps>
+      const UserProfileScreen = () => {
+          const navigation = useNavigation();
+
+          return (
+              <View style={{ flex: 1, backgroundColor: '#fff' }}>
+                  <View style={{ flexDirection: "row", justifyContent: "space-between", marginTop: 10 }}>
+                      <Button
+                          title="Portfolio"
+                          onPress={() => navigation.navigate("UserPortfolio")}
+                      />
+                  </View>
+
+                  ...
+
+              </View>
+          );
+      };
+
+      export default UserProfileScreen;
+      ```
+    </Steps>
+
+  </Tabs.Tab>
+
+  <Tabs.Tab>
+    <Steps>
+      ### Fetch Portfolio
+      First, let's create a new screen with the name `user_portfolio.dart`. Fetch the user portfolio details using [`getPortfolio`](/sdk-reference/getPortfolio) from Okto and store them in a state.
+
+      ```dart filename="lib/screens/user_portfolio.dart" copy
+      import 'package:flutter/material.dart';
+      import 'package:okto_sdk_flutter/okto_sdk_flutter.dart';
+
+      class UserPortfolioScreen extends StatefulWidget {
+        @override
+        _UserPortfolioScreenState createState() => _UserPortfolioScreenState();
+      }
+
+      class _UserPortfolioScreenState extends State<UserPortfolioScreen> {
+        List portfolio = [];
+
+        @override
+        void initState() {
+          super.initState();
+          _fetchPortfolio();
+        }
+
+        Future<void> _fetchPortfolio() async {
+        List<Portfolio> result = await okto.userPortfolio();
+        setState(() {
+          portfolio = result;
+        });
+        }
+
+        @override
+        Widget build(BuildContext context) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text('User Portfolio'),
+            ),
+            body: Center(
+              child: portfolio.isEmpty
+                  ? CircularProgressIndicator()
+                  : ListView.builder(
+                      itemCount: portfolio.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text(portfolio[index].tokenName),
+                          subtitle: Text('Quantity: ${portfolio[index].quantity}'),
+                          trailing: Text('Amount: ${portfolio[index].amountInInr} INR'),
+                        );
+                      },
+                    ),
+            ),
+          );
+        }
+      }
+      ```
+
+      ### Display Portfolio Details
+      Now that we have the portfolio details, we can display them in the app.
+
+      ```dart filename="lib/screens/user_portfolio.dart" copy
+      import 'package:flutter/material.dart';
+      import 'package:okto_sdk_flutter/okto_sdk_flutter.dart';
+
+      class UserPortfolioScreen extends StatelessWidget {
+        final List portfolio;
+
+        UserPortfolioScreen({required this.portfolio});
+
+        @override
+        Widget build(BuildContext context) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text('User Portfolio'),
+            ),
+            body: Center(
+              child: ListView.builder(
+                itemCount: portfolio.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(portfolio[index].tokenName),
+                    subtitle: Text('Quantity: ${portfolio[index].quantity}'),
+                    trailing: Text('Amount: ${portfolio[index].amountInInr} INR'),
+                  );
+                },
+              ),
+            ),
+          );
+        }
+      }
+      ```
+    </Steps>
+
+  </Tabs.Tab>
+</Tabs>
+
+Now that the user details and their wallets are displayed, in the next step, we will fetch the user's portfolio details and display them in the app.
