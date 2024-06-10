@@ -5,22 +5,40 @@ This method is used to get all the token assets in the user's portfolio.
 ## Parameters
 None
 
-```tsx copy
-getPortfolio(): Promise<Portfolio[]>;
-```
+
 
 ## Example
-```tsx copy
-import { useOkto, type OktoContextType, type Portfolio} from 'okto-sdk-react-native';
+```dart copy
+import 'package:flutter/material.dart';
+import 'package:okto_flutter_sdk/okto_wallet_sdk.dart';
+import 'package:okto_test/okto.dart';
 
-const { getPortfolio } = useOkto() as OktoContextType;
+class UserDetailsScreen extends StatefulWidget {
+  const UserDetailsScreen({super.key});
 
-getPortfolio()
-  .then((result) => {
-          console.log(portfolio)
-      })
-      .catch((error) => {
-          console.error(`error:`, error);
-      });
+  @override
+  State<UserDetailsScreen> createState() => _UserDetailsScreenState();
+}
+
+class _UserDetailsScreenState extends State<UserDetailsScreen> {
+  UserPortfolioResponse? _portfolio;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: TextButton(
+            onPressed: () async {
+              final portfolio = await okto.userPortfolio();
+              setState(() {
+                _portfolio = portfolio;
+              });
+            },
+            child: const Text('Get user details')),
+      ),
+    );
+  }
+}
+
+
 });
 ```
