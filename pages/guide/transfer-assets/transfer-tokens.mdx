@@ -3,15 +3,14 @@ import { Steps, Tabs } from 'nextra/components';
 The user can now start transferring tokens from one account to another. We can dive straight into the implementation of the transfer tokens feature.
 
 <Steps>
+    <Tabs items={["React Native", "Flutter"]}>
+     <Tabs.Tab>
     ### Adding required fields
-    We will be using the [`transferTokens`](/sdk-reference/transferTokens) method to transfer tokens from one account to another. This method requires the following fields:
+    We will be using the [`transferTokens`](/sdk-reference/react-native/transferTokens) method to transfer tokens from one account to another. This method requires the following fields:
     - `network` - The network to use for the transfer.
     - `tokenAddress` - The address of the token to transfer.
     - `amount` - The amount of tokens to transfer.
     - `recipient` - The address of the recipient.
- 
-    <Tabs items={["React Native", "Flutter"]}>
-     <Tabs.Tab>
     We will create a new screen named `transfer-tokens.tsx` and start by creating states and a method to handle the submission of the form fields.
 
     ```tsx filename="screen/transfer-token.tsx" copy
@@ -42,6 +41,12 @@ The user can now start transferring tokens from one account to another. We can d
     ```
     </Tabs.Tab>
     <Tabs.Tab>
+    ### Adding required fields
+    We will be using the [`transferTokens`](/sdk-reference/flutter/transferTokens) method to transfer tokens from one account to another. This method requires the following fields:
+    - `networkName` - The network to use for the transfer.
+    - `tokenAddress` - The address of the token to transfer.
+    - `amount` - The amount of tokens to transfer.
+    - `recipient` - The address of the recipient.
      We will create a new screen named `transfer_tokens.dart` and start by creating states and a method to handle the submission of the form fields
     ```dart filename = "screen/transfer_tokens.dart" copy
     import 'package:flutter/material.dart';

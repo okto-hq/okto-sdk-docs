@@ -4,7 +4,7 @@ Once the token transfer is initiated, the API will return a `order_id`, which ca
 
 <Steps>
     ### Fetch Order Details
-    We will be using the [`orderHistory`](/sdk-reference/orderHistory) method to fetch all the order details for the user. Then we can use the `order_id` to check our current order details.
+    We will be using the [`orderHistory`](/sdk-reference/react-native/orderHistory) method to fetch all the order details for the user. Then we can use the `order_id` to check our current order details.
     
     We will create a new screen named `order-details.tsx` and fetch all the orders and filter the order details using the `order_id`.
 
@@ -61,6 +61,7 @@ Once the token transfer is initiated, the API will return a `order_id`, which ca
     ```
     </Tabs.Tab>
     <Tabs.Tab>
+     We will be using the [`orderHistory`](/sdk-reference/flutter/orderHistory) method to fetch all the order details for the user. Then we can use the `orderId` to check our current order details.
     For Flutter we can directly begin with creating a new screen inside `lib/screens/` `order_details.dart`
     ```dart filename="screens/order_details.dart" copy
     import 'package:flutter/material.dart';
