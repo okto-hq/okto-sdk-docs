@@ -1,0 +1,25 @@
+
+# getWallets Method
+This method is used to get all the wallets of the user across all chains. It will return the user wallets if authentication is successful.
+
+## Parameters
+None
+
+```tsx copy
+getWallets() => Promise<WalletData>;
+```
+
+## Example
+```tsx copy
+import { useOkto, type OktoContextType} from 'okto-sdk-react-native';
+
+const { getWallets } = useOkto() as OktoContextType;
+
+getWallets()
+    .then((result) => {
+    console.log(result)
+    })
+    .catch((error) => {
+    console.error(`error:`, error);
+    });
+```

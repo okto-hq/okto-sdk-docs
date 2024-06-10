@@ -1,0 +1,25 @@
+
+# getSupportedTokens Method
+This method is used to get all whitelisted tokens on your API Key.
+
+## Parameters
+None
+
+```tsx copy
+getSupportedTokens() => Promise<WalletData>;
+```
+
+## Example
+```tsx copy
+import { useOkto, type OktoContextType} from 'okto-sdk-react-native';
+
+const { getSupportedTokens } = useOkto() as OktoContextType;
+
+getSupportedTokens()
+    .then((result) => {
+    console.log(result)
+    })
+    .catch((error) => {
+    console.error(`error:`, error);
+    });
+```

@@ -2,161 +2,223 @@ import { Tabs } from 'nextra/components'
 import { Steps } from 'nextra/components'
 import { Callout } from 'nextra/components'
 
-In this part we will integrate Okto Wallet in React Native whether it's for your existing app or a new one, but before you can start using the SDK, you will need an API key to get started. 
+In this part we will integrate Okto Wallet in React Native/Flutter whether it's for your existing app or a new one, but before you can start using the SDK, you will need an API key to get started. 
 <Callout type='info' emoji="🔑">
     Request an API key from [here](https://forms.gle/Q2oAWZ979cgxwjzZ6).
 </Callout>
 <Tabs items={['Existing Project', 'New Project']}>
     <Tabs.Tab>
-      <Steps>
-        ### Installing
-        Add the SDK to your app using your preferred package manager.
-        <Tabs items={['pnpm', 'npm', 'yarn']}>
-            <Tabs.Tab>
-                ```bash filename="bash" copy
-                pnpm i okto-sdk-react-native @react-native-async-storage/async-storage axios react-native-webview
-                ```
-            </Tabs.Tab>
-            <Tabs.Tab>
-                ```bash filename="bash" copy
-                npm i okto-sdk-react-native @react-native-async-storage/async-storage axios react-native-webview
-                ```
-            </Tabs.Tab>
-            <Tabs.Tab>
-                ```bash filename="bash" copy
-                yarn add okto-sdk-react-native @react-native-async-storage/async-storage axios react-native-webview
-                ```
-            </Tabs.Tab>
-        </Tabs>
+      <Tabs items={['React Native', 'Flutter']}>
+        <Tabs.Tab>
+          <Steps>
+            ### Installing
+            Add the SDK to your app using your preferred package manager.
+            <Tabs items={['pnpm', 'npm', 'yarn']}>
+                <Tabs.Tab>
+                    ```bash filename="bash" copy
+                    pnpm i okto-sdk-react-native @react-native-async-storage/async-storage axios react-native-webview
+                    ```
+                </Tabs.Tab>
+                <Tabs.Tab>
+                    ```bash filename="bash" copy
+                    npm i okto-sdk-react-native @react-native-async-storage/async-storage axios react-native-webview
+                    ```
+                </Tabs.Tab>
+                <Tabs.Tab>
+                    ```bash filename="bash" copy
+                    yarn add okto-sdk-react-native @react-native-async-storage/async-storage axios react-native-webview
+                    ```
+                </Tabs.Tab>
+            </Tabs>
 
+            ### Initialize the SDK
+            You need to first intialize the SDK with the API key to get started. 
+            You can do this in the root file of your app, for example `App.tsx` or `index.tsx`.
+            ```tsx filename="App.tsx" copy
+            import { OktoProvider, BuildType } from 'okto-sdk-react-native';
 
-        ### Initialize the SDK
-        You need to first intialize the SDK with the API key to get started. 
-        You can do this in the root file of your app, for example `App.tsx` or `index.tsx`.
-        ```tsx filename="App.tsx" copy
-        import { OktoProvider, BuildType } from 'okto-sdk-react-native';
+            <OktoProvider apiKey={OKTO_CLIENT_API} buildType={BuildType.SANDBOX}>
+                <App />
+            </OktoProvider>
+            ```
 
-        <OktoProvider apiKey={OKTO_CLIENT_API} buildType={BuildType.SANDBOX}>
-            <App />
-        </OktoProvider>
-        ```
+            And we are done🎉! You are now ready to use the SDK in your app.
+          </Steps>
+        </Tabs.Tab>
+        <Tabs.Tab>
+          <Steps>
+            ### Installing
+            Add the SDK to your app using Dart.
+            ```bash filename="bash" copy
+            flutter pub add okto_flutter_sdk
+            ```
 
-        And we are done🎉! You are now ready to use the SDK in your app.
-      </Steps>
+            ### Initialize the SDK
+            You need to first initialize the SDK with the API key to get started. 
+            You can do this in the any file of your app, for example `main.dart`.
+            ```dart filename="main.dart" copy
+            import 'package:okto_flutter_sdk/okto_flutter_sdk.dart';
+
+            void main() {
+              final okto = Okto('YOUR_CLIENT_API_KEY');
+              runApp(MyApp());
+            }
+            ```
+
+            And we are done🎉! You are now ready to use the SDK in your app.
+          </Steps>
+        </Tabs.Tab>
+      </Tabs>
     </Tabs.Tab>
     <Tabs.Tab>
-      <Steps>
-        ### Create a new project
-        If you are creating a new project, you can use one of the following commands to create a new project.
-        <Tabs items={['React Native', 'Expo']}>
-            <Tabs.Tab>
-                ```bash filename="bash" copy
-                npx react-native init MyApp
-                ```
-            </Tabs.Tab>
-            <Tabs.Tab>
-              You can choose the preferred package manager to create the project. It is reccomended to use `yarn` for better compatibility with `expo`.
-              <Tabs items={['yarn', 'expo']}>
+      <Tabs items={['React Native', 'Flutter']}>
+        <Tabs.Tab>
+          <Steps>
+            ### Create a new project
+            If you are creating a new project, you can use one of the following commands to create a new project.
+            <Tabs items={['React Native', 'Expo']}>
                 <Tabs.Tab>
                     ```bash filename="bash" copy
-                    yarn create expo-app MyApp
+                    npx react-native init MyApp
+                    ```
+                </Tabs.Tab>
+                <Tabs.Tab>
+                  You can choose the preferred package manager to create the project. It is reccomended to use `yarn` for better compatibility with `expo`.
+                  <Tabs items={['yarn', 'expo']}>
+                    <Tabs.Tab>
+                        ```bash filename="bash" copy
+                        yarn create expo-app MyApp
+                        ```
+                    </Tabs.Tab>
+                    <Tabs.Tab>
+                        ```bash filename="bash" copy
+                        npx create-expo-app MyApp
+                        ```
+                    </Tabs.Tab>
+                  </Tabs>
+                </Tabs.Tab>
+            </Tabs>
+
+            ### Installing
+            Add the SDK to your app using your preferred package manager.
+            <Tabs items={['pnpm', 'npm', 'yarn']}>
+                <Tabs.Tab>
+                    ```bash filename="bash" copy
+                    pnpm i rn-okto-sdk
                     ```
                 </Tabs.Tab>
                 <Tabs.Tab>
                     ```bash filename="bash" copy
-                    npx create-expo-app MyApp
+                    npm i rn-okto-sdk
                     ```
                 </Tabs.Tab>
-              </Tabs>
-            </Tabs.Tab>
-        </Tabs>
+                <Tabs.Tab>
+                    ```bash filename="bash" copy
+                    yarn add rn-okto-sdk
+                    ```
+                </Tabs.Tab>
+            </Tabs>
 
-        ### Installing
-        Add the SDK to your app using your preferred package manager.
-        <Tabs items={['pnpm', 'npm', 'yarn']}>
-            <Tabs.Tab>
-                ```bash filename="bash" copy
-                pnpm i rn-okto-sdk
-                ```
-            </Tabs.Tab>
-            <Tabs.Tab>
-                ```bash filename="bash" copy
-                npm i rn-okto-sdk
-                ```
-            </Tabs.Tab>
-            <Tabs.Tab>
-                ```bash filename="bash" copy
-                yarn add rn-okto-sdk
-                ```
-            </Tabs.Tab>
-        </Tabs>
-
-        ### Setup your build.gradle
-        Now before using the SDK, we need to add the following lines to your `android/build.gradle` file under `allprojects` property.
-        > **Fun fact:** In Okto SDK, we've got two ways for your app to chat with the API: Wrappers and the Authenticated Channel. We've cooked up a neat Flutter application binary. It decides which API to call and when to make the call, with the wrappers acting like a guidebook for the binary.<br />
-        > And here's the cool part: The binary not only handles the calls but also ensures that the Authenticated Channel plays nice with Okto SDK servers. It's like having a backstage pass, making sure the JWT validation on your app's side is on point.
-        ```gradle filename="android/build.gradle" copy
-        allprojects{
-            repositories{
-                // other maven repositories
-                String storageUrl = "https://storage.googleapis.com"
-                maven {
-                    url "$rootDir/../node_modules/rn-okto-sdk/maven-repo"
-                }
-                maven {
-                    url "$storageUrl/download.flutter.io"
+            ### Setup your build.gradle
+            Now before using the SDK, we need to add the following lines to your `android/build.gradle` file under `allprojects` property.
+            > **Fun fact:** In Okto SDK, we've got two ways for your app to chat with the API: Wrappers and the Authenticated Channel. We've cooked up a neat Flutter application binary. It decides which API to call and when to make the call, with the wrappers acting like a guidebook for the binary.<br />
+            > And here's the cool part: The binary not only handles the calls but also ensures that the Authenticated Channel plays nice with Okto SDK servers. It's like having a backstage pass, making sure the JWT validation on your app's side is on point.
+            ```gradle filename="android/build.gradle" copy
+            allprojects{
+                repositories{
+                    // other maven repositories
+                    String storageUrl = "https://storage.googleapis.com"
+                    maven {
+                        url "$rootDir/../node_modules/rn-okto-sdk/maven-repo"
+                    }
+                    maven {
+                        url "$storageUrl/download.flutter.io"
+                    }
                 }
             }
-        }
-        ```
+            ```
 
-        Also make sure the `minSdk` version is set to `24` in your `android/build.gradle` file.
-        ```gradle filename="android/build.gradle" copy
-        buildscript {
-            ext {
+            Also make sure the `minSdk` version is set to `24` in your `android/build.gradle` file.
+            ```gradle filename="android/build.gradle" copy
+            buildscript {
+                ext {
+                    ...
+                    minSdk = 24
+                }
                 ...
-                minSdk = 24
             }
+            ```
+
+            ### Initialize the SDK
+            You need to first intialize the SDK with the API key to get started. 
+            You can do this in the root file of your app, for example `App.tsx` or `index.tsx`.
+            ```tsx filename="App.tsx" copy
+            import { BuildType, init } from "rn-okto-sdk";
+
             ...
-        }
-        ```
 
-        ### Initialize the SDK
-        You need to first intialize the SDK with the API key to get started. 
-        You can do this in the root file of your app, for example `App.tsx` or `index.tsx`.
-        ```tsx filename="App.tsx" copy
-        import { BuildType, init } from "rn-okto-sdk";
+            const apiKey = "YOUR_API_KEY";
+            const baseUrl = "https://sandbox-api.okto.tech";
+            init(apiKey, BuildType.SANDBOX);
+            ```
 
-        ...
+            ### Running the app
+            You can now run the app using one of the following commands.
+            <Tabs items={['React Native', 'Expo']}>
+                <Tabs.Tab>
+                    ```bash filename="bash" copy
+                    npx react-native run-android
+                    ```
+                    or
+                    ```bash filename="bash" copy
+                    npx react-native run-ios
+                    ```
 
-        const apiKey = "YOUR_API_KEY";
-        const baseUrl = "https://sandbox-api.okto.tech";
-        init(apiKey, BuildType.SANDBOX);
-        ```
+                </Tabs.Tab>
+                <Tabs.Tab>
+                    ```bash filename="bash" copy
+                    expo start
+                    ```
+                </Tabs.Tab>
+            </Tabs>
+            And we are done🎉! We have setup a new react native app, integrated Okto Wallet and successfully run the app.
+          </Steps>
+        </Tabs.Tab>
+        <Tabs.Tab>
+          <Steps>
+            ### Create a new project
+            If you are creating a new Flutter project, you can use the following command.
+            ```bash filename="bash" copy
+            flutter create my_app
+            ```
 
-        ### Running the app
-        You can now run the app using one of the following commands.
-        <Tabs items={['React Native', 'Expo']}>
-            <Tabs.Tab>
-                ```bash filename="bash" copy
-                npx react-native run-android
-                ```
-                or
-                ```bash filename="bash" copy
-                npx react-native run-ios
-                ```
+            ### Installing
+            Add the SDK to your app using Dart.
+            ```bash filename=bash" copy
+            flutter pub add okto_flutter_sdk
+            ```
 
-            </Tabs.Tab>
-            <Tabs.Tab>
-                ```bash filename="bash" copy
-                expo start
-                ```
-            </Tabs.Tab>
-        </Tabs>
-        And we are done🎉! We have setup a new react native app, integrated Okto Wallet and successfully run the app.
-        
-      </Steps>
+            ### Initialize the SDK
+            You need to first initialize the SDK with the API key to get started. 
+            You can do this in any file of your app, for example `main.dart`.
+            ```dart filename="main.dart" copy
+            import 'package:okto_flutter_sdk/okto_flutter_sdk.dart';
+
+            void main() {
+              final okto = Okto('YOUR_CLIENT_API_KEY');
+              runApp(MyApp());
+            }
+            ```
+
+            ### Running the app
+            You can now run the app using the following command.
+            ```bash filename="bash" copy
+            flutter run
+            ```
+
+            And we are done🎉! We have setup a new Flutter app, integrated Okto Wallet, and successfully run the app.
+          </Steps>
+        </Tabs.Tab>
+      </Tabs>
     </Tabs.Tab>
 </Tabs>
-
-
