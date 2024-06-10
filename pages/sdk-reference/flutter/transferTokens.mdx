@@ -8,35 +8,55 @@ This method is used to transfer tokens from one wallet to another wallet.
 - `recipientAddress` - Address of the recipient wallet.
 - `quantity` - The amount of tokens to transfer.
 
-```tsx copy
-transferTokens: (data: {
-  network_name: string;
-  token_address: string;
-  quantity: string;
-  recipient_address: string;
-}) => Promise<TransferTokensData>
+```dart copy
+try {
+  await okto.transferTokens(
+    networkName: networkName,
+    tokenAddress: tokenAddress,
+    quantity: quantity,
+    recipientAddress: recipientAddress,
+  );
+} catch (e) {
+  print(e);
+}
 ```
 
 ## Example
-```tsx copy
-import { useOkto, type OktoContextType} from 'okto-sdk-react-native';
+```dart copy
+import 'package:flutter/material.dart';
+import 'package:okto_flutter_sdk/okto_wallet_sdk.dart';
+import 'package:okto_test/okto.dart';
 
-const { transferTokens } = useOkto() as OktoContextType;
+class OktoWalletFlutter extends StatefulWidget {
+  const OktoWalletFlutter({super.key});
 
-const networkName = "POLYGON_TESTNET"
-const tokenAddress = "x2f7b97837f2d14ba2ed3a4b2282e259126a9b848"
-const quantity = "1"
-const recipientAddress = "0x0FC096A53343C68c1086e626661A4bb31486A9e2"
+  @override
+  State<OktoWalletFlutter> createState() => _OktoWalletFlutter();
+}
 
-transferTokens({
-      network_name: networkName,
-      token_address: tokenAddress,
-      recipient_address: recipientAddress,
-      quantity: quantity
-  }).then((result) => {
-          console.log('Transfer success', result);
-  })
-  .catch((error) => {
-      console.log('Transfer error', error);
-  });
+class _OktoWalletFlutter extends State<OktoWalletFlutter> {
+  TokenResponse? _tokens;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: TextButton(
+            onPressed: () async {
+              try {
+                await okto.transferTokens(
+                  networkName: networkName,
+                  tokenAddress: tokenAddress,
+                  quantity: quantity,
+                  recipientAddress: recipientAddress,
+                );
+              } catch (e) {
+                print(e);
+              }
+            },
+            child: const Text('Transfer tokens')),
+      ),
+    );
+  }
+}
+
 ```
