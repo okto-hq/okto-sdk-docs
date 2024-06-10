@@ -5,21 +5,39 @@ This method is used to get all whitelisted tokens on your API Key.
 ## Parameters
 None
 
-```tsx copy
-getSupportedTokens() => Promise<WalletData>;
-```
+
 
 ## Example
-```tsx copy
-import { useOkto, type OktoContextType} from 'okto-sdk-react-native';
+```dart copy
+import 'package:flutter/material.dart';
+import 'package:okto_flutter_sdk/okto_wallet_sdk.dart';
+import 'package:okto_test/okto.dart';
 
-const { getSupportedTokens } = useOkto() as OktoContextType;
+class UserDetailsScreen extends StatefulWidget {
+  const UserDetailsScreen({super.key});
 
-getSupportedTokens()
-    .then((result) => {
-    console.log(result)
-    })
-    .catch((error) => {
-    console.error(`error:`, error);
-    });
+  @override
+  State<UserDetailsScreen> createState() => _UserDetailsScreenState();
+}
+
+class _UserDetailsScreenState extends State<UserDetailsScreen> {
+  TokenResponse? _tokens;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: TextButton(
+            onPressed: () async {
+              final tokens = await okto.supportedTokens();
+              setState(() {
+                _tokens = tokens;
+              });
+            },
+            child: const Text('Get supported tokens')),
+      ),
+    );
+  }
+}
+
+
 ```
