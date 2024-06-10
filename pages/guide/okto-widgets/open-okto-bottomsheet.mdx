@@ -1,42 +1,102 @@
+import { Steps, Tabs } from 'nextra/components';
 
 Okto Bottomsheet is opened first when a new user `authenticates` with Okto and gets prompted to [`create wallet`](/guide/authenticate/create-wallet). 
-Now if you want the user to access this botom sheet again, Okto provides [`showWidgetSheet`](/sdk-reference/showWidgetSheet) method to open the bottom sheet again.
+Now if you want the user to access this bottom sheet again, Okto provides [`showWidgetSheet`](/sdk-reference/showWidgetSheet) method to open the bottom sheet again.
 
+<Tabs items={['React Native', 'Flutter']}>
+  <Tabs.Tab>
+    <Steps>
+      ### Add Button to Open Bottom Sheet
+      Let's add a button in `user-profile.tsx` to open the bottom sheet.
 
-Lets add a button in `user-profile.tsx` to open the bottom sheet.
+      ```tsx filename="user-profile.tsx" copy
+      import { View, Button, Text } from 'react-native';
+      import { useOkto, type OktoContextType } from 'okto-sdk-react-native';
+      import React from 'react';
 
-```tsx filename="user-profile.tsx" copy
-import { View, Button } from 'react-native';
-import { useOkto, type OktoContextType } from 'okto-sdk-react-native';
+      const UserProfileScreen = () => {
+        const { showWidgetSheet } = useOkto() as OktoContextType;
 
+        return (
+          <View>
+            <Text>User Profile</Text>
+            
+            ...
 
-const UserProfileScreen = () => {
-  const { showWidgetSheet, closeBottomSheet } = useOkto() as OktoContextType;
-  return (
-    <View>
-      <Text>User Profile</Text>
-      
-      ...
+            <Button
+              title="Open Okto Profile"
+              onPress={() => {
+                showWidgetSheet();
+              }}
+            />
+          </View>
+        );
+      };
 
-      <Button
-        title="Open Okto Profile"
-        onPress={() => {
-          showWidgetSheet();
-        }}
-      />
-    </View>
-  );
-};
-```
+      export default UserProfileScreen;
+      ```
 
-<div style={{ display: 'flex', gap: 12 }}>
-    <div style={{ width: "30%" }}>
-        ![Wallet Created](/bottomsheet/wallet.jpg)
-    </div>
-    <div style={{ width: "30%" }}>
-        ![Profile](/bottomsheet/profile.jpg)
-    </div>
-    <div style={{ width: "30%" }}>
-        ![Community](/bottomsheet/community.jpg)
-    </div>
-</div>
+      <div style={{ display: 'flex', gap: 12 }}>
+        <div style={{ width: "30%" }}>
+          ![Wallet Created](/bottomsheet/wallet.jpg)
+        </div>
+        <div style={{ width: "30%" }}>
+          ![Profile](/bottomsheet/profile.jpg)
+        </div>
+        <div style={{ width: "30%" }}>
+          ![Community](/bottomsheet/community.jpg)
+        </div>
+      </div>
+    </Steps>
+  </Tabs.Tab>
+
+  <Tabs.Tab>
+    <Steps>
+      ### Add Button to Open Bottom Sheet
+      Let's add a button in `user_profile.dart` to open the bottom sheet.
+
+      ```dart filename="lib/screens/user_profile.dart" copy
+      import 'package:flutter/material.dart';
+      import 'package:okto_sdk_flutter/okto_sdk_flutter.dart';
+
+      class UserProfileScreen extends StatelessWidget {
+
+        @override
+        Widget build(BuildContext context) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text('User Profile'),
+            ),
+            body: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text('User Profile'),
+                  ElevatedButton(
+                    onPressed: () async {
+                      await okto.openBottomSheet(context: context); // you can customize the bottom sheet by passing parameters.
+                    },
+                    child: Text('Open Okto Profile'),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+      }
+      ```
+
+      <div style={{ display: 'flex', gap: 12 }}>
+        <div style={{ width: "30%" }}>
+          ![Wallet Created](/bottomsheet/wallet.jpg)
+        </div>
+        <div style={{ width: "30%" }}>
+          ![Profile](/bottomsheet/profile.jpg)
+        </div>
+        <div style={{ width: "30%" }}>
+          ![Community](/bottomsheet/community.jpg)
+        </div>
+      </div>
+    </Steps>
+  </Tabs.Tab>
+</Tabs>
