@@ -3,49 +3,61 @@
 This method is used to transfer NFT's from one wallet to another wallet.
 
 ## Parameters
-- `operationType` - Type of operation to perform. In our case it will be `NFT_TRANSFER`.
-- `quantity` - The amount of nft to transfer.
-- `recipientAddress` - Address of the recipient wallet.
-- `networkName` - Name of the network to transfer funds.
-- `nftId` - Id of the NFT to transfer.
-- `collectionAddress` - Address of the collection from which to transfer the NFT.
-- `collectionName` - Name of the collection to transfer.
+- `operationType`: The type of operation to be performed. In this case, it will be `NFT_TRANSFER`.
+- `quantity`: The quantity of NFTs to be transferred.
+- `recipientAddress`: The address of the recipient account.
+- `networkName`: The name of the network to perform the transfer on.
+- `nftAddress`: The address of the NFT to be transferred.
+- `collectionAddress`: The address of the collection containing the NFT.
+- `collectionName`: The name of the collection containing the NFT.
 
-```tsx copy
-transferNft: (data: {
-  operation_type: string;
-  network_name: string;
-  collection_address: string;
-  collection_name: string;
-  quantity: string;
-  recipient_address: string;
-  nft_address: string;
-}) => Promise<TransferNftData>;
-```
 
 ## Example
-```tsx copy
-import { useOkto, type OktoContextType} from 'okto-sdk-react-native';
+```dart copy
+import 'package:flutter/material.dart';
+import 'package:okto_test/okto.dart';
 
-const operationType = "NFT_TRANSFER"
-const quantity = "1"
-const recipientAddress = "0x0FC096A53343C68c1086e626661A4bb31486A9e2"
-const networkName = "POLYGON_TESTNET"
-const nftId = "0xf137ad32d4d695c9eb7cb4831e6198924afe5fb8c51576e8a5b5b07f6da8e0d3"
-const collectionAddress = "0x171e643e8e8dabc66b838b9055dbdf88647cf6601b164f5987f50a497bedfbe1"
-const collectionName = "super avengers"
+class TransferNftScreen extends StatefulWidget {
+  const TransferNftScreen({super.key});
 
-transferNft({
-    operation_type: operationType,
-    network_name: networkName,
-    collection_address: collection_address,
-    collection_name: collection_name,
-    quantity: quantity,
-    recipient_address: recipientAddress,
-    nft_address: nftAddress
-}).then((result) => {
-    console.log(result)
-}).catch((error) => {
-    console.error(`error:`, error);
-});
+  @override
+  State<TransferNftScreen> createState() => _TransferNftScreenState();
+}
+
+class _TransferNftScreenState extends State<TransferNftScreen> {
+  @override
+  Widget build(BuildContext context) {
+    const operationType = 'NFT_TRANSFER';
+    const networkName = 'APTOS_TESTNET';
+    const collectionAddress = '0x171e643e8e8dabc66b838b9055dbdf88647cf6601b164f5987f50a497bedfbe1';
+    const collectionName = 'super avengers';
+    const quantity = "1";
+    const recipientAddress = '0x46e5fb2f9af287a5bcd9756ff35494c41b7371446da3daf98e1f1de58331c55f';
+    const nftAddress = '0xf137ad32d4d695c9eb7cb4831e6198924afe5fb8c51576e8a5b5b07f6da8e0d3';
+
+    return Scaffold(
+      body: Center(
+        child: TextButton(
+          onPressed: () async {
+            try {
+              await okto.transferNft(
+                operationType: operationType,
+                networkName: networkName,
+                collectionAddress: collectionAddress,
+                collectionName: collectionName,
+                quantity: quantity,
+                recipientAddress: recipientAddress,
+                nftAddress: nftAddress,
+              );
+            } catch (e) {
+              print(e);
+            }
+          },
+          child: const Text('Transfer NFT'),
+        ),
+      ),
+    );
+  }
+}
+
 ```
