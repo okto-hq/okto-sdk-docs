@@ -1,24 +1,25 @@
 import { Steps, Tabs } from "nextra/components";
 
-Now that the transaction is execeuted, we get a `jobId` after the API is successful. We can use the `jobId` to track the status of the transaction. 
+Now that the transaction is executed, we get a `jobId` after the API is successful. We can use the `jobId` to track the status of the transaction.
 
 <Steps>
     ### Fetch Transaction Details
     We will get the transaction details using the [`raw-transaction-status`](/api-reference/client/raw-transaction-status) API. This API will return the status of the transaction and other transaction details.
-    Create a new screen with the name `raw-transaction-status.tsx` and we will fetch the details here. 
-    > Setup navigation to accept the `jobId` as a parameter. You can follow the same steps as we did for [Order Detaiils](/guide/transfer-assets/order-details#fetch-order-details)
-    
-    ```tsx filename="raw-transaction-status.tsx" copy
-    import { useOkto, type OktoContextType} from 'okto-sdk-react-native';
+    Create a new screen with the name `raw-transaction-status` and we will fetch the details here. 
+    > Setup navigation to accept the `jobId` as a parameter. You can follow the same steps as we did for [Order Details](/guide/transfer-assets/order-details#fetch-order-details).
 
-    const FetchRawTransactionScreen = ({ route }: { route: RouteProp<RootStackParamList, "FetchRawTransaction"> }) => {
-        const { getRawTransactionStatus } = useOkto() as OktoContextType;
-        const { jobId } = route.params;
-        const [transactionDetails, setTransactionDetails] = useState<Job[]>([]);
+    <Tabs items={["React Native", "Flutter"]}>
+        <Tabs.Tab>
+            ```tsx filename="raw-transaction-status.tsx" copy
+            import { useOkto, type OktoContextType} from 'okto-sdk-react-native';
 
-        useEffect(() => {
+            const FetchRawTransactionScreen = ({ route }: { route: RouteProp<RootStackParamList, "FetchRawTransaction"> }) => {
+                const { getRawTransactionStatus } = useOkto() as OktoContextType;
+                const { jobId } = route.params;
+                const [transactionDetails, setTransactionDetails] = useState<Job[]>([]);
 
-            getRawTransactionStatus({order_id: jobId})
+                useEffect(() => {
+                    getRawTransactionStatus({order_id: jobId})
                         .then((result) => {
                             const job = orders.find((order: any) => order.order_id === jobId);
                             if(job) setTransactionDetails(job);
@@ -26,60 +27,97 @@ Now that the transaction is execeuted, we get a `jobId` after the API is success
                         .catch((error) => {
                             console.error(`error:`, error);
                         });
-        }, [])
-    }
-    ```
+                }, []);
+            }
+            ```
+        </Tabs.Tab>
+        <Tabs.Tab>
+            ```dart filename="raw_transaction_status.dart" copy
+            import 'package:flutter/material.dart';
+            import 'package:okto_sdk/okto_sdk.dart';
 
-    ### Dsiplay Transaction Details
+            class FetchRawTransactionScreen extends StatelessWidget {
+              final String jobId;
+
+              const FetchRawTransactionScreen({Key? key, required this.jobId}) : super(key: key);
+
+              @override
+              Widget build(BuildContext context) {
+                return Scaffold(
+                  appBar: AppBar(title: Text("Transaction Details")),
+                  body: FutureBuilder(
+                    future: OktoSdk.rawTransactionStatus(orderId: jobId),
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return Center(child: Text("Error: ${snapshot.error}"));
+                      } else if (!snapshot.hasData) {
+                        return Center(child: Text("No data"));
+                      } else {
+                        final transactionDetails = snapshot.data;
+                        return Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Network: ${transactionDetails.data.jobs[0].networkName}"), // change this 0 to some `index` inside some iterable class.
+                            Text("Status: ${transactionDetails.data.jobs[0].status}"),
+                            Text("Transaction Hash: ${transactionDetails.data.jobs[0].transactionHash}"),
+                          ],
+                        );
+                      }
+                    },
+                  ),
+                );
+              }
+            }
+            ```
+        </Tabs.Tab>
+    </Tabs>
+
+    ### Display Transaction Details
     We will display the transaction details on the screen.
 
-    ```tsx filename="raw-transaction-status.tsx" copy
-    import { View, Text } from "react-native";
+            ```tsx filename="raw-transaction-status.tsx" copy
+            import { View, Text } from "react-native";
 
-    const SendRawTransactionScreen = () => {
-        
-        ...
+            const FetchRawTransactionScreen = () => {
+                ...
 
-        return (
-            <View>
-                <Text>Raw Polygon Transaction Statsu</Text>
-                {transactionDetails.map((transaction, index) => (
-                    <View key={index}>
-                        <Text>Network: {transaction.order_id}</Text>
-                        <Text>Status: {transaction.status}</Text>
-                        <Text>Transaction Hash: {transaction.transaction_hash}</Text>
+                return (
+                    <View>
+                        <Text>Raw Polygon Transaction Status</Text>
+                        {transactionDetails.map((transaction, index) => (
+                            <View key={index}>
+                                <Text>Network: {transaction.order_id}</Text>
+                                <Text>Status: {transaction.status}</Text>
+                                <Text>Transaction Hash: {transaction.transaction_hash}</Text>
+                            </View>
+                        ))}
                     </View>
-                ))}
-            </View>
-        )
-    }
-    ```
+                );
+            }
+            ```
 
     ### Add to Navigation
-    Add the navigation to the `send-raw-transaction.tsx` on the success function to navigate to the `raw-transaction-status.tsx` screen.
+    Add the navigation to the `send-raw-transaction` screen on the success function to navigate to the `raw-transaction-status` screen.
 
-    ```tsx filename="send-raw-transaction.tsx" copy
+            ```tsx filename="send-raw-transaction.tsx" copy
+            const SendRawTransactionScreen = ({ navigation }: { navigation: any }) => {
+                const sendTransaction = async () => {
+                    ...
 
-    const SendRawTransactionScreen = ({ navigation }: { navigation: any }) => {
-        
-        const sendTransaction = async () => {
-            
-            ...
-
-            executeRawTransaction(requestData)
+                    executeRawTransaction(requestData)
                         .then((result) => {
-                            console.log(result.jobId)
-                            navigation.navigate("FetchRawTransaction", { jobId: result.jobId })
+                            console.log(result.jobId);
+                            navigation.navigate("FetchRawTransaction", { jobId: result.jobId });
                         })
                         .catch((error) => {
                             console.error(`error:`, error);
                         });
-         
-        }
+                };
 
-        ...
-    }
-    ```
+                ...
+            }
+            ```
+
 </Steps>
-
-
