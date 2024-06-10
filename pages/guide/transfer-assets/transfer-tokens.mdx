@@ -1,4 +1,4 @@
-import { Steps } from 'nextra/components';
+import { Steps, Tabs } from 'nextra/components';
 
 The user can now start transferring tokens from one account to another. We can dive straight into the implementation of the transfer tokens feature.
 
@@ -9,7 +9,9 @@ The user can now start transferring tokens from one account to another. We can d
     - `tokenAddress` - The address of the token to transfer.
     - `amount` - The amount of tokens to transfer.
     - `recipient` - The address of the recipient.
-
+ 
+    <Tabs items={["React Native", "Flutter"]}>
+     <Tabs.Tab>
     We will create a new screen named `transfer-tokens.tsx` and start by creating states and a method to handle the submission of the form fields.
 
     ```tsx filename="screen/transfer-token.tsx" copy
@@ -38,6 +40,50 @@ The user can now start transferring tokens from one account to another. We can d
         }
     }
     ```
+    </Tabs.Tab>
+    <Tabs.Tab>
+     We will create a new screen named `transfer_tokens.dart` and start by creating states and a method to handle the submission of the form fields
+    ```dart filename = "screen/transfer_tokens.dart" copy
+    import 'package:flutter/material.dart';
+    import 'package:okto_test/okto.dart';
+
+    class TransferTokens extends StatefulWidget {
+      const TransferTokens({super.key});
+
+      @override
+      State<TransferTokens> createState() => _TransferTokensState();
+    }
+
+    class _TransferTokensState extends State<TransferTokens> {
+      @override
+      Widget build(BuildContext context) {
+        return Scaffold(
+          body: Center(
+            child: TextButton(
+              onPressed: () async {
+                try {
+                  await okto.transferTokens(
+                    networkName: networkName,
+                    tokenAddress: tokenAddress,
+                    quantity: quantity,
+                    recipientAddress: recipientAddress,
+                  );
+                } catch (e) {
+                  print(e);
+                }
+              },
+              child: const Text('Transfer Token'),
+            ),
+          ),
+        );
+      }
+    }
+
+
+    ```
+
+    </Tabs.Tab>
+    </Tabs>
 
     ### Add Form
     We will add form fields to the screen to capture the required fields. Additionally, we will include a button to submit the form.
