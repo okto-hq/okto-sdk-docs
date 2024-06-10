@@ -66,14 +66,11 @@ Now that the user is authenticated and has an Okto wallet, you can fetch the use
         }
 
         Future<void> _fetchUserDetails() async {
-          try {
-            final user = await okto.userDetails();
-            setState(() {
-              userDetails = user;
-            });
-          } catch (error) {
-            print('Error fetching user details: $error');
-          }
+        final user = await okto.userDetails();
+        setState(() {
+            userDetails = user;
+        });
+        
         }
 
         @override
