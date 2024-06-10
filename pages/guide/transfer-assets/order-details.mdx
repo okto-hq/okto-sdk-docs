@@ -1,4 +1,4 @@
-import { Steps } from 'nextra/components';
+import { Steps, Tabs } from 'nextra/components';
 
 Once the token transfer is initiated, the API will return a `order_id`, which can be used to track the status of the transfer along with other order details.
 
@@ -34,6 +34,9 @@ Once the token transfer is initiated, the API will return a `order_id`, which ca
 
     Now we can accept the `order_id` as a parameter in the `order-details.tsx` screen.
 
+    <Tabs items={["React Native", "Flutter"]}>
+    <Tabs.Tab>
+
     ```tsx filename="screen/order-details.tsx" copy
     import React, { useState } from 'react';
     import { RootStackParamList } from "../navigtion";
@@ -56,9 +59,46 @@ Once the token transfer is initiated, the API will return a `order_id`, which ca
         }, [])
     }
     ```
+    </Tabs.Tab>
+    <Tabs.Tab>
+    For Flutter we can directly begin with creating a new screen inside `lib/screens/` `order_details.dart`
+    ```dart filename="screens/order_details.dart" copy
+    import 'package:flutter/material.dart';
+    import 'package:okto_test/okto.dart';
+
+    class OrderDetailsScreen extends StatefulWidget {
+      const OrderDetailsScreen({super.key});
+
+      @override
+      State<OrderDetailsScreen> createState() => _OrderDetailsScreenState();
+    }
+
+    class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
+      @override
+      Widget build(BuildContext context) {
+        return Scaffold(
+          body: Center(
+            child: TextButton(
+                onPressed: () async {
+                  final orderHistory = await okto.orderHistory();
+                  // do something..
+                },
+                child: const Text('Fetch Order Details')),
+          ),
+        );
+      }
+    }
+
+    ```
+
+    </Tabs.Tab>
+    </Tabs>
 
     ### Display Order Details
+
     We will now display the order details on the screen. We will use the `order` state to display the details.
+    <Tabs items={["React Native", "Flutter"]}>
+    <Tabs.Tab>
 
     ```tsx filename="screen/order-details.tsx" copy
     import { RootStackParamList } from "../navigtion";
@@ -82,6 +122,62 @@ Once the token transfer is initiated, the API will return a `order_id`, which ca
         )
     }
     ```
+    </Tabs.Tab>
+    <Tabs.Tab>
+    ```dart filename="screens/order_details.dart" copy
+
+     import 'package:flutter/material.dart';
+import 'package:okto_test/models/client/order_history_model.dart';
+import 'package:okto_test/okto.dart';
+
+class OrderDetailsScreen extends StatefulWidget {
+  const OrderDetailsScreen({super.key});
+
+  @override
+  State<OrderDetailsScreen> createState() => _OrderDetailsScreenState();
+}
+
+class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: TextButton(
+            onPressed: () async {
+              final orderHistory = await okto.orderHistory();
+              Navigator.push(context, MaterialPageRoute(builder: (context) => OrderDetailsShowScreen(orderHistory: orderHistory)));
+            },
+            child: const Text('Fetch Order Details')),
+      ),
+    );
+  }
+}
+
+class OrderDetailsShowScreen extends StatefulWidget {
+  final OrderHistoryResponse orderHistory;
+  const OrderDetailsShowScreen({super.key, required this.orderHistory});
+
+  @override
+  State<OrderDetailsShowScreen> createState() => _OrderDetailsShowScreenState();
+}
+
+class _OrderDetailsShowScreenState extends State<OrderDetailsShowScreen> {
+  @override
+  Widget build(BuildContext context) {
+    final orderHistory = widget.orderHistory.data.jobs;
+    return Scaffold(
+      body: Column(
+        children: [
+          for (int i = 0; i < orderHistory.length; i++) Text(orderHistory[i].orderId),
+        ],
+      ),
+    );
+  }
+}
+
+    ```
+</Tabs.Tab>
+    </Tabs>
 
     ### Add Navigation
     Now, let's add a automatic navigation from `transfer-tokens.tsx` to take the user to `order-details.tsx` for checking the order details.
