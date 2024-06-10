@@ -7,9 +7,29 @@ None
 
 ## Example
 ```tsx copy
-import { useOkto, type OktoContextType} from 'okto-sdk-react-native';
+import 'package:flutter/material.dart';
+import 'package:okto_test/okto.dart';
 
-const { showWidgetSheet, closeBottomSheet } = useOkto() as OktoContextType;
+class OktoWalletFlutter extends StatefulWidget {
+  const OktoWalletFlutter({super.key});
 
-showWidgetSheet();
+  @override
+  State<OktoWalletFlutter> createState() => _OktoWalletFlutter();
+}
+
+class _OktoWalletFlutter extends State<OktoWalletFlutter> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: TextButton(
+            onPressed: () async {
+              await okto.openBottomSheet(context: context);
+            },
+            child: const Text('open bottomSheet')),
+      ),
+    );
+  }
+}
+
 ```
