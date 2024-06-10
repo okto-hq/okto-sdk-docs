@@ -1,40 +1,117 @@
-
 # authenticate Method
-There are two ways to authenticate new users on your flutter app using Okto Flutter Sdk.
 
+There are two ways to authenticate new users on your flutter app using Okto Flutter Sdk.
 
 
 - Authenticate user with `idToken` received from Google OAuth2.
 
   ## Parameters
+
   - `idToken` - Token received from Google OAuth2.
-  - `callback` - Callback function to be called after authentication. This function contains two parameters:
-  - `result` - if authentication is successful.
-  - `error` - Error message if any.
 
   If the user does not have a wallet, a [wallet prompt](/guide/authenticate/create-wallet) will be shown to the user to create a wallet.
-  ```tsx copy
-  authenticate (
-    idToken: string,
-    callback: (result: any, error: any) => void
-  ) => void;
+
+  This method requires to setpin after authentication.
+  ```dart copy
+  try {
+    await okto.authenticate(idToken: 'idToken');
+    print('success');
+  } catch (e) {
+    print(e);
+  }
   ```
 
   ## Example
-  ```tsx copy
-  import {
-    useOkto,
-    type OktoContextType,
-  } from 'okto-sdk-react-native';
 
-  const { authenticate } = useOkto() as OktoContextType;
-  const idToken = 'USER_ID_TOKEN';
-  authenticate(idToken, (result, error) => {
-      if (result) {
-          console.log('authentication successful');
-      }
-      if (error) {
-          console.error('authentication error:', error);
-      } 
-  });
+  ```dart copy
+  import 'package:flutter/material.dart';
+  import 'package:okto_test/okto.dart';
+
+  class Login extends StatefulWidget {
+    const Login({super.key});
+
+    @override
+    State<Login> createState() => _LoginState();
+  }
+
+  class _LoginState extends State<Login> {
+    @override
+    Widget build(BuildContext context) {
+      return Scaffold(
+        body: Center(
+          child: TextButton(
+            onPressed: () async {
+              try {
+                await okto.authenticate(idToken: idToken);
+
+                // Navigate to homescreen
+              } catch (e) {
+                print(e);
+              }
+            },
+            child: Text('Authenticate'),
+          ),
+        ),
+      );
+    }
+  }
+
   ```
+
+- Authenticate user using userId and JWT Token
+
+> Note: No need to call set pin
+
+  ## Parameters
+
+  - `jwtToken` - Your JWT Token
+  - 'userId'   - Your User Id, received from okto.
+
+
+```dart copy
+
+ try {
+   final authResponse = await okto.authenticateWithUserId(jwtToken: jwtToken, userId: 'YOUR_USER_ID');
+   print('success')
+ } catch (e) {
+  print(e);
+ }
+```
+
+ ## Example
+
+  ```dart copy
+import 'package:flutter/material.dart';
+import 'package:okto_test/okto.dart';
+
+class Login extends StatefulWidget {
+  const Login({super.key});
+
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: TextButton(
+          onPressed: () async {
+            try {
+              await okto.authenticateWithUserId(jwtToken: jwtToken, userId: userId);
+
+              // Navigate to homescreen
+            } catch (e) {
+              print(e);
+            }
+          },
+          child: Text('Authenticate'),
+        ),
+      ),
+    );
+  }
+}
+
+  ```
+
