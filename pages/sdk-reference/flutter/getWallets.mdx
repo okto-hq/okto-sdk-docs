@@ -2,24 +2,40 @@
 # getWallets Method
 This method is used to get all the wallets of the user across all chains. It will return the user wallets if authentication is successful.
 
-## Parameters
-None
 
-```tsx copy
-getWallets() => Promise<WalletData>;
-```
+
 
 ## Example
-```tsx copy
-import { useOkto, type OktoContextType} from 'okto-sdk-react-native';
+```dart copy
+import 'package:flutter/material.dart';
+import 'package:okto_flutter_sdk/okto_wallet_sdk.dart';
+import 'package:okto_test/okto.dart';
 
-const { getWallets } = useOkto() as OktoContextType;
+class UserDetailsScreen extends StatefulWidget {
+  const UserDetailsScreen({super.key});
 
-getWallets()
-    .then((result) => {
-    console.log(result)
-    })
-    .catch((error) => {
-    console.error(`error:`, error);
-    });
+  @override
+  State<UserDetailsScreen> createState() => _UserDetailsScreenState();
+}
+
+class _UserDetailsScreenState extends State<UserDetailsScreen> {
+  WalletResponse? _wallets;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: TextButton(
+            onPressed: () async {
+              final wallets = await okto.getWallets();
+              setState(() {
+                _wallets = wallets;
+              });
+            },
+            child: const Text('Get user details')),
+      ),
+    );
+  }
+}
+
+
 ```
