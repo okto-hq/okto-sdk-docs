@@ -4,242 +4,538 @@ If we want to execute a raw transaction directly on chain, Okto provides a way t
 
 <Steps>
     ### Send a transaction
-    Create a new screen and name it `send-raw-transaction.tsx`, here we will cover both EVM and Solana transactions.
-    <Tabs items={["EVM", "Solana", "Aptos"]}>
-        <Tabs.Tab>
-        For example purposes we will execute a Polygon transaction.
-        ```tsx filename="send-raw-transaction.tsx" copy
-        import { useOkto, type OktoContextType} from 'okto-sdk-react-native';
+    Create a new screen and name it `send-raw-transaction`:
+    
+    <Tabs items={["React Native", "Flutter"]}>
+      <Tabs.Tab>
+        #### React Native
 
-        const SendRawTransactionScreen = () => {
-            const { executeRawTransaction } = useOkto() as OktoContextType;
-            const [network, setNetwork] = useState<string>("POLYGON_TESTNET");
-            const [from, setFrom] = useState<string>("0x0342A54DD44E8744FD185579Af57845Cb0ac6cB0");
-            const [to, setTo] = useState<string>("0x80322ea18633A1f713e987d65Ae78AcCDAB6e55e");
-            const [data, setData] = useState<string>("0x");
-            const [value, setValue] = useState<string>("0x100000");
+        <Tabs items={["EVM", "Solana", "Aptos"]}>
+            <Tabs.Tab>
+            For example purposes we will execute a Polygon transaction.
+            ```tsx filename="send-raw-transaction.tsx" copy
+            import { useOkto, type OktoContextType} from 'okto-sdk-react-native';
+            import { useState } from 'react';
 
-            const sendTransaction = async () => {
-                const requestData = {
-                    netowrk_name: networkName,
-                    transaction: {
-                        from,
-                        to,
-                        data,
-                        value,
-                    },
-                }
+            const SendRawTransactionScreen = () => {
+                const { executeRawTransaction } = useOkto() as OktoContextType;
+                const [network, setNetwork] = useState<string>("POLYGON_TESTNET");
+                const [from, setFrom] = useState<string>("0x0342A54DD44E8744FD185579Af57845Cb0ac6cB0");
+                const [to, setTo] = useState<string>("0x80322ea18633A1f713e987d65Ae78AcCDAB6e55e");
+                const [data, setData] = useState<string>("0x");
+                const [value, setValue] = useState<string>("0x100000");
 
-                executeRawTransaction(requestData)
-                        .then((result) => {
-                            console.log(result.jobId)
-                        })
-                        .catch((error) => {
-                            console.error(`error:`, error);
-                        });
-            }
-        }
-        ```
-        </Tabs.Tab>
-        <Tabs.Tab>
-        For example purposes we will execute a Solana transaction.
-        ```tsx filename="send-raw-transaction.tsx" copy
-        import { useOkto, type OktoContextType} from 'okto-sdk-react-native';
-
-        const SendRawTransactionScreen = () => {
-            const { executeRawTransaction } = useOkto() as OktoContextType;
-            const [network, setNetwork] = useState<string>("SOLANA_DEVNET");
-            const [instructions, setInstructions] = useState<any[]>([
-                {
-                    "keys": [
-                        {
-                            "pubkey": "GQkXkHF8LTwyZiZUcBWwYJeJBFEqR4vRCV4J5Xe7zGiQ",
-                            "isSigner": true,
-                            "isWritable": true
+                const sendTransaction = async () => {
+                    const requestData = {
+                        network_name: network,
+                        transaction: {
+                            from,
+                            to,
+                            data,
+                            value,
                         },
+                    }
+
+                    executeRawTransaction(requestData)
+                            .then((result) => {
+                                console.log(result.jobId)
+                            })
+                            .catch((error) => {
+                                console.error(`error:`, error);
+                            });
+                }
+            }
+            ```
+            </Tabs.Tab>
+            <Tabs.Tab>
+            For example purposes we will execute a Solana transaction.
+            ```tsx filename="send-raw-transaction.tsx" copy
+            import { useOkto, type OktoContextType} from 'okto-sdk-react-native';
+            import { useState } from 'react';
+
+            const SendRawTransactionScreen = () => {
+                const { executeRawTransaction } = useOkto() as OktoContextType;
+                const [network, setNetwork] = useState<string>("SOLANA_DEVNET");
+                const [instructions, setInstructions] = useState<any[]>([
+                    {
+                        "keys": [
+                            {
+                                "pubkey": "GQkXkHF8LTwyZiZUcBWwYJeJBFEqR4vRCV4J5Xe7zGiQ",
+                                "isSigner": true,
+                                "isWritable": true
+                            },
+                            {
+                                "pubkey": "GEjBy2puN8a53darpz7CTbRvSb6wepzhK7s8C3Dww4yg",
+                                "isSigner": false,
+                                "isWritable": true
+                            }
+                        ],
+                        "programId": "11111111111111111111111111111111",
+                        "data": [
+                            2,
+                            0,
+                            0,
+                            0,
+                            128,
+                            150,
+                            152,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0
+                        ]
+                    }
+                ]);
+                const [signers, setSigners] = useState<string[]>(["GQkXkHF8LTwyZiZUcBWwYJeJBFEqR4vRCV4J5Xe7zGiQ"]);
+
+                const sendTransaction = async () => {
+                    const requestData = {
+                        network_name: network,
+                        transaction: {
+                            instructions,
+                            signers,
+                        },
+                    }
+
+                    executeRawTransaction(requestData)
+                            .then((result) => {
+                                console.log(result.jobId)
+                            })
+                            .catch((error) => {
+                                console.error(`error:`, error);
+                            });
+                }
+            }
+            ```
+            </Tabs.Tab>
+            <Tabs.Tab>
+            For example purposes we will execute an Aptos transaction.
+            ```tsx filename="send-raw-transaction.tsx" copy
+            import { useOkto, type OktoContextType} from 'okto-sdk-react-native';
+            import { useState } from 'react';
+
+            const SendRawTransactionScreen = () => {
+                const { executeRawTransaction } = useOkto() as OktoContextType;
+                const [network, setNetwork] = useState<string>("APTOS_TESTNET");
+                const [func, setFunction] = useState<string>("0x1::aptos_account::transfer");
+                const [typeArguments, setTypeArguments] = useState<any[]>([]);
+                const [functionArguments, setFunctionArguments] = useState<any[]>([
+                        "0xb7c18d4389feb18d819fbe1c2806fd7f753d2cd42ec04e7ed5f2b19e267737c6",
+                        "1000000"
+                    ]);
+
+                const sendTransaction = async () => {
+                    const requestData = {
+                        network_name: network,
+                        transaction: {
+                            function: func,
+                            typeArguments,
+                            functionArguments
+                        },
+                    }
+
+                    executeRawTransaction(requestData)
+                            .then((result) => {
+                                console.log(result.jobId)
+                            })
+                            .catch((error) => {
+                                console.error(`error:`, error);
+                            });
+                }
+            }
+            ```
+            </Tabs.Tab>
+        </Tabs>
+
+        ### Add Form Fields
+        Add the form fields to the `send-raw-transaction.tsx` screen.
+        <Tabs items={["EVM", "Solana", "Aptos"]}>
+            <Tabs.Tab>
+                ```tsx filename="send-raw-transaction.tsx" copy
+                import { View, TextInput, Button, Text } from "react-native";
+                import React, { useState } from 'react';
+
+                const SendRawTransactionScreen = () => {
+                    const [network, setNetwork] = useState<string>("POLYGON_TESTNET");
+                    const [from, setFrom] = useState<string>("0x0342A54DD44E8744FD185579Af57845Cb0ac6cB0");
+                    const [to, setTo] = useState<string>("0x80322ea18633A1f713e987d65Ae78AcCDAB6e55e");
+                    const [data, setData] = useState<string>("0x");
+                    const [value, setValue] = useState<string>("0x100000");
+                    
+                    const sendTransaction = async () => {
+                        // Add the sendTransaction logic here
+                    };
+
+                    return (
+                        <View>
+                            <Text>Execute Raw Polygon Transaction</Text>
+                            <TextInput
+                                placeholder="From"
+                                value={from}
+                                onChangeText={setFrom}
+                            />
+                            <TextInput
+                                placeholder="To"
+                                value={to}
+                                onChangeText={setTo}
+                            />
+                            <TextInput
+                                placeholder="Data"
+                                value={data}
+                                onChangeText={setData}
+                            />
+                            <TextInput
+                                placeholder="Value"
+                                value={value}
+                                onChangeText={setValue}
+                            />
+                            <Button title="Send Transaction" onPress={sendTransaction} />
+                        </View>
+                    )
+                }
+                ```
+            </Tabs.Tab>
+            <Tabs.Tab>
+                ```tsx filename="send-raw-transaction.tsx" copy
+                import { View, TextInput, Button, Text } from "react-native";
+                import React, { useState } from 'react';
+
+                const SendRawTransactionScreen = () => {
+                    const [network, setNetwork] = useState<string>("SOLANA_DEVNET");
+                    const [instructions, setInstructions] = useState<any[]>([
                         {
-                            "pubkey": "GEjBy2puN8a53darpz7CTbRvSb6wepzhK7s8C3Dww4yg",
-                            "isSigner": false,
-                            "isWritable": true
+                            "keys": [
+                                {
+                                    "pubkey": "GQkXkHF8LTwyZiZUcBWwYJeJBFEqR4vRCV4J5Xe7zGiQ",
+                                    "isSigner": true,
+                                    "isWritable": true
+                                },
+                                {
+                                    "pubkey": "GEjBy2puN8a53darpz7CTbRvSb6wepzhK7s8C3Dww4yg",
+                                    "isSigner": false,
+                                    "isWritable": true
+                                }
+                            ],
+                            "programId": "11111111111111111111111111111111",
+                            "data": [
+                                2,
+                                0,
+                                0,
+                                0,
+                                128,
+                                150,
+                                152,
+                                0,
+                                0,
+                                0,
+                                0,
+                                0
+                            ]
                         }
+                    ]);
+                    const [signers, setSigners] = useState<string[]>(["GQkXkHF8LTwyZiZUcBWwYJeJBFEqR4vRCV4J5Xe7zGiQ"]);
+                    
+                    const sendTransaction = async () => {
+                        // Add the sendTransaction logic here
+                    };
+
+                    return (
+                        <View>
+                            <Text>Execute Raw Solana Transaction</Text>
+                            <TextInput
+                                placeholder="Instructions"
+                                value={instructions}
+                                onChangeText={setInstructions}
+                            />
+                            <TextInput
+                                placeholder="Signers"
+                                value={signers}
+                                onChangeText={setSigners}
+                            />
+                            <Button title="Send Transaction" onPress={sendTransaction} />
+                        </View>
+                    )
+                }
+                ```
+            </Tabs.Tab>
+            <Tabs.Tab>
+                ```tsx filename="send-raw-transaction.tsx" copy
+                import { View, TextInput, Button, Text } from "react-native";
+                import React, { useState } from 'react';
+
+                const SendRawTransactionScreen = () => {
+                    const [network, setNetwork] = useState<string>("APTOS_TESTNET");
+                    const [func, setFunction] = useState<string>("0x1::aptos_account::transfer");
+                    const [typeArguments, setTypeArguments] = useState<any[]>([]);
+                    const [functionArguments, setFunctionArguments] = useState<any[]>([
+                            "0xb7c18d4389feb18d819fbe1c2806fd7f753d2cd42ec04e7ed5f2b19e267737c6",
+                            "1000000"
+                        ]);
+                    
+                    const sendTransaction = async () => {
+                        // Add the sendTransaction logic here
+                    };
+
+                    return (
+                        <View>
+                            <Text>Execute Raw Aptos Transaction</Text>
+                            <TextInput
+                                placeholder="Function"
+                                value={func}
+                                onChangeText={setFunction}
+                            />
+                            <TextInput
+                                placeholder="Type Arguments"
+                                value={typeArguments}
+                                onChangeText={setTypeArguments}
+                            />
+                            <TextInput
+                                placeholder="Function Arguments"
+                                value={functionArguments}
+                                onChangeText={setFunctionArguments}
+                            />
+                            <Button title="Send Transaction" onPress={sendTransaction} />
+                        </View>
+                    )
+                }
+                ```
+            </Tabs.Tab>
+        </Tabs>
+      </Tabs.Tab>
+
+      <Tabs.Tab>
+        #### Flutter
+
+        <Tabs items={["EVM", "Solana", "Aptos"]}>
+            <Tabs.Tab>
+            For example purposes we will execute a Polygon transaction.
+            ```dart filename="lib/screens/send_raw_transaction.dart" copy
+            import 'package:flutter/material.dart';
+            import 'package:okto_sdk_flutter/okto_sdk_flutter.dart';
+
+            class SendRawTransactionScreen extends StatelessWidget {
+              final Okto okto = Okto('your_client_api_key');
+
+              @override
+              Widget build(BuildContext context) {
+                final TextEditingController fromController = TextEditingController(text: "0x0342A54DD44E8744FD185579Af57845Cb0ac6cB0");
+                final TextEditingController toController = TextEditingController(text: "0x80322ea18633A1f713e987d65Ae78AcCDAB6e55e");
+                final TextEditingController dataController = TextEditingController(text: "0x");
+                final TextEditingController valueController = TextEditingController(text: "0x100000");
+
+                return Scaffold(
+                  appBar: AppBar(
+                    title: Text('Send Raw Transaction'),
+                  ),
+                  body: Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Column(
+                      children: [
+                        TextField(
+                          controller: fromController,
+                          decoration: InputDecoration(labelText: 'From'),
+                        ),
+                        TextField(
+                          controller: toController,
+                          decoration: InputDecoration(labelText: 'To'),
+                        ),
+                        TextField(
+                          controller: dataController,
+                          decoration: InputDecoration(labelText: 'Data'),
+                        ),
+                        TextField(
+                          controller: valueController,
+                          decoration: InputDecoration(labelText: 'Value'),
+                        ),
+                        SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: () async {
+                            final transactionObject = {
+                              'transaction': {
+                                'from': fromController.text,
+                                'to': toController.text,
+                                'data': dataController.text,
+                                'value': valueController.text,
+                              },
+                            };
+
+                            try {
+                              final result = await okto.executeRawTransaction(networkName: 'POLYGON_TESTNET', transaction: transactionObject);
+                              print(result.jobId);
+                            } catch (error) {
+                              print('error: $error');
+                            }
+                          },
+                          child: Text('Send Transaction'),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }
+            }
+            ```
+            </Tabs.Tab>
+            <Tabs.Tab>
+            For example purposes we will execute a Solana transaction.
+            ```dart filename="lib/screens/send_raw_transaction.dart" copy
+            import 'package:flutter/material.dart';
+            import 'package:okto_sdk_flutter/okto_sdk_flutter.dart';
+
+            class SendRawTransactionScreen extends StatelessWidget {
+              final Okto okto = Okto('your_client_api_key');
+
+              @override
+              Widget build(BuildContext context) {
+                final TextEditingController instructionsController = TextEditingController(text: '''
+                [
+                  {
+                    "keys": [
+                      {
+                        "pubkey": "GQkXkHF8LTwyZiZUcBWwYJeJBFEqR4vRCV4J5Xe7zGiQ",
+                        "isSigner": true,
+                        "isWritable": true
+                      },
+                      {
+                        "pubkey": "GEjBy2puN8a53darpz7CTbRvSb6wepzhK7s8C3Dww4yg",
+                        "isSigner": false,
+                        "isWritable": true
+                      }
                     ],
                     "programId": "11111111111111111111111111111111",
                     "data": [
-                        2,
-                        0,
-                        0,
-                        0,
-                        128,
-                        150,
-                        152,
-                        0,
-                        0,
-                        0,
-                        0,
-                        0
+                      2,
+                      0,
+                      0,
+                      0,
+                      128,
+                      150,
+                      152,
+                      0,
+                      0,
+                      0,
+                      0,
+                      0
                     ]
-                }
-            ]);
-            const [signers, setSigners] = useState<string[]>(["GQkXkHF8LTwyZiZUcBWwYJeJBFEqR4vRCV4J5Xe7zGiQ"]);
+                  }
+                ]
+                ''');
+                final TextEditingController signersController = TextEditingController(text: '["GQkXkHF8LTwyZiZUcBWwYJeJBFEqR4vRCV4J5Xe7zGiQ"]');
 
-            const sendTransaction = async () => {
-                const requestData = {
-                    netowrk_name: networkName,
-                    transaction: {
-                        instructions,
-                        signers,
-                    },
-                }
+                return Scaffold(
+                  appBar: AppBar(
+                    title: Text('Send Raw Transaction'),
+                  ),
+                  body: Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Column(
+                      children: [
+                        TextField(
+                          controller: instructionsController,
+                          decoration: InputDecoration(labelText: 'Instructions'),
+                        ),
+                        TextField(
+                          controller: signersController,
+                          decoration: InputDecoration(labelText: 'Signers'),
+                        ),
+                        SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: () async {
+                            final transactionObject = {
+                              'transaction': {
+                                'instructions': instructionsController.text,
+                                'signers': signersController.text,
+                              },
+                            };
 
-                executeRawTransaction(requestData)
-                        .then((result) => {
-                            console.log(result.jobId)
-                        })
-                        .catch((error) => {
-                            console.error(`error:`, error);
-                        });
+                            try {
+                              final result = await okto.executeRawTransaction(networkName: 'SOLANA_DEVNET',transaction: transactionObject);
+                              print(result.jobId);
+                            } catch (error) {
+                              print('error: $error');
+                            }
+                          },
+                          child: Text('Send Transaction'),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }
             }
-        }
-        ```
-        </Tabs.Tab>
-        <Tabs.Tab>
-        For example purposes we will execute a Aptos transaction.
-        ```tsx filename="send-raw-transaction.tsx" copy
-        import { useOkto, type OktoContextType} from 'okto-sdk-react-native';
+            ```
+            </Tabs.Tab>
+            <Tabs.Tab>
+            For example purposes we will execute an Aptos transaction.
+            ```dart filename="lib/screens/send_raw_transaction.dart" copy
+            import 'package:flutter/material.dart';
+            import 'package:okto_sdk_flutter/okto_sdk_flutter.dart';
 
-        const SendRawTransactionScreen = () => {
-            const { executeRawTransaction } = useOkto() as OktoContextType;
-            const [network, setNetwork] = useState<string>("APTOS_TESTNET");
-            const [function, setFunction] = useState<string>("0x1::aptos_account::transfer");
-            const [typeArguments, setTypeArguments] = useState<any[]>([]);
-            const [functionArguments, setFunctionArguments] = useState<any[]>([
-                    "0xb7c18d4389feb18d819fbe1c2806fd7f753d2cd42ec04e7ed5f2b19e267737c6",
-                    "1000000"
-                ]);
+            class SendRawTransactionScreen extends StatelessWidget {
 
-            const sendTransaction = async () => {
-                const requestData = {
-                    netowrk_name: networkName,
-                    transaction: {
-                        function,
-                        typeArguments,
-                        functionArguments
-                    },
-                }
+              @override
+              Widget build(BuildContext context) {
+                final TextEditingController functionController = TextEditingController(text: "0x1::aptos_account::transfer");
+                final TextEditingController typeArgumentsController = TextEditingController();
+                final TextEditingController functionArgumentsController = TextEditingController(text: '''
+                [
+                  "0xb7c18d4389feb18d819fbe1c2806fd7f753d2cd42ec04e7ed5f2b19e267737c6",
+                  "1000000"
+                ]
+                ''');
 
-                executeRawTransaction(requestData)
-                        .then((result) => {
-                            console.log(result.jobId)
-                        })
-                        .catch((error) => {
-                            console.error(`error:`, error);
-                        });
+                return Scaffold(
+                  appBar: AppBar(
+                    title: Text('Send Raw Transaction'),
+                  ),
+                  body: Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Column(
+                      children: [
+                        TextField(
+                          controller: functionController,
+                          decoration: InputDecoration(labelText: 'Function'),
+                        ),
+                        TextField(
+                          controller: typeArgumentsController,
+                          decoration: InputDecoration(labelText: 'Type Arguments'),
+                        ),
+                        TextField(
+                          controller: functionArgumentsController,
+                          decoration: InputDecoration(labelText: 'Function Arguments'),
+                        ),
+                        SizedBox(height: 20),
+                        ElevatedButton(
+                          onPressed: () async {
+                            final transactionObject = {
+                              'transaction': {
+                                'function': functionController.text,
+                                'typeArguments': typeArgumentsController.text,
+                                'functionArguments': functionArgumentsController.text,
+                              },
+                            };
+
+                            try {
+                              final result = await okto.rawTransactionExecute(networkName: 'APTOS_TESTNET',transaction: transactionObject);
+                              print(result.jobId);
+                            } catch (error) {
+                              print('error: $error');
+                            }
+                          },
+                          child: Text('Send Transaction'),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }
             }
-        }
-        ```
-        </Tabs.Tab>
+            ```
+            </Tabs.Tab>
+        </Tabs>
+      </Tabs.Tab>
     </Tabs>
 
-    ### Add Form Fields
-    Add the form fields to the `send-raw-transaction.ts` screen.
-    <Tabs items={["EVM", "Solana", "Aptos"]}>
-        <Tabs.Tab>
-            ```tsx filename="send-raw-transaction.tsx" copy
-            import { View, TextInput, Button } from "react-native";
-
-            const SendRawTransactionScreen = () => {
-                
-                ...
-
-                return (
-                    <View>
-                        <Text>Execute Raw Polygon Transaction</Text>
-                        <TextInput
-                            placeholder="From"
-                            value={from}
-                            onChangeText={setFrom}
-                        />
-                        <TextInput
-                            placeholder="To"
-                            value={to}
-                            onChangeText={setTo}
-                        />
-                        <TextInput
-                            placeholder="Data"
-                            value={data}
-                            onChangeText={setData}
-                        />
-                        <TextInput
-                            placeholder="Value"
-                            value={value}
-                            onChangeText={setValue}
-                        />
-                        <Button title="Send Transaction" onPress={sendTransaction} />
-                    </View>
-                )
-            }
-            ```
-        </Tabs.Tab>
-        <Tabs.Tab>
-            ```tsx filename="send-raw-transaction.tsx" copy
-            import { View, TextInput, Button } from "react-native";
-
-            const SendRawTransactionScreen = () => {
-                
-                ...
-
-                return (
-                    <View>
-                        <Text>Execute Raw Solana Transaction</Text>
-                        <TextInput
-                            placeholder="Instructions"
-                            value={instructions}
-                            onChangeText={setInstructions}
-                        />
-                        <TextInput
-                            placeholder="Signers"
-                            value={signers}
-                            onChangeText={setSigners}
-                        />
-                        <Button title="Send Transaction" onPress={sendTransaction} />
-                    </View>
-                )
-            }
-            ```
-        </Tabs.Tab>
-        <Tabs.Tab>
-            ```tsx filename="send-raw-transaction.tsx" copy
-            import { View, TextInput, Button } from "react-native";
-
-            const SendRawTransactionScreen = () => {
-                
-                ...
-
-                return (
-                    <View>
-                        <Text>Execute Raw Aptos Transaction</Text>
-                        <TextInput
-                            placeholder="Function"
-                            value={function}
-                            onChangeText={setFunction}
-                        />
-                        <TextInput
-                            placeholder="Type Arguments"
-                            value={typeArguments}
-                            onChangeText={setTypeArguments}
-                        />
-                        <TextInput
-                            placeholder="Function Arguments"
-                            value={functionArguments}
-                            onChangeText={setFunctionArguments}
-                        />
-                        <Button title="Send Transaction" onPress={sendTransaction} />
-                    </View>
-                )
-            }
-            ```
-        </Tabs.Tab>
-    </Tabs>
+    With that you have successfully set up a way for users to execute a raw transaction to the blockchain. You can customize the `transaction` object depending on the network you want to send the transaction to.
 </Steps>
-
-With that you have successfully setup a way for user to execute a raw transaction to the blockchain. You can customize the `transaction` object depending on the nework you want to send the transaction to.
