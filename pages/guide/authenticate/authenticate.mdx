@@ -1,5 +1,7 @@
 import { Steps, Tabs, Callout } from "nextra/components";
 
+<Tabs items={['React Native', 'Flutter']}>
+<Tabs.Tab>
 When a user enters our app, seamless authentication becomes the key to their personalized experience. Using the power of [Google OAuth2](https://developers.google.com/identity/protocols/oauth2), we establish user identity efficiently.
 
 After a successful log in, Google OAuth2 provides a unique identifier called `token_id` – think of it as their digital fingerprint. This `token_id` becomes crucial for Okto wallet authentication and, if needed, for creating new wallets.
@@ -8,8 +10,7 @@ Let's get coding and see how we can use the `token_id` and [`authenticate`](/sdk
 
 > Note: if you just want to test and see how it works, you can use the [following steps](/oauth-steps) to get a `token_id` and go directly to the [Authenticate with Okto](#authenticate-with-okto) section.
 
-<Tabs items={['React Native', 'Flutter']}>
-  <Tabs.Tab>
+
     <Steps>
       ### Setup Google Sign-In
       We will first set up the Google Sign-In library in our project. This involves installing the [@react-native-google-signin](https://www.npmjs.com/package/@react-native-google-signin/google-signin) package and configuring it.
@@ -120,6 +121,29 @@ Let's get coding and see how we can use the `token_id` and [`authenticate`](/sdk
     </Steps>
   </Tabs.Tab>
   <Tabs.Tab>
+
+When a user enters our app, seamless authentication becomes the key to their personalized experience. Using the power of [Google OAuth2](https://developers.google.com/identity/protocols/oauth2), we establish user identity efficiently. Additionally, we offer an alternative method using JWT for flexible and secure authentication.
+
+## Authentication Methods
+
+### Method 1: Google OAuth2
+
+After a successful log in, Google OAuth2 provides a unique identifier called `token_id` – think of it as their digital fingerprint. This `token_id` becomes crucial for Okto wallet authentication and, if needed, for creating new wallets.
+
+Let's get coding and see how we can use the `token_id` and [`authenticate`](/sdk-reference/flutter/authenticate) to authenticate with Okto.
+
+> Note: if you just want to test and see how it works, you can use the [following steps](/oauth-steps) to get a `token_id` and go directly to the [Authenticate with Okto](#authenticate-with-okto) section.
+
+### Method 2: JWT Authentication
+
+We also support a flexible JWT-based authentication. The client will provide us a JWT directly, which can be verified using methods such as phone OTP or any other verification mechanism. This JWT is then used to authenticate with Okto.
+
+To use this method, the provided JWT is passed to the `authenticateWithUserId` method for verification and authentication.
+
+## Authenticate with Okto
+
+Here is how you can authenticate with Okto using both methods:
+
 
    See [`authenticate`](/sdk-reference/flutter/authenticate) to authenticate with Okto.
     <Steps>
