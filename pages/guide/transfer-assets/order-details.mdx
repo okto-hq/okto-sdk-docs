@@ -1,5 +1,7 @@
 import { Steps, Tabs } from 'nextra/components';
 
+<Tabs items={["React Native", "Flutter"]}>
+<Tabs.Tab>
 Once the token transfer is initiated, the API will return a `order_id`, which can be used to track the status of the transfer along with other order details.
 
 <Steps>
@@ -34,8 +36,6 @@ Once the token transfer is initiated, the API will return a `order_id`, which ca
 
     Now we can accept the `order_id` as a parameter in the `order-details.tsx` screen.
 
-    <Tabs items={["React Native", "Flutter"]}>
-    <Tabs.Tab>
 
     ```tsx filename="screen/order-details.tsx" copy
     import React, { useState } from 'react';
@@ -59,9 +59,69 @@ Once the token transfer is initiated, the API will return a `order_id`, which ca
         }, [])
     }
     ```
-    </Tabs.Tab>
-    <Tabs.Tab>
-     We will be using the [`orderHistory`](/sdk-reference/flutter/orderHistory) method to fetch all the order details for the user. Then we can use the `orderId` to check our current order details.
+
+    ### Display Order Details
+
+    We will now display the order details on the screen. We will use the `order` state to display the details.
+
+    ```tsx filename="screen/order-details.tsx" copy
+    import { RootStackParamList } from "../navigtion";
+    import { View, TextInput, Button } from 'react-native';
+
+    const OrderDetailsScreen = ({ route }: { route: RouteProp<RootStackParamList, "OrderDetails"> }) => {
+        
+        ...
+
+        return (
+            <View style={{ flex: 1, backgroundColor: '#fff' }}>
+                <Text>Order Details</Text>
+                {order && <View>
+                    <Text>Order ID: {order.order_id}</Text>
+                    <Text>Order Type: {order.order_type}</Text>
+                    <Text>Order Status: {order.status}</Text>
+                    <Text>Order Transaction Hash: {order.transaction_hash}</Text>
+                    <Text>Order Network Name: {order.network_name}</Text>
+                </View>}
+            </View>
+        )
+    }
+    ```
+
+    ### Add Navigation
+    Now, let's add a automatic navigation from `transfer-tokens.tsx` to take the user to `order-details.tsx` for checking the order details.
+
+    ```tsx filename="screen/transfer-token.tsx" copy
+
+    const TransferTokensScreen = ({ navigation }: { navigation: any }) => {
+        
+        const handleSubmit = () => {
+            transferTokens(
+                networkName,
+                tokenAddress,
+                recipientAddress,
+                quantity
+            ).then((result) => {
+                    navigation.navigate('OrderDetails', { order_id: result.order_id })
+            })
+            .catch((error) => {
+                console.log('Transfer error', error);
+            });
+        }
+        
+        return (
+            ...
+        )
+    }
+    ```
+</Steps>
+</Tabs.Tab>
+<Tabs.Tab>
+Once the token transfer is initiated, the API will return a `order_id`, which can be used to track the status of the transfer along with other order details.  
+
+<Steps>
+
+  ### Fetch Order Details
+  We will be using the [`orderHistory`](/sdk-reference/flutter/orderHistory) method to fetch all the order details for the user. Then we can use the `orderId` to check our current order details.
     For Flutter we can directly begin with creating a new screen inside `lib/screens/` `order_details.dart`
     ```dart filename="screens/order_details.dart" copy
     import 'package:flutter/material.dart';
@@ -92,42 +152,10 @@ Once the token transfer is initiated, the API will return a `order_id`, which ca
 
     ```
 
-    </Tabs.Tab>
-    </Tabs>
+### Display Order Details
 
-    ### Display Order Details
-
-    We will now display the order details on the screen. We will use the `order` state to display the details.
-    <Tabs items={["React Native", "Flutter"]}>
-    <Tabs.Tab>
-
-    ```tsx filename="screen/order-details.tsx" copy
-    import { RootStackParamList } from "../navigtion";
-    import { View, TextInput, Button } from 'react-native';
-
-    const OrderDetailsScreen = ({ route }: { route: RouteProp<RootStackParamList, "OrderDetails"> }) => {
-        
-        ...
-
-        return (
-            <View style={{ flex: 1, backgroundColor: '#fff' }}>
-                <Text>Order Details</Text>
-                {order && <View>
-                    <Text>Order ID: {order.order_id}</Text>
-                    <Text>Order Type: {order.order_type}</Text>
-                    <Text>Order Status: {order.status}</Text>
-                    <Text>Order Transaction Hash: {order.transaction_hash}</Text>
-                    <Text>Order Network Name: {order.network_name}</Text>
-                </View>}
-            </View>
-        )
-    }
-    ```
-    </Tabs.Tab>
-    <Tabs.Tab>
-    ```dart filename="screens/order_details.dart" copy
-
-     import 'package:flutter/material.dart';
+   ```dart filename="screens/order_details.dart" copy
+import 'package:flutter/material.dart';
 import 'package:okto_test/models/client/order_history_model.dart';
 import 'package:okto_test/okto.dart';
 
@@ -144,11 +172,17 @@ class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
     return Scaffold(
       body: Center(
         child: TextButton(
-            onPressed: () async {
-              final orderHistory = await okto.orderHistory();
-              Navigator.push(context, MaterialPageRoute(builder: (context) => OrderDetailsShowScreen(orderHistory: orderHistory)));
-            },
-            child: const Text('Fetch Order Details')),
+          onPressed: () async {
+            final orderHistory = await okto.orderHistory();
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => OrderDetailsShowScreen(orderHistory: orderHistory),
+              ),
+            );
+          },
+          child: const Text('Fetch Order Details'),
+        ),
       ),
     );
   }
@@ -167,43 +201,28 @@ class _OrderDetailsShowScreenState extends State<OrderDetailsShowScreen> {
   Widget build(BuildContext context) {
     final orderHistory = widget.orderHistory.data.jobs;
     return Scaffold(
-      body: Column(
-        children: [
-          for (int i = 0; i < orderHistory.length; i++) Text(orderHistory[i].orderId),
-        ],
+      appBar: AppBar(
+        title: const Text('Order Details'),
+      ),
+      body: ListView.builder(
+        itemCount: orderHistory.length,
+        itemBuilder: (context, index) {
+          return ListTile(
+            title: Text(orderHistory[index].orderId),
+          );
+        },
       ),
     );
   }
 }
 
     ```
-</Tabs.Tab>
-    </Tabs>
 
-    ### Add Navigation
-    Now, let's add a automatic navigation from `transfer-tokens.tsx` to take the user to `order-details.tsx` for checking the order details.
-
-    ```tsx filename="screen/transfer-token.tsx" copy
-
-    const TransferTokensScreen = ({ navigation }: { navigation: any }) => {
-        
-        const handleSubmit = () => {
-            transferTokens(
-                networkName,
-                tokenAddress,
-                recipientAddress,
-                quantity
-            ).then((result) => {
-                    navigation.navigate('OrderDetails', { order_id: result.order_id })
-            })
-            .catch((error) => {
-                console.log('Transfer error', error);
-            });
-        }
-        
-        return (
-            ...
-        )
-    }
-    ```
 </Steps>
+
+
+
+  
+
+</Tabs.Tab>
+</Tabs>
