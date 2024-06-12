@@ -1,7 +1,10 @@
-import { Steps } from 'nextra/components';
+import { Steps, Tabs } from 'nextra/components';
 
 Finally, we can add a log out function for the user. This will revoke the access token and sign out from the Google account as well as from Okto. The user will be redirected to the login screen after the logout.
 
+
+<Tabs items={['React Native', 'Flutter']}>  
+  <Tabs.Tab>
 <Steps>
     ### Add logout function
     Lets start by adding a function that can handle the logout. This function will sign out the user from the Google account and we can use the `logout` method from Okto to expire the access token and refresh token and end the session from Okto Wallet as well.
@@ -58,4 +61,49 @@ Finally, we can add a log out function for the user. This will revoke the access
     }
     ```
 </Steps>
+</Tabs.Tab>
+<Tabs.Tab>
+<Steps>
+### Create a logout screen
+Lets start by adding a function that can handle the logout. This function will sign out the user from the Google account and we can use the `logout` method from Okto to expire the access token and refresh token and end the session from Okto Wallet as well.
+
+```dart filename="screens/logout.dart" copy
+import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:okto_test/loginpage.dart';
+import 'package:okto_test/okto.dart';
+
+class LogoutScreen extends StatefulWidget {
+  const LogoutScreen({super.key});
+
+  @override
+  State<LogoutScreen> createState() => _LogoutScreenState();
+}
+
+class _LogoutScreenState extends State<LogoutScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: TextButton(
+          onPressed: () async {
+            try {
+            await GoogleSignIn().signOut();
+            await okto.logout();
+              Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const LoginPage()));
+            } catch (e) {
+              print(e);
+            }
+          },
+          child: const Text('Logout'),
+        ),
+      ),
+    );
+  }
+}
+
+```
+</Steps>
+</Tabs.Tab>
+</Tabs>
 
