@@ -1,6 +1,9 @@
+import { Tabs } from "nextra/components";
 
 Now, you might have noticed that the Okto Bottomsheet looks the same for any app, regardless of its design. What if we told you there was a way to theme the bottom sheet to fit your app's design?
 
+<Tabs items={['React Native', 'Flutter']}>  
+<Tabs.Tab>
 ### Customizing the Bottom Sheet
 In you `App.tsx` file, we will use the [`setTheme`](/sdk-reference/setTheme) method to customize the bottom sheet. This method should be ideally called at the root of your app. Here are some of parameters that you can customize:
 - `textPrimaryColor` (optional) - Text primary color of the theme.
@@ -14,23 +17,23 @@ In you `App.tsx` file, we will use the [`setTheme`](/sdk-reference/setTheme) met
 - `backgroundColor` (optional) - Background color of the theme.
 
 ```tsx filename="App.tsx" copy
-import { useOkto, type OktoContextType} from 'okto-sdk-react-native';
-
+import { useOkto, type OktoContextType } from "okto-sdk-react-native";
 
 const { setTheme, getTheme } = useOkto() as OktoContextType;
 // Just as an example, we are setting the backgroundColor to black
 setTheme({
-  textPrimaryColor: '0xFFFFFFFF',
-  textSecondaryColor: '0xFFFFFFFF',
-  textTertiaryColor: '0xFFFFFFFF',
-  accentColor: '0x80433454',
-  accent2Color: '0x80905BF5',
-  strokBorderColor: '0xFFACACAB',
-  strokDividerColor: '0x4DA8A8A8',
-  surfaceColor: '0xFF1F0A2F',
-  backgroundColor: '0xFF000000',
+  textPrimaryColor: "0xFFFFFFFF",
+  textSecondaryColor: "0xFFFFFFFF",
+  textTertiaryColor: "0xFFFFFFFF",
+  accentColor: "0x80433454",
+  accent2Color: "0x80905BF5",
+  strokBorderColor: "0xFFACACAB",
+  strokDividerColor: "0x4DA8A8A8",
+  surfaceColor: "0xFF1F0A2F",
+  backgroundColor: "0xFF000000",
 });
 ```
+
 <div style={{ display: 'flex', gap: 12 }}>
     <div style={{ width: "30%" }}>
         ![Wallet Created](/customize/wallet.jpg)
@@ -39,5 +42,30 @@ setTheme({
         ![Wallet](/customize/others.jpg)
     </div>
 </div>
+</Tabs.Tab>
+<Tabs.Tab>
+### Customizing the Bottom Sheet
+
+To customize the okto bottom sheet in your flutter app you can do the following:  
+while calling the `openBottomSheet` method, just pass these arguments as needed:  
+
+```dart copy
+await okto.openBottomSheet(
+    context: context,
+    textPrimaryColor: "0xFFFFFFFF",
+    textSecondaryColor: "0xFFFFFFFF",
+    textTertiaryColor: "0xFFFFFFFF",
+    accentColor: "0x80433454",
+    accent2Color: "0x80905BF5",
+    strokBorderColor: "0xFFACACAB",
+    strokDividerColor: "0x4DA8A8A8",
+    surfaceColor: "0xFF1F0A2F",
+    backgroundColor: "0xFF000000",
+    );
+```
+
+
+</Tabs.Tab>
+</Tabs>
 
 And that's it! It's as simple as that. Now, when you pull up the bottom sheet, it will be themed according to your app's design.

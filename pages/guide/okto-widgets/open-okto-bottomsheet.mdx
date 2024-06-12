@@ -1,11 +1,11 @@
-import { Steps, Tabs } from 'nextra/components';
+import { Steps, Tabs } from "nextra/components";
 
-
-<Tabs items={['React Native', 'Flutter']}>
+<Tabs items={['React Native', 'Flutter']}>  
+  
+  <Tabs.Tab>
   Okto Bottomsheet is opened first when a new user `authenticates` with Okto and gets prompted to [`create wallet`](/guide/authenticate/create-wallet). 
   Now if you want the user to access this bottom sheet again, Okto provides [`showWidgetSheet`](/sdk-reference/react-native/showWidgetSheet) method to open the bottom sheet again.
 
-  <Tabs.Tab>
     <Steps>
       ### Add Button to Open Bottom Sheet
       Let's add a button in `user-profile.tsx` to open the bottom sheet.
@@ -21,7 +21,7 @@ import { Steps, Tabs } from 'nextra/components';
         return (
           <View>
             <Text>User Profile</Text>
-            
+
             ...
 
             <Button
@@ -49,6 +49,7 @@ import { Steps, Tabs } from 'nextra/components';
         </div>
       </div>
     </Steps>
+
   </Tabs.Tab>
 
   <Tabs.Tab>
@@ -101,5 +102,6 @@ import { Steps, Tabs } from 'nextra/components';
         </div>
       </div>
     </Steps>
+
   </Tabs.Tab>
 </Tabs>
