@@ -1,63 +1,183 @@
-import { Steps } from 'nextra/components';
+import { Steps, Tabs } from "nextra/components";
 
 Let's continue by adding more information to the User Profile Screen. Add a new section to the screen that will display all wallet information of the user.
 
-<Steps>
-### Fetch Wallets
-First, let's fetch the wallets information of the user using the [`getWallets`](/sdk-reference/getWallets) method. We will continue developing in the `user-profile.tsx`.
+<Tabs items={['React Native', 'Flutter']}>
+  <Tabs.Tab>
+    <Steps>
+      ### Fetch Wallets
+      First, let's fetch the wallets information of the user using the [`getWallets`](/sdk-reference/react-native/getWallets) method. We will continue developing in the `user-profile.tsx`.
 
-```tsx filename="screens/user-profile.tsx" copy
-import { useOkto, type OktoContextType, type Wallet} from 'okto-sdk-react-native';
+      ```tsx filename="screens/user-profile.tsx" copy
+      import { useOkto, type OktoContextType, type Wallet } from 'okto-sdk-react-native';
+      import React, { useState } from 'react';
+      import { View, Text } from "react-native";
 
-...
+      const UserProfileScreen = () => {
+          const { getWallets } = useOkto() as OktoContextType;
+          const [userWallets, setUserWallets] = useState<Wallet[]>([]);
 
+          React.useEffect(() => {
+              getWallets()
+                    .then((result) => {
+                      setUserWallets(result);
+                    })
+                    .catch((error) => {
+                      console.error(`error:`, error);
+                    });
+          }, []);
 
-const UserProfileScreen = () => {
-    const { getWallets } = useOkto() as OktoContextType;
-    const [userWallets, setUserWallets] = useState<Wallet[]>([])
+          return (
+              <View style={{ flex: 1, backgroundColor: '#fff' }}>
+                  <Text>User Wallets</Text>
+                  <View>
+                      {userWallets.map((wallet, index) => (
+                          <View key={index} style={{ marginVertical: 10 }}>
+                              <Text>{wallet.network_name}</Text>
+                              <Text>{wallet.address}</Text>
+                          </View>
+                      ))}
+                  </View>
+              </View>
+          );
+      };
 
-    ...
+      export default UserProfileScreen;
+      ```
 
-    React.useEffect(() => {
-        ...
+      ### Display Wallets
+      Now, we will display the wallets information of the user.
 
-        getWallets()
-              .then((result) => {
-                setUserWallets(result)
-              })
-              .catch((error) => {
-                console.error(`error:`, error);
-              });
-    }, [])
-}
-```
+      ```tsx filename="screens/user-profile.tsx" copy
+      import { View, Text } from "react-native";
+      import React, { useState } from 'react';
+      import { useOkto, type OktoContextType, type Wallet } from 'okto-sdk-react-native';
 
-### Display Wallets
-Now, we will display the wallets information of the user.
+      const UserProfileScreen = () => {
+          const { getWallets } = useOkto() as OktoContextType;
+          const [userWallets, setUserWallets] = useState<Wallet[]>([]);
 
-```tsx filename="screens/user-profile.tsx" copy
-import { View, Text } from "react-native";
+          React.useEffect(() => {
+              getWallets()
+                    .then((result) => {
+                      setUserWallets(result);
+                    })
+                    .catch((error) => {
+                      console.error(`error:`, error);
+                    });
+          }, []);
 
-...
+          return (
+              <View style={{ flex: 1, backgroundColor: '#fff' }}>
+                  <Text>User Wallets</Text>
+                  <View>
+                      {userWallets.map((wallet, index) => (
+                          <View key={index} style={{ marginVertical: 10 }}>
+                              <Text>{wallet.network_name}</Text>
+                              <Text>{wallet.address}</Text>
+                          </View>
+                      ))}
+                  </View>
+              </View>
+          );
+      };
 
-const UserProfileScreen = () => {
-    const [userWallets, setUserWallets] = useState<Wallet[]>([])
-    ...
+      export default UserProfileScreen;
+      ```
+    </Steps>
 
-    return (
-        <View style={{ flex: 1, backgroundColor: '#fff' }}>
-            ...
-            <Text>User Wallets</Text>
-            <View>
-                {userWallets.map((wallet, index) => (
-                    <View key={index} style={{ marginVertical: 10 }}>
-                        <Text>{wallet.network_name}</Text>
-                        <Text>{wallet.address}</Text>
-                    </View>
-                ))}
-            </View>
-        </View>
-    )
-}
-```
-</Steps>
+  </Tabs.Tab>
+
+  <Tabs.Tab>
+    <Steps>
+      ### Fetch Wallets
+      First, let's fetch the wallets information of the user using the [`getWallets`](/sdk-reference/flutter/getWallets) method. We will continue developing in the `user_profile.dart`.
+
+      ```dart filename="lib/screens/user_profile.dart" copy
+      import 'package:flutter/material.dart';
+      import 'package:okto_sdk_flutter/okto_sdk_flutter.dart';
+
+      class UserProfileScreen extends StatefulWidget {
+        @override
+        _UserProfileScreenState createState() => _UserProfileScreenState();
+      }
+
+      class _UserProfileScreenState extends State<UserProfileScreen> {
+        List userWallets = [];
+
+        @override
+        void initState() {
+          super.initState();
+          _fetchWallets();
+        }
+
+        Future<void> _fetchWallets() async {
+        List wallets = await okto.getWallets();
+        setState(() {
+            userWallets = wallets;
+        });
+        }
+
+        @override
+        Widget build(BuildContext context) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text('User Wallets'),
+            ),
+            body: Center(
+              child: userWallets.isEmpty
+                  ? CircularProgressIndicator()
+                  : ListView.builder(
+                      itemCount: userWallets.length,
+                      itemBuilder: (context, index) {
+                        return ListTile(
+                          title: Text(userWallets[index].networkName),
+                          subtitle: Text(userWallets[index].address),
+                        );
+                      },
+                    ),
+            ),
+          );
+        }
+      }
+      ```
+
+      ### Display Wallets
+      Now, we will display the wallets information of the user.
+
+      ```dart filename="lib/screens/user_profile.dart" copy
+      import 'package:flutter/material.dart';
+      import 'package:okto_sdk_flutter/okto_sdk_flutter.dart';
+
+      class UserProfileScreen extends StatelessWidget {
+        final List userWallets;
+
+        UserProfileScreen({required this.userWallets});
+
+        @override
+        Widget build(BuildContext context) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text('User Wallets'),
+            ),
+            body: Center(
+              child: ListView.builder(
+                itemCount: userWallets.length,
+                itemBuilder: (context, index) {
+                  return ListTile(
+                    title: Text(userWallets[index].networkName),
+                    subtitle: Text(userWallets[index].address),
+                  );
+                },
+              ),
+            ),
+          );
+        }
+      }
+      ```
+    </Steps>
+
+  </Tabs.Tab>
+</Tabs>
+
+Now that the user details are displayed, in the next step, we will fetch the user's wallet details and display them in the app.

@@ -1,10 +1,12 @@
-import { Steps } from 'nextra/components';
+import { Steps , Tabs} from 'nextra/components';
 
 Once the NFT transfer is initiated, the API will return a `order_id`, which can be used to track the status of the transfer along with other order details.
 
+<Tabs items={["React Native", "Flutter"]}>
+<Tabs.Tab>
 <Steps>
     ### Fetch Order Details
-    We will be using the [`getNftOrderDetails`](/sdk-reference/getNftOrderDetails) method to fetch all the NFT order details for the user. Then we can use the `order_id` to check our current order details.
+    We will be using the [`getNftOrderDetails`](/sdk-reference/react-native/getNftOrderDetails) method to fetch all the NFT order details for the user. Then we can use the `order_id` to check our current order details.
     
     We will create a new screen named `nft-order-details.tsx` and fetch all the orders and filter the order details using the `order_id`.
 
@@ -112,3 +114,57 @@ Once the NFT transfer is initiated, the API will return a `order_id`, which can 
     }
     ```
 </Steps>
+</Tabs.Tab>
+<Tabs.Tab>
+<Steps>
+
+ ### Fetch Order Details
+    We will be using the [`getNftOrderDetails`](/sdk-reference/flutter/getNftOrderDetails) method to fetch all the NFT order details for the user. Then we can use the `order_id` to check our current order details.
+    
+    We will create a new screen named `nft_order_details.dart` and fetch all the orders and filter the order details using the `orderId`.
+
+    ```dart filename="screens/nft_order_details.dart" copy
+
+import 'package:flutter/material.dart';
+import 'package:okto_test/okto.dart';
+
+class NftOrderDetailsScreen extends StatefulWidget {
+  const NftOrderDetailsScreen({super.key});
+
+  @override
+  State<NftOrderDetailsScreen> createState() => _NftOrderDetailsScreenState();
+}
+
+class _NftOrderDetailsScreenState extends State<NftOrderDetailsScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: TextButton(
+          onPressed: () async {
+            try {
+             final orderDetails =  await okto.orderDetailsNft();
+             // pass optional parameters like 
+                // orderId
+                // orderState
+                // page
+                // size
+             // do something
+            } catch (e) {
+              print(e);
+            }
+          },
+          child: const Text('Get nft order details'),
+        ),
+      ),
+    );
+  }
+}
+
+
+
+    ```
+
+</Steps>
+</Tabs.Tab>
+</Tabs>

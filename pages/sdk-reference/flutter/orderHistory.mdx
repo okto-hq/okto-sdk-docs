@@ -1,0 +1,55 @@
+# orderHistory Method
+
+This method is used to get the details of all the past orders of the current user.
+
+## Parameters
+
+- `orderId` - The order id to get the specific order details.
+- `offset`- The number of items to skip before starting to collect the result set. Default is 0.
+- `limit` - The number of items to return. Default is 1.
+- `orderState` - The order state to filter the orders. Possible values are `PENDING`, `SUCCESS`, `FAILED`.
+
+```dart copy
+await okto.orderHistory(
+  orderState: OrderState.success,
+  orderId: 'YOUR_ORDER_ID',
+  limit: 1,
+  offset: 0
+);
+```
+
+
+
+## Example
+```dart copy
+import 'package:flutter/material.dart';
+import 'package:okto_flutter_sdk/okto_wallet_sdk.dart';
+import 'package:okto_test/okto.dart';
+
+class OktoWalletFlutter extends StatefulWidget {
+  const OktoWalletFlutter({super.key});
+
+  @override
+  State<OktoWalletFlutter> createState() => _OktoWalletFlutter();
+}
+
+class _OktoWalletFlutter extends State<OktoWalletFlutter> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: TextButton(
+            onPressed: () async {
+              try {
+                await okto.orderHistory(orderState: OrderState.success);
+              } catch (e) {
+                print(e);
+              }
+            },
+            child: const Text('Get order history')),
+      ),
+    );
+  }
+}
+
+````

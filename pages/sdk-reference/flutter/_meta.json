@@ -1,0 +1,14 @@
+{
+    "authenticate": "authenticate",
+    "getUserDetails": "getUserDetails",
+    "getWallets": "getWallets",
+    "getPortfolio": "getPortfolio",
+    "getSupportedNetworks": "getSupportedNetworks",
+    "getSupportedTokens": "getSupportedTokens",
+    "transferTokens": "transferTokens",
+    "orderHistory": "orderHistory",
+    "transferNFT": "transferNFT",
+    "getNftOrderDetails": "getNftOrderDetails",
+    "logout": "logout",
+    "showWidgetSheet": "showWidgetSheet"
+}

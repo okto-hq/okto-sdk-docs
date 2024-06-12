@@ -1,0 +1,42 @@
+
+# getSupportedNetworks Method
+This method is used to get all whitelisted networks on your API Key.
+
+## Parameters
+None
+
+
+## Example
+```dart copy
+import 'package:flutter/material.dart';
+import 'package:okto_flutter_sdk/okto_wallet_sdk.dart';
+import 'package:okto_test/okto.dart';
+
+class UserDetailsScreen extends StatefulWidget {
+  const UserDetailsScreen({super.key});
+
+  @override
+  State<UserDetailsScreen> createState() => _UserDetailsScreenState();
+}
+
+class _UserDetailsScreenState extends State<UserDetailsScreen> {
+  NetworkDetails? _networks;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: TextButton(
+            onPressed: () async {
+              final networks = await okto.supportedNetworks();
+              setState(() {
+                _networks = networks;
+              });
+            },
+            child: const Text('Get supported networks')),
+      ),
+    );
+  }
+}
+
+
+```

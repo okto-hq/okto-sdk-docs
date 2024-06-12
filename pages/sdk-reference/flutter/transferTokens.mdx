@@ -1,0 +1,63 @@
+
+# transferTokens Method
+This method is used to transfer tokens from one wallet to another wallet.
+
+## Parameters
+- `networkName` - Name of the network to transfer funds.  
+   You can fetch the available network names from [`getSupportedNetworks`](/sdk-reference/flutter/getSupportedNetworks)
+- `tokenAddress` - Address of the token to transfer.
+- `recipientAddress` - Address of the recipient wallet.
+- `quantity` - The amount of tokens to transfer.
+
+```dart copy
+try {
+  await okto.transferTokens(
+    networkName: networkName,
+    tokenAddress: tokenAddress,
+    quantity: quantity,
+    recipientAddress: recipientAddress,
+  );
+} catch (e) {
+  print(e);
+}
+```
+
+## Example
+```dart copy
+import 'package:flutter/material.dart';
+import 'package:okto_flutter_sdk/okto_wallet_sdk.dart';
+import 'package:okto_test/okto.dart';
+
+class OktoWalletFlutter extends StatefulWidget {
+  const OktoWalletFlutter({super.key});
+
+  @override
+  State<OktoWalletFlutter> createState() => _OktoWalletFlutter();
+}
+
+class _OktoWalletFlutter extends State<OktoWalletFlutter> {
+  TokenResponse? _tokens;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: TextButton(
+            onPressed: () async {
+              try {
+                await okto.transferTokens(
+                  networkName: networkName,
+                  tokenAddress: tokenAddress,
+                  quantity: quantity,
+                  recipientAddress: recipientAddress,
+                );
+              } catch (e) {
+                print(e);
+              }
+            },
+            child: const Text('Transfer tokens')),
+      ),
+    );
+  }
+}
+
+```
