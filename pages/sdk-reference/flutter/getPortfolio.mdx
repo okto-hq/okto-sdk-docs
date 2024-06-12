@@ -1,0 +1,41 @@
+
+# getPortfolio Method
+This method is used to get all the token assets in the user's portfolio.
+
+## Parameters
+None
+
+
+
+## Example
+```dart copy
+import 'package:flutter/material.dart';
+import 'package:okto_flutter_sdk/okto_wallet_sdk.dart';
+import 'package:okto_test/okto.dart';
+
+class UserDetailsScreen extends StatefulWidget {
+  const UserDetailsScreen({super.key});
+
+  @override
+  State<UserDetailsScreen> createState() => _UserDetailsScreenState();
+}
+
+class _UserDetailsScreenState extends State<UserDetailsScreen> {
+  UserPortfolioResponse? _portfolio;
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: TextButton(
+            onPressed: () async {
+              final portfolio = await okto.userPortfolio();
+              setState(() {
+                _portfolio = portfolio;
+              });
+            },
+            child: const Text('Get user details')),
+      ),
+    );
+  }
+}
+```

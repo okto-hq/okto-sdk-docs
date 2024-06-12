@@ -1,0 +1,42 @@
+
+# logout Method
+This method is used to logout the user from the Okto Wallet. It will only work if the user is already logged in.
+
+## Parameters
+None
+
+
+
+## Example
+```dart copy
+import 'package:flutter/material.dart';
+import 'package:okto_flutter_sdk/okto_wallet_sdk.dart';
+import 'package:okto_test/okto.dart';
+
+class OktoWalletFlutter extends StatefulWidget {
+  const OktoWalletFlutter({super.key});
+
+  @override
+  State<OktoWalletFlutter> createState() => _OktoWalletFlutter();
+}
+
+class _OktoWalletFlutter extends State<OktoWalletFlutter> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: TextButton(
+            onPressed: () async {
+              try {
+                await okto.logout();
+              } catch (e) {
+                print(e);
+              }
+            },
+            child: const Text('logout')),
+      ),
+    );
+  }
+}
+
+```

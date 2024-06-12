@@ -1,0 +1,127 @@
+import { Tabs } from "nextra/components";  
+
+
+# authenticate Method
+
+There are two ways to authenticate new users on your flutter app using Okto Flutter Sdk.
+
+<Tabs items={['Using Google OAuth2', 'Using JWT']}>  
+<Tabs.Tab>
+
+Authenticate user with `idToken` received from Google OAuth2.
+
+  ## Parameters
+
+  - `idToken` - Token received from Google OAuth2.
+
+  If the user does not have a wallet, a [wallet prompt](/guide/authenticate/create-wallet) will be shown to the user to create a wallet.
+
+  This method requires to setpin after authentication.
+  ```dart copy
+  try {
+    await okto.authenticate(idToken: 'idToken');
+    print('success');
+  } catch (e) {
+    print(e);
+  }
+  ```
+
+  ## Example
+
+  ```dart copy
+  import 'package:flutter/material.dart';
+  import 'package:okto_test/okto.dart';
+
+  class Login extends StatefulWidget {
+    const Login({super.key});
+
+    @override
+    State<Login> createState() => _LoginState();
+  }
+
+  class _LoginState extends State<Login> {
+    @override
+    Widget build(BuildContext context) {
+      return Scaffold(
+        body: Center(
+          child: TextButton(
+            onPressed: () async {
+              try {
+                await okto.authenticate(idToken: idToken);
+
+                // Navigate to homescreen
+              } catch (e) {
+                print(e);
+              }
+            },
+            child: Text('Authenticate'),
+          ),
+        ),
+      );
+    }
+  }
+
+  ```
+
+</Tabs.Tab>
+<Tabs.Tab>
+Authenticate user using `userId` and JWT Token  
+
+The client will provide us a JWT directly, which can be verified using methods such as phone OTP or any other verification mechanism. This JWT is then used to authenticate with Okto.
+
+
+
+  ## Parameters
+
+  - `jwtToken` - Your JWT Token
+  - `userId`   - Your User Id
+
+
+```dart copy
+
+ try {
+   final authResponse = await okto.authenticateWithUserId(jwtToken: 'YOUR_JWT_TOKEN', userId: 'YOUR_USER_ID');
+   print('success')
+ } catch (e) {
+  print(e);
+ }
+```
+
+ ## Example
+
+  ```dart copy
+import 'package:flutter/material.dart';
+import 'package:okto_test/okto.dart';
+
+class Login extends StatefulWidget {
+  const Login({super.key});
+
+  @override
+  State<Login> createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: TextButton(
+          onPressed: () async {
+            try {
+              await okto.authenticateWithUserId(jwtToken: jwtToken, userId: userId);
+
+              // Navigate to homescreen
+            } catch (e) {
+              print(e);
+            }
+          },
+          child: Text('Authenticate'),
+        ),
+      ),
+    );
+  }
+}
+
+  ```
+</Tabs.Tab>
+</Tabs>

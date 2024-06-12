@@ -1,103 +1,147 @@
-import { Steps } from 'nextra/components';
+import { Steps, Tabs } from "nextra/components";
 
 Before the user can transfer assets from and to their wallets, they need to know the networks and tokens supported by your API Key.
 
-<Steps>
-    ### Fetch Supported Networks and Tokens
-    First, let's fetch the supported networks and tokens from Okto. Use the [`getSupportedNetworks`](/sdk-reference/getSupportedNetworks) and [`getSupportedTokens`](/sdk-reference/getSupportedTokens) methods to obtain the respective data.
-    We will start by creating a new screen with the name `supported-chains.tsx` and add the required methods.
+<Tabs items={['React Native', 'Flutter']}>
+  <Tabs.Tab>
+    <Steps>
+      ### Fetch Supported Networks and Tokens
+      First, let's fetch the supported networks and tokens from Okto. Use the [`getSupportedNetworks`](/sdk-reference/react-native/getSupportedNetworks) and [`getSupportedTokens`](/sdk-reference/react-native/getSupportedTokens) methods to obtain the respective data.
+      We will start by creating a new screen with the name `supported-chains.tsx` and add the required methods.
 
-    ```tsx filename="screen/supported-chains.tsx" copy
-    import { useOkto, type OktoContextType, type Token, type Network} from 'okto-sdk-react-native';
+      ```tsx filename="screen/supported-chains.tsx" copy
+      import { useOkto, type OktoContextType, type Token, type Network } from 'okto-sdk-react-native';
+      import React, { useState, useEffect } from 'react';
+      import { View, Text } from 'react-native';
 
+      const SupportedChainScreen = () => {
+          const { getSupportedNetworks, getSupportedTokens } = useOkto() as OktoContextType;
+          const [networks, setNetworks] = useState<Network[]>([]);
+          const [tokens, setTokens] = useState<Token[]>([]);
 
-    ...
-    const SupportedChainScreen = () => {
-        const { getSupportedNetworks, getSupportedTokens } = useOkto() as OktoContextType;
-        const [networks, setNetworks] = React.useState<Network[]>([]);
-        const [tokens, setTokens] = React.useState<Token[]>([]);
+          useEffect(() => {
+              getSupportedNetworks()
+                .then((result) => {
+                  setNetworks(result);
+                })
+                .catch((error) => {
+                  console.error(`error:`, error);
+                });
 
-        React.useEffect(() => {
-            getSupportedNetworks()
-              .then((result) => {
-                setNetworks(result)
-              })
-              .catch((error) => {
-                console.error(`error:`, error);
-              });
+              getSupportedTokens()
+                .then((result) => {
+                  setTokens(result);
+                })
+                .catch((error) => {
+                  console.error(`error:`, error);
+                });
+          }, []);
 
-            getSupportedTokens()
-              .then((result) => {
-                setTokens(result)
-              })
-              .catch((error) => {
-                console.error(`error:`, error);
-              });
-        }, [])
-    };
-    ```
+          return (
+              <View style={{ flexDirection: "row", backgroundColor: "#fff", flex: 1 }}>
+                  <View style={{ flex: 0.5 }}>
+                      <Text>Supported Networks</Text>
+                      <View>
+                          {networks.map((network, index) => (
+                              <View key={index} style={{ marginVertical: 10 }}>
+                                  <Text>{network.network_name}</Text>
+                              </View>
+                          ))}
+                      </View>
+                  </View>
+                  <View style={{ flex: 0.5 }}>
+                      <Text>Supported Tokens</Text>
+                      <View>
+                          {tokens.map((token, index) => (
+                              <View key={index} style={{ marginVertical: 10 }}>
+                                  <Text>{token.token_name}</Text>
+                              </View>
+                          ))}
+                      </View>
+                  </View>
+              </View>
+          );
+      };
 
-    ### Display Supported Networks and Tokens
-    Now that we have the supported networks and tokens, we can display them in the UI.
+      export default SupportedChainScreen;
+      ```
 
-    ```tsx filename="screen/supported-chains.tsx" copy
-    import { View, Text } from 'react-native';
+      ### Add Navigation
+      Finally, we need to add a way to navigate to this screen. Let's add a link in the `user-profile.tsx` to navigate to the `supported-chains.tsx`.
 
-    const SupportedChainScreen = () => {
-        const [networks, setNetworks] = React.useState<Network[]>([]);
-        const [tokens, setTokens] = React.useState<Token[]>([]);
-        
-        ...
+      ```tsx filename="screen/user-profile.tsx" copy
+      import { Pressable, Text, View } from 'react-native';
+      import React from 'react';
+      import { useNavigation } from '@react-navigation/native';
 
-        return (
-            <View style={{ flexDirection: "row", backgroundColor: "#fff", flex: 1 }}>
-                <View style={{ flex: 0.5 }}>
-                    <Text>Supported Networks</Text>
-                    <View>
-                        {networks.map((network, index) => (
-                            <View key={index} style={{ marginVertical: 10 }}>
-                                <Text>{network.network_name}</Text>
-                            </View>
-                        ))}
-                    </View>
-                </View>
-                <View style={{ flex: 0.5 }}>
-                    <Text>Supported Tokens</Text>
-                    <View>
-                        {tokens.map((token, index) => (
-                            <View key={index} style={{ marginVertical: 10 }}>
-                                <Text>{token.token_name}</Text>
-                            </View>
-                        ))}
-                    </View>
-                </View>
-            </View>
-        )
-    }
-    ```
+      const UserProfileScreen = () => {
+          const navigation = useNavigation();
 
-    ### Add navigation
-    Finally, we need to add a way to navigate to this screen. Let's add a link in the `user-profile.tsx` to navigate to the `supported-chains.tsx`.
+          return (
+              <View>
+                  ...
 
-    ```tsx filename="screen/user-profile.tsx" copy
-    import { Pressable, Text, View } from 'react-native';
+                  <View style={{ alignItems: "center" }}>
+                      <Pressable onPress={() => navigation.navigate("SupportedChains")}>
+                          <Text style={{ color: "#008AE6" }}>Check Supported Chains</Text>
+                      </Pressable>
+                  </View>
+              </View>
+          );
+      };
 
-    const UserProfileScreen = ({ navigation }: { navigation: any }) => {
-        
-        ...
-        
-        return (
-            <View>
-                ...
+      export default UserProfileScreen;
+      ```
+    </Steps>
 
-                <View style={{ alignItems: "center" }}>
-                    <Pressable onPress={() => navigation.navigate("SupportedChains")}>
-                        <Text style={{ color: "#008AE6" }}>Check Supported Chains</Text>
-                    </Pressable>
-                </View>
-            </View>
-        )
-    }
-    ```
-</Steps>
+  </Tabs.Tab>
 
+  <Tabs.Tab>
+    <Steps>
+      ### Fetch Supported Networks and Tokens
+      First, let's fetch the supported networks and tokens from Okto. Use the [`supportedNetworks`](/sdk-reference/flutter/getSupportedNetworks) and [`supportedTokens`](/sdk-reference/flutter/getSupportedTokens) methods to obtain the respective data.
+      We will start by creating a new screen with the name `supported_chains.dart` and add the required methods.
+
+      ```dart filename="lib/screens/supported_chains.dart" copy
+      import 'package:flutter/material.dart';
+      import 'package:okto_sdk_flutter/okto_sdk_flutter.dart';
+
+      class SupportedChainScreen extends StatefulWidget {
+        @override
+        _SupportedChainScreenState createState() => _SupportedChainScreenState();
+      }
+
+      class _SupportedChainScreenState extends State<SupportedChainScreen> {
+
+        @override
+        void initState() {
+          super.initState();
+          _fetchSupportedData();
+        }
+
+        Future<void> _fetchSupportedData() async {
+            final networksResult = await okto.supportedNetworks();
+            final tokensResult = await okto.supportedTokens();
+        }
+
+        @override
+        Widget build(BuildContext context) {
+          return Scaffold(
+            appBar: AppBar(
+              title: Text('Supported Networks & Tokens'),
+            ),
+            body: Center(
+                child: TextButton(onPressed: (){
+                    _fetchSupportedData();
+                },
+                child: Text('get supported data'),
+                );
+            );
+          );
+        }
+      }
+      ```
+    </Steps>
+
+  </Tabs.Tab>
+</Tabs>
