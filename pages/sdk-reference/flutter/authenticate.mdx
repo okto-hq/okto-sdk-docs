@@ -1,9 +1,14 @@
+import { Tabs } from "nextra/components";  
+
+
 # authenticate Method
 
 There are two ways to authenticate new users on your flutter app using Okto Flutter Sdk.
 
+<Tabs items={['Using Google OAuth2', 'Using JWT']}>  
+<Tabs.Tab>
 
-- Authenticate user with `idToken` received from Google OAuth2.
+Authenticate user with `idToken` received from Google OAuth2.
 
   ## Parameters
 
@@ -58,20 +63,24 @@ There are two ways to authenticate new users on your flutter app using Okto Flut
 
   ```
 
-- Authenticate user using userId and JWT Token
+</Tabs.Tab>
+<Tabs.Tab>
+Authenticate user using `userId` and JWT Token  
 
-> Note: No need to call set pin
+The client will provide us a JWT directly, which can be verified using methods such as phone OTP or any other verification mechanism. This JWT is then used to authenticate with Okto.
+
+
 
   ## Parameters
 
   - `jwtToken` - Your JWT Token
-  - 'userId'   - Your User Id, received from okto.
+  - `userId`   - Your User Id
 
 
 ```dart copy
 
  try {
-   final authResponse = await okto.authenticateWithUserId(jwtToken: jwtToken, userId: 'YOUR_USER_ID');
+   final authResponse = await okto.authenticateWithUserId(jwtToken: 'YOUR_JWT_TOKEN', userId: 'YOUR_USER_ID');
    print('success')
  } catch (e) {
   print(e);
@@ -114,4 +123,5 @@ class _LoginState extends State<Login> {
 }
 
   ```
-
+</Tabs.Tab>
+</Tabs>
