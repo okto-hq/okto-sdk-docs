@@ -2,7 +2,7 @@
   "index": {
     "title":"Overview"
   },
-  "getting-started": "Getting Started",
+  "getting-started": "Get Okto API Key and Setup",
   "oauth-steps": {
     "title": "Steps to get OAuth 2.0 Token Id",
     "display": "hidden"
