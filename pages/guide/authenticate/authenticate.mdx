@@ -119,6 +119,11 @@ Let's get coding and see how we can use the `token_id` and [`authenticate`](/sdk
 
       After a successful authentication, the `result` will contain the authentication status. You can use this information to determine if the user has authenticated or not.
     </Steps>
+<Callout type="info" emoji="📱">
+  We have a react native sample app integrated with Okto SDK that you can use as
+  a starting point. You can find it
+  [here](https://github.com/okto-hq/okto-sdk-rn-sample)
+</Callout>
   </Tabs.Tab>
   <Tabs.Tab>
 
@@ -157,13 +162,13 @@ Here is how you can authenticate with Okto using both methods:
       Next, configure the Google Sign-In plugin in your Flutter project.
 
       ### Handle Google Sign-In
-      Now that we have set up the Google Sign-In library, let's handle the sign-in process. Create a new Dart file named `login.dart`. In this file, create a function to handle the Google Sign-In process, and call this function when the user presses a button.
+      Now that we have set up the Google Sign-In library, let's handle the sign-in process. Inside the login_page.dart, create a function to handle the Google Sign-In process, and call this function when the user presses a button.
 
-      ```dart filename="lib/screens/login.dart" copy
+      ```dart filename="lib/screens/login_page.dart" copy
       import 'package:flutter/material.dart';
       import 'package:google_sign_in/google_sign_in.dart';
 
-      class LoginScreen extends StatelessWidget {
+      class LoginPage extends StatelessWidget {
 
         final webClientId = "YOUR_WEB_CLIENT_ID";
         final GoogleSignIn _googleSignIn = GoogleSignIn(
@@ -204,17 +209,18 @@ Here is how you can authenticate with Okto using both methods:
       > Note: The `idToken` expires in 30 minutes, so it is recommended to authenticate with Okto as soon as possible after obtaining the `idToken`, or the authentication process will fail.
 
       > Note: After authenticating using this method it is required to call the `setpin` method.
-      ```dart filename="lib/screens/login.dart" copy
+      ```dart filename="lib/screens/login_page.dart" copy
       import 'package:okto_sdk_flutter/okto_sdk_flutter.dart';
       import 'package:google_sign_in/google_sign_in.dart';
       import 'package:flutter/material.dart';
+      import 'package:my_app/screens/home/home_page.dart';
+      import 'package:my_app/okto.dart';
 
-      class LoginScreen extends StatelessWidget {
-        final GoogleSignIn _googleSignIn = GoogleSignIn(
-          scopes: [
-            'email',
-            'https://www.googleapis.com/auth/contacts.readonly',
-          ],
+      class LoginPage extends StatelessWidget {
+      final GoogleSignIn _googleSignIn = GoogleSignIn(
+          clientId: 'YOUR_CLIENT_ID', // Replace with your client ID
+          serverClientId: 'YOUR_WEB_CLIENT_ID', // Replace with your web client ID
+          scopes: ['email', 'profile']
         );
 
         Future<void> _handleSignIn(BuildContext context) async {
@@ -227,6 +233,8 @@ Here is how you can authenticate with Okto using both methods:
 
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text('Authentication successful'),
+            
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage()));
             ));
           } catch (error) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -255,11 +263,14 @@ Here is how you can authenticate with Okto using both methods:
       ### Authenticate with Okto using UserId and JWT
       Besides using the `idToken`, you can also authenticate with Okto using a `userId` and any JWT. This method can also be used to authenticate with phone OTP.
 
-      ```dart filename="lib/screens/login.dart" copy
+      ```dart filename="lib/screens/login_page.dart" copy
       import 'package:okto_sdk_flutter/okto_sdk_flutter.dart';
       import 'package:flutter/material.dart';
+      import 'package:my_app/okto.dart';
+      import 'package:example/screens/home/home_page.dart';
 
-      class LoginScreen extends StatelessWidget {
+
+      class LoginPage extends StatelessWidget {
 
         Future<void> _handleSignIn(BuildContext context) async {
           try {
@@ -267,6 +278,8 @@ Here is how you can authenticate with Okto using both methods:
 
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
               content: Text('Authentication successful'),
+             
+            Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage()));
             ));
           } catch (error) {
             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -292,11 +305,12 @@ Here is how you can authenticate with Okto using both methods:
       }
       ```
     </Steps>
+<Callout type="info" emoji="📱">
+  We have a flutter sample app integrated with Okto SDK that you can use as
+  a starting point. You can find it
+  [here](https://github.com/okto-hq/okto-sdk-flutter/tree/main/example)
+</Callout>
   </Tabs.Tab>
 </Tabs>
 
-<Callout type="info" emoji="📱">
-  We have a react native sample app integrated with Okto SDK that you can use as
-  a starting point. You can find it
-  [here](https://github.com/okto-hq/okto-sdk-rn-sample)
-</Callout>
+
