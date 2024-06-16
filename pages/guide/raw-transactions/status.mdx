@@ -2,14 +2,16 @@ import { Steps, Tabs } from "nextra/components";
 
 Now that the transaction is executed, we get a `jobId` after the API is successful. We can use the `jobId` to track the status of the transaction.
 
+
+We will get the transaction details using the [`raw-transaction-status`](/api-reference/client/raw-transaction-status) API. This API will return the status of the transaction and other transaction details.
+Create a new screen with the name `raw-transaction-status` and we will fetch the details here.
+
+<Tabs items={["React Native", "Flutter"]}>
+<Tabs.Tab>
 <Steps>
-    ### Fetch Transaction Details
-    We will get the transaction details using the [`raw-transaction-status`](/api-reference/client/raw-transaction-status) API. This API will return the status of the transaction and other transaction details.
-    Create a new screen with the name `raw-transaction-status` and we will fetch the details here. 
+    ### Fetch Transaction Details 
     > Setup navigation to accept the `jobId` as a parameter. You can follow the same steps as we did for [Order Details](/guide/transfer-assets/order-details#fetch-order-details).
 
-    <Tabs items={["React Native", "Flutter"]}>
-        <Tabs.Tab>
             ```tsx filename="raw-transaction-status.tsx" copy
             import { useOkto, type OktoContextType} from 'okto-sdk-react-native';
 
@@ -30,50 +32,6 @@ Now that the transaction is executed, we get a `jobId` after the API is successf
                 }, []);
             }
             ```
-        </Tabs.Tab>
-        <Tabs.Tab>
-            ```dart filename="raw_transaction_status.dart" copy
-            import 'package:flutter/material.dart';
-            import 'package:okto_sdk/okto_sdk.dart';
-
-            class FetchRawTransactionScreen extends StatelessWidget {
-              final String jobId;
-
-              const FetchRawTransactionScreen({Key? key, required this.jobId}) : super(key: key);
-
-              @override
-              Widget build(BuildContext context) {
-                return Scaffold(
-                  appBar: AppBar(title: Text("Transaction Details")),
-                  body: FutureBuilder(
-                    future: OktoSdk.rawTransactionStatus(orderId: jobId),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return Center(child: CircularProgressIndicator());
-                      } else if (snapshot.hasError) {
-                        return Center(child: Text("Error: ${snapshot.error}"));
-                      } else if (!snapshot.hasData) {
-                        return Center(child: Text("No data"));
-                      } else {
-                        final transactionDetails = snapshot.data;
-                        return Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Network: ${transactionDetails.data.jobs[0].networkName}"), // change this 0 to some `index` inside some iterable class.
-                            Text("Status: ${transactionDetails.data.jobs[0].status}"),
-                            Text("Transaction Hash: ${transactionDetails.data.jobs[0].transactionHash}"),
-                          ],
-                        );
-                      }
-                    },
-                  ),
-                );
-              }
-            }
-            ```
-        </Tabs.Tab>
-    </Tabs>
-
     ### Display Transaction Details
     We will display the transaction details on the screen.
 
@@ -121,3 +79,125 @@ Now that the transaction is executed, we get a `jobId` after the API is successf
             ```
 
 </Steps>
+
+
+ </Tabs.Tab>
+        <Tabs.Tab>
+        <Steps>
+         ### Fetch and Display Raw Transaction Status
+
+            ```dart filename="lib/screens/raw_transaction_status.dart" copy
+            import 'package:my_app/okto.dart';
+            import 'package:flutter/material.dart';
+            import 'package:okto_flutter_sdk/okto_flutter_sdk.dart';
+
+            class RawTransactionStatusPage extends StatefulWidget {
+              const RawTransactionStatusPage({super.key});
+
+              @override
+              State<RawTransactionStatusPage> createState() => _RawTransactionStatusPageState();
+            }
+
+            class _RawTransactionStatusPageState extends State<RawTransactionStatusPage> {
+              Future<RawTransactionStatusResponse>? _rawTransactionStatus;
+
+              Future<RawTransactionStatusResponse> rawTransactionStatus() async {
+                try {
+                  final rawTransaction = await okto.rawTransactionStatus(orderId: 'YOUR_ORDER_ID');
+                  return rawTransaction;
+                } catch (e) {
+                  throw Exception(e);
+                }
+              }
+
+              @override
+              Widget build(BuildContext context) {
+                return Scaffold(
+                  backgroundColor: const Color(0xff5166EE),
+                  body: SafeArea(
+                    child: Column(
+                      children: [
+                        Container(
+                          alignment: Alignment.center,
+                          margin: const EdgeInsets.all(40),
+                          child: const Text(
+                            'Raw Transaction Status',
+                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 30),
+                          ),
+                        ),
+                        ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              _rawTransactionStatus = rawTransactionStatus();
+                            });
+                          },
+                          child: const Text('View status'),
+                        ),
+                        Expanded(
+                          child: _rawTransactionStatus == null
+                              ? Container()
+                              : FutureBuilder<RawTransactionStatusResponse>(
+                                  future: _rawTransactionStatus,
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState == ConnectionState.waiting) {
+                                      return const Center(child: CircularProgressIndicator(color: Colors.white));
+                                    } else if (snapshot.hasError) {
+                                      return Center(child: Text('Error: ${snapshot.error}'));
+                                    } else if (snapshot.hasData) {
+                                      final rawTransaction = snapshot.data!;
+                                      return Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            SizedBox(
+                                              height: MediaQuery.sizeOf(context).height * 0.6,
+                                              child: ListView.builder(
+                                                  itemCount: rawTransaction.data.jobs.length,
+                                                  itemBuilder: (context, index) {
+                                                    return Container(
+                                                      color: Colors.blue,
+                                                      margin: const EdgeInsets.all(5),
+                                                      child: Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Text(
+                                                            'Network name: ${rawTransaction.data.jobs[index].networkName}',
+                                                            style: const TextStyle(color: Colors.white, fontSize: 20),
+                                                          ),
+                                                          Text(
+                                                            'Order Id : ${rawTransaction.data.jobs[index].orderId}',
+                                                            style: const TextStyle(color: Colors.white, fontSize: 20),
+                                                          ),
+                                                          Text(
+                                                            'Status : ${rawTransaction.data.jobs[index].status}',
+                                                            style: const TextStyle(color: Colors.white, fontSize: 20),
+                                                          ),
+                                                          Text(
+                                                            'Transaction Hash : ${rawTransaction.data.jobs[index].transactionHash}',
+                                                            style: const TextStyle(color: Colors.white, fontSize: 20),
+                                                          ),
+                                                        ],
+                                                      ),
+                                                    );
+                                                  }
+                                                ),
+                                              )
+                                            ],
+                                          ),
+                                        );
+                                      }
+                                      return Container();
+                                  },
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    }
+                  }
+            ```
+            </Steps>
+        </Tabs.Tab>
+    </Tabs>
