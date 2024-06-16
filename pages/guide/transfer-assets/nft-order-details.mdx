@@ -121,48 +121,151 @@ Once the NFT transfer is initiated, the API will return a `order_id`, which can 
  ### Fetch Order Details
     We will be using the [`getNftOrderDetails`](/sdk-reference/flutter/getNftOrderDetails) method to fetch all the NFT order details for the user. Then we can use the `order_id` to check our current order details.
     
-    We will create a new screen named `nft_order_details.dart` and fetch all the orders and filter the order details using the `orderId`.
+    We will create a new screen named `order_details_nft_page.dart` and fetch all the orders and filter the order details using the `orderId`.
 
-    ```dart filename="screens/nft_order_details.dart" copy
-
+    ```dart filename="lib/screens/order_details_nft_page.dart" copy
+import 'package:my_app/okto.dart';
 import 'package:flutter/material.dart';
-import 'package:okto_test/okto.dart';
+import 'package:okto_flutter_sdk/okto_flutter_sdk.dart';
 
-class NftOrderDetailsScreen extends StatefulWidget {
-  const NftOrderDetailsScreen({super.key});
+class OrderDetailsNftPage extends StatefulWidget {
+  const OrderDetailsNftPage({super.key});
 
   @override
-  State<NftOrderDetailsScreen> createState() => _NftOrderDetailsScreenState();
+  State<OrderDetailsNftPage> createState() => _OrderDetailsNftPageState();
 }
 
-class _NftOrderDetailsScreenState extends State<NftOrderDetailsScreen> {
+class _OrderDetailsNftPageState extends State<OrderDetailsNftPage> {
+  Future<OrderDetailsNftResponse>? _orderDetailsNft;
+
+  Future<OrderDetailsNftResponse> getOrderDetailsNft() async {
+    try {
+      final orderDetails = await okto.orderDetailsNft();
+      return orderDetails;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: TextButton(
-          onPressed: () async {
-            try {
-             final orderDetails =  await okto.orderDetailsNft();
-             // pass optional parameters like 
-                // orderId
-                // orderState
-                // page
-                // size
-             // do something
-            } catch (e) {
-              print(e);
-            }
-          },
-          child: const Text('Get nft order details'),
-        ),
-      ),
-    );
-  }
-}
-
-
-
+      backgroundColor: const Color(0xff5166EE),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Container(
+              alignment: Alignment.center,
+              margin: const EdgeInsets.all(40),
+              child: const Text(
+                'Order Details NFT',
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 30),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  _orderDetailsNft = getOrderDetailsNft();
+                });
+              },
+              child: const Text('Order Details NFT'),
+            ),
+            Expanded(
+              child: _orderDetailsNft == null
+                  ? Container()
+                  : FutureBuilder<OrderDetailsNftResponse>(
+                      future: _orderDetailsNft,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const Center(child: CircularProgressIndicator(color: Colors.white));
+                        } else if (snapshot.hasError) {
+                          return Center(child: Text('Error: ${snapshot.error}'));
+                        } else if (snapshot.hasData) {
+                          final orderDetails = snapshot.data!;
+                          return Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: MediaQuery.sizeOf(context).height * 0.6,
+                                  child: ListView.builder(
+                                      itemCount: orderDetails.data.nfts.length,
+                                      itemBuilder: (context, index) {
+                                        return Container(
+                                          color: Colors.blue,
+                                          margin: const EdgeInsets.all(5),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'Collection Address: ${orderDetails.data.nfts[index].collectionAddress}',
+                                                style: const TextStyle(color: Colors.white, fontSize: 20),
+                                              ),
+                                              Text(
+                                                'Collection Id : ${orderDetails.data.nfts[index].collectionId}',
+                                                style: const TextStyle(color: Colors.white, fontSize: 20),
+                                              ),
+                                              Text(
+                                                'Collection Image : ${orderDetails.data.nfts[index].collectionImage}',
+                                                style: const TextStyle(color: Colors.white, fontSize: 20),
+                                              ),
+                                              Text(
+                                                'Collection Name : ${orderDetails.data.nfts[index].collectionName}',
+                                                style: const TextStyle(color: Colors.white, fontSize: 20),
+                                              ),
+                                              Text(
+                                                'Description : ${orderDetails.data.nfts[index].desctiption}',
+                                                style: const TextStyle(color: Colors.white, fontSize: 20),
+                                              ),
+                                              Text(
+                                                'Explorer Smart Contract Url: ${orderDetails.data.nfts[index].explorerSmartContractUrl}',
+                                                style: const TextStyle(color: Colors.white, fontSize: 20),
+                                              ),
+                                              Text(
+                                                'Id : ${orderDetails.data.nfts[index].id}',
+                                                style: const TextStyle(color: Colors.white, fontSize: 20),
+                                              ),
+                                              Text(
+                                                'Network Id: ${orderDetails.data.nfts[index].networkId}',
+                                                style: const TextStyle(color: Colors.white, fontSize: 20),
+                                              ),
+                                              Text(
+                                                'Network Name: ${orderDetails.data.nfts[index].networkName}',
+                                                style: const TextStyle(color: Colors.white, fontSize: 20),
+                                              ),
+                                              Text(
+                                                'Nft Name: ${orderDetails.data.nfts[index].nftName}',
+                                                style: const TextStyle(color: Colors.white, fontSize: 20),
+                                              ),
+                                              Text(
+                                                'Nft Token Id: ${orderDetails.data.nfts[index].nftTokenId}',
+                                                style: const TextStyle(color: Colors.white, fontSize: 20),
+                                              ),
+                                              Text(
+                                                'Type: ${orderDetails.data.nfts[index].type}',
+                                                style: const TextStyle(color: Colors.white, fontSize: 20),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      }
+                                    ),
+                                  )
+                                ],
+                              ),
+                            );
+                          }
+                          return Container();
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+      }
     ```
 
 </Steps>

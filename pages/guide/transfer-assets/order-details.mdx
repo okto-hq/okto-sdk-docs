@@ -120,102 +120,125 @@ Once the token transfer is initiated, the API will return a `order_id`, which ca
 
 <Steps>
 
-  ### Fetch Order Details
+  ### Fetch And Display Past Order Details
   We will be using the [`orderHistory`](/sdk-reference/flutter/orderHistory) method to fetch all the order details for the user. Then we can use the `orderId` to check our current order details.
     For Flutter we can directly begin with creating a new screen inside `lib/screens/` `order_details.dart`
-    ```dart filename="screens/order_details.dart" copy
-    import 'package:flutter/material.dart';
-    import 'package:okto_test/okto.dart';
-
-    class OrderDetailsScreen extends StatefulWidget {
-      const OrderDetailsScreen({super.key});
-
-      @override
-      State<OrderDetailsScreen> createState() => _OrderDetailsScreenState();
-    }
-
-    class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
-      @override
-      Widget build(BuildContext context) {
-        return Scaffold(
-          body: Center(
-            child: TextButton(
-                onPressed: () async {
-                  final orderHistory = await okto.orderHistory();
-                  // do something..
-                },
-                child: const Text('Fetch Order Details')),
-          ),
-        );
-      }
-    }
-
-    ```
-
-### Display Order Details
-
-   ```dart filename="screens/order_details.dart" copy
+   
+    ```dart filename="screens/order_details_page.dart" copy
+import 'package:my_app/okto.dart';
 import 'package:flutter/material.dart';
-import 'package:okto_test/models/client/order_history_model.dart';
-import 'package:okto_test/okto.dart';
+import 'package:okto_flutter_sdk/okto_flutter_sdk.dart';
 
-class OrderDetailsScreen extends StatefulWidget {
-  const OrderDetailsScreen({super.key});
+class OrderHistoryPage extends StatefulWidget {
+  const OrderHistoryPage({super.key});
 
   @override
-  State<OrderDetailsScreen> createState() => _OrderDetailsScreenState();
+  State<OrderHistoryPage> createState() => _OrderHistoryPageState();
 }
 
-class _OrderDetailsScreenState extends State<OrderDetailsScreen> {
+class _OrderHistoryPageState extends State<OrderHistoryPage> {
+  Future<OrderHistoryResponse>? _orderHistory;
+
+  Future<OrderHistoryResponse> getOrderHistory() async {
+    try {
+      final orderHistory = await okto.orderHistory();
+      return orderHistory;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: TextButton(
-          onPressed: () async {
-            final orderHistory = await okto.orderHistory();
-            Navigator.push(
-              context,
-              MaterialPageRoute(
-                builder: (context) => OrderDetailsShowScreen(orderHistory: orderHistory),
+      backgroundColor: const Color(0xff5166EE),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Container(
+              alignment: Alignment.center,
+              margin: const EdgeInsets.all(40),
+              child: const Text(
+                'Order History',
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 30),
               ),
-            );
-          },
-          child: const Text('Fetch Order Details'),
-        ),
-      ),
-    );
-  }
-}
-
-class OrderDetailsShowScreen extends StatefulWidget {
-  final OrderHistoryResponse orderHistory;
-  const OrderDetailsShowScreen({super.key, required this.orderHistory});
-
-  @override
-  State<OrderDetailsShowScreen> createState() => _OrderDetailsShowScreenState();
-}
-
-class _OrderDetailsShowScreenState extends State<OrderDetailsShowScreen> {
-  @override
-  Widget build(BuildContext context) {
-    final orderHistory = widget.orderHistory.data.jobs;
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('Order Details'),
-      ),
-      body: ListView.builder(
-        itemCount: orderHistory.length,
-        itemBuilder: (context, index) {
-          return ListTile(
-            title: Text(orderHistory[index].orderId),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  _orderHistory = getOrderHistory();
+                });
+              },
+              child: const Text('Order History'),
+            ),
+            Expanded(
+              child: _orderHistory == null
+                  ? Container()
+                  : FutureBuilder<OrderHistoryResponse>(
+                      future: _orderHistory,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const Center(child: CircularProgressIndicator(color: Colors.white));
+                        } else if (snapshot.hasError) {
+                          return Center(child: Text('Error: ${snapshot.error}'));
+                        } else if (snapshot.hasData) {
+                          final orderHistory = snapshot.data!;
+                          return Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: MediaQuery.sizeOf(context).height * 0.6,
+                                  child: ListView.builder(
+                                      itemCount: orderHistory.data.jobs.length,
+                                      itemBuilder: (context, index) {
+                                        return Container(
+                                          color: Colors.blue,
+                                          margin: const EdgeInsets.all(5),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'Network Name: ${orderHistory.data.jobs[index].networkName}',
+                                                style: const TextStyle(color: Colors.white, fontSize: 20),
+                                              ),
+                                              Text(
+                                                'Order Id : ${orderHistory.data.jobs[index].orderId}',
+                                                style: const TextStyle(color: Colors.white, fontSize: 20),
+                                              ),
+                                              Text(
+                                                'Order Type : ${orderHistory.data.jobs[index].orderType}',
+                                                style: const TextStyle(color: Colors.white, fontSize: 20),
+                                              ),
+                                              Text(
+                                                'Status : ${orderHistory.data.jobs[index].status}',
+                                                style: const TextStyle(color: Colors.white, fontSize: 20),
+                                              ),
+                                              Text(
+                                                'Transaction Hash: ${orderHistory.data.jobs[index].transactionHash}',
+                                                style: const TextStyle(color: Colors.white, fontSize: 20),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      }
+                                  ),
+                                )
+                              ],
+                            ),
+                          );
+                        }
+                        return Container();
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
           );
-        },
-      ),
-    );
-  }
-}
-
+        }
+      }
     ```
 
 </Steps>
