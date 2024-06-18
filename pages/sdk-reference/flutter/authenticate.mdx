@@ -29,39 +29,58 @@ Authenticate user with `idToken` received from Google OAuth2.
   ## Example
 
   ```dart copy
-  import 'package:flutter/material.dart';
-  import 'package:okto_test/okto.dart';
+import 'package:my_app/okto.dart';
+import 'package:my_app/screens/home/home_page.dart';
+import 'package:flutter/material.dart';
 
-  class Login extends StatefulWidget {
-    const Login({super.key});
+class LoginWithGoogle extends StatefulWidget {
+  const LoginWithGoogle({super.key});
 
-    @override
-    State<Login> createState() => _LoginState();
-  }
+  @override
+  State<LoginWithGoogle> createState() => _LoginWithGoogleState();
+}
 
-  class _LoginState extends State<Login> {
-    @override
-    Widget build(BuildContext context) {
-      return Scaffold(
-        body: Center(
-          child: TextButton(
-            onPressed: () async {
-              try {
-                await okto.authenticate(idToken: idToken);
+class _LoginWithGoogleState extends State<LoginWithGoogle> {
 
-                // Navigate to homescreen
-              } catch (e) {
-                print(e);
-              }
-            },
-            child: Text('Authenticate'),
-          ),
+  final googleIdToken = 'ID_TOKEN_RECEIVED_FROM_GOOGLE_SIGN_IN'; // Replace this with your goggle OAuth2 id_token
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xff5166EE),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: Container(
+                alignment: Alignment.center,
+                margin: const EdgeInsets.all(40),
+                child: const Text(
+                  'Login with google',
+                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 30),
+                ),
+              ),
+            ),
+            ElevatedButton(
+                onPressed: () async {
+                  try {
+                    await okto.authenticate(idToken: googleIdToken);
+                    await okto.setPin(pin: 'USER_PIN'); // The user is required to set a pin after the first login
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage()));
+                  } catch (e) {
+                    print(e);
+                  }
+                },
+                child: const Text('Login with Google')),
+            const SizedBox(height: 20)
+          ],
         ),
-      );
-    }
+      ),
+    );
   }
-
+}
   ```
+  [View in code](https://github.com/okto-hq/okto-sdk-flutter/blob/main/example/lib/screens/auth/login_with_google_page.dart)
 
 </Tabs.Tab>
 <Tabs.Tab>
@@ -90,38 +109,57 @@ The client will provide us a JWT directly, which can be verified using methods s
  ## Example
 
   ```dart copy
-import 'package:flutter/material.dart';
-import 'package:okto_test/okto.dart';
 
-class Login extends StatefulWidget {
-  const Login({super.key});
+import 'package:my_app/okto.dart';
+import 'package:my_app/screens/home/home_page.dart';
+import 'package:flutter/material.dart';
+
+class LoginWithUserId extends StatefulWidget {
+  const LoginWithUserId({super.key});
 
   @override
-  State<Login> createState() => _LoginState();
+  State<LoginWithUserId> createState() => _LoginWithUserIdState();
 }
 
-class _LoginState extends State<Login> {
+class _LoginWithUserIdState extends State<LoginWithUserId> {
+  final userId = 'USER_ID'; // Replace this with your user_id
+  final jwtToken = "JWT_TOKEN";
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: TextButton(
-          onPressed: () async {
-            try {
-              await okto.authenticateWithUserId(jwtToken: jwtToken, userId: userId);
-
-              // Navigate to homescreen
-            } catch (e) {
-              print(e);
-            }
-          },
-          child: Text('Authenticate'),
+      backgroundColor: const Color(0xff5166EE),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: Container(
+                alignment: Alignment.center,
+                margin: const EdgeInsets.all(40),
+                child: const Text(
+                  'Login with userId',
+                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 30),
+                ),
+              ),
+            ),
+            ElevatedButton(
+                onPressed: () async {
+                  try {
+                    await okto.authenticateWithUserId(userId: userId, jwtToken: jwtToken);
+                    Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage()));
+                  } catch (e) {
+                    print(e);
+                  }
+                },
+                child: const Text('Login with userId')),
+            const SizedBox(height: 20)
+          ],
         ),
       ),
     );
   }
 }
-
   ```
+  [View in code](https://github.com/okto-hq/okto-sdk-flutter/blob/main/example/lib/screens/auth/login_with_userid.dart)
 </Tabs.Tab>
 </Tabs>

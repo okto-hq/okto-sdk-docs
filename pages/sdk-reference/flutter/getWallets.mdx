@@ -7,35 +7,109 @@ This method is used to get all the wallets of the user across all chains. It wil
 
 ## Example
 ```dart copy
+import 'package:my_app/okto.dart';
 import 'package:flutter/material.dart';
-import 'package:okto_flutter_sdk/okto_wallet_sdk.dart';
-import 'package:okto_test/okto.dart';
+import 'package:okto_flutter_sdk/okto_flutter_sdk.dart';
 
-class UserDetailsScreen extends StatefulWidget {
-  const UserDetailsScreen({super.key});
+class ViewWalletPage extends StatefulWidget {
+  const ViewWalletPage({super.key});
 
   @override
-  State<UserDetailsScreen> createState() => _UserDetailsScreenState();
+  State<ViewWalletPage> createState() => _ViewWalletPageState();
 }
 
-class _UserDetailsScreenState extends State<UserDetailsScreen> {
-  WalletResponse? _wallets;
+class _ViewWalletPageState extends State<ViewWalletPage> {
+    Future<WalletResponse>? _wallets;
+
+  Future<WalletResponse> fetchWallets() async {
+    try {
+      final wallets = await okto.getWallets();
+      return wallets;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: TextButton(
-            onPressed: () async {
-              final wallets = await okto.getWallets();
-              setState(() {
-                _wallets = wallets;
-              });
-            },
-            child: const Text('Get wallets')),
-      ),
-    );
-  }
-}
-
+      backgroundColor: const Color(0xff5166EE),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Container(
+              alignment: Alignment.center,
+              margin: const EdgeInsets.all(40),
+              child: const Text(
+                'Get Wallet',
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 30),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  _wallets = fetchWallets();
+                });
+              },
+              child: const Text('Get Wallet'),
+            ),
+            Expanded(
+              child: _wallets == null
+                  ? Container()
+                  : FutureBuilder<WalletResponse>(
+                      future: _wallets,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const Center(child: CircularProgressIndicator(color: Colors.white));
+                        } else if (snapshot.hasError) {
+                          return Center(child: Text('Error: ${snapshot.error}'));
+                        } else if (snapshot.hasData) {
+                          final wallets = snapshot.data!;
+                          return Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const Text(
+                                  'Wallet created successfully',
+                                  style: TextStyle(color: Colors.white, fontSize: 20),
+                                ),
+                                SizedBox(
+                                  height: MediaQuery.sizeOf(context).height * 0.6,
+                                  child: ListView.builder(
+                                      itemCount: wallets.data.wallets.length,
+                                      itemBuilder: (context, index) {
+                                        return Container(
+                                          color: Colors.blue,
+                                          margin: const EdgeInsets.all(5),
+                                          child: ListTile(
+                                            title: Text(
+                                              'Wallet adress: ${wallets.data.wallets[index].address}',
+                                              style: const TextStyle(color: Colors.white, fontSize: 20),
+                                            ),
+                                            subtitle: Text(
+                                              'Network name: ${wallets.data.wallets[index].networkName}',
+                                              style: const TextStyle(color: Colors.white, fontSize: 20),
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                  ),
+                                )
+                              ],
+                            ),
+                          );
+                        }
+                        return Container();
+                      },
+                    ),
+                 ),
+               ],
+            ),
+          ),
+        );
+      }
+    }
 
 ```
+[View in code](https://github.com/okto-hq/okto-sdk-flutter/blob/main/example/lib/screens/view_wallet_page.dart)
