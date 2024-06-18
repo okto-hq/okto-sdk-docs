@@ -55,15 +55,15 @@ In this part we will integrate Okto Wallet in React Native/Flutter whether it's 
 
             ### Initialize the SDK
             You need to first initialize the SDK with the API key to get started. 
-            You can do this in the any file of your app, for example `main.dart`.
-            ```dart filename="main.dart" copy
+            Create a new file `okto.dart`  
+            ```dart filename="okto.dart" copy
             import 'package:okto_flutter_sdk/okto_flutter_sdk.dart';
 
-            void main() {
-              final okto = Okto('YOUR_CLIENT_API_KEY', BuildType.sandbox);
-              runApp(MyApp());
-            }
+            final okto = Okto('YOUR_CLIENT_API_KEY', BuildType.sandbox);
             ```
+            [View in code](https://github.com/okto-hq/okto-sdk-flutter/blob/main/example/lib/okto.dart)
+
+            To use Okto, we will be using the `okto` object throughout our app
 
             And we are done🎉! You are now ready to use the SDK in your app.
           </Steps>
@@ -200,15 +200,15 @@ In this part we will integrate Okto Wallet in React Native/Flutter whether it's 
 
             ### Initialize the SDK
             You need to first initialize the SDK with the API key to get started. 
-            You can do this in any file of your app, for example `main.dart`.
-            ```dart filename="main.dart" copy
+            Create a new file `okto.dart`  
+            ```dart filename="okto.dart" copy
             import 'package:okto_flutter_sdk/okto_flutter_sdk.dart';
 
-            void main() {
-              final okto = Okto('YOUR_CLIENT_API_KEY');
-              runApp(MyApp());
-            }
+            final okto = Okto('YOUR_CLIENT_API_KEY', BuildType.sandbox);
             ```
+            [View in code](https://github.com/okto-hq/okto-sdk-flutter/blob/main/example/lib/okto.dart)
+
+            To use Okto, we will be using the `okto` object throughout our app
 
             ### Running the app
             You can now run the app using the following command.

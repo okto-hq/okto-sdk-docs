@@ -102,31 +102,122 @@ Let's get started with the setup.
   </Tabs.Tab>
   <Tabs.Tab>
 <Callout type="info" emoji="📱">
-    A flutter sample app is coming soon  🚀.
+    We have a flutter sample app integrated with Okto SDK that you can use as a starting point. You can find it [here](https://github.com/okto-hq/okto-sdk-flutter/tree/main/example) 
 </Callout>
     <Steps>
-        ### Setup Screens
-        Create a dummy screen for navigation testing. Make a new folder named `screens` inside the `lib` folder and create a file named `home_screen.dart` inside this folder.
+    
+    ### Create a basic login page
+    Let us begin with creating a basic login page  
+
+```dart filename="screens/login_page.dart" copy
+import 'package:flutter/material.dart';
+
+class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
+  @override
+  State<LoginPage> createState() => _LoginPageState();
+}
+
+class _LoginPageState extends State<LoginPage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xff5166EE),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Expanded(
+              child: Container(
+                alignment: Alignment.center,
+                margin: const EdgeInsets.all(40),
+                child: const Text(
+                  'Welcome to okto',
+                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 30),
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+```
+
+     ### Create a basic Home Page
+    
+    ```dart filename="screens/home_page.dart" copy
+    import 'package:flutter/material.dart';
+    class HomePage extends StatelessWidget {
+      @override
+      Widget build(BuildContext context) {
+        return Scaffold(
+          appBar: AppBar(
+            title: Text('Home Page'),
+          ),
+          body: Center(
+            child: Text('Home Page'),
+          ),
+        );
+      }
+    }
+    ```
+
+     ### Setup `main.dart`
+    Inside your `main.dart`, check if the current user is logged in or not.  
+    Using `okto.isLoggedIn()`
         
-        ```dart filename="home_screen.dart" copy
-        import 'package:flutter/material.dart';
+    ```dart filename="main.dart" copy
+    import 'package:my_app/okto.dart';
+    import 'package:my_app/screens/login_page.dart';
+    import 'package:my_app/screens/home/home_page.dart';
+    import 'package:flutter/material.dart';
 
-        class HomeScreen extends StatelessWidget {
-          @override
-          Widget build(BuildContext context) {
-            return Scaffold(
-              appBar: AppBar(
-                title: Text('Home Screen'),
-              ),
-              body: Center(
-                child: Text('Home Screen'),
-              ),
-            );
-          }
-        }
-        ```
+    void main() {
+    runApp(const MyApp());
+    }
 
-        Great! With that, the setup is complete. You can now start building the app with Okto. 🚀
+    class MyApp extends StatelessWidget {
+    const MyApp({super.key});
+
+    Future<bool> checkLoginStatus() async {
+        return await okto.isLoggedIn();
+    }
+
+    @override
+    Widget build(BuildContext context) {
+        return MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Okto Flutter example app',
+        home: FutureBuilder<bool>(
+            future: checkLoginStatus(),
+            builder: (context, snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+                // Show loading indicator while waiting for the login status
+                return const Scaffold(
+                body: Center(
+                    child: CircularProgressIndicator(),
+                ),
+                );
+            } else {
+                // Show login or home page based on login status
+                bool isLoggedIn = snapshot.data ?? false;
+                if (isLoggedIn) {
+                return const HomePage();
+                } else {
+                return const LoginPage();
+                }}
+            },
+        ));
+      }
+    }
+    ```
+
+    [View in code](https://github.com/okto-hq/okto-sdk-flutter/blob/main/example/lib/main.dart)
+
+   
+    Great! With that, the setup is complete. You can now start building the app with Okto. 🚀
     </Steps>
   </Tabs.Tab>
 </Tabs>

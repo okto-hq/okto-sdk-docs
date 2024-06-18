@@ -97,50 +97,226 @@ Before the user can transfer assets from and to their wallets, they need to know
   </Tabs.Tab>
 
   <Tabs.Tab>
-    <Steps>
-      ### Fetch Supported Networks and Tokens
       First, let's fetch the supported networks and tokens from Okto. Use the [`supportedNetworks`](/sdk-reference/flutter/getSupportedNetworks) and [`supportedTokens`](/sdk-reference/flutter/getSupportedTokens) methods to obtain the respective data.
-      We will start by creating a new screen with the name `supported_chains.dart` and add the required methods.
 
-      ```dart filename="lib/screens/supported_chains.dart" copy
-      import 'package:flutter/material.dart';
-      import 'package:okto_sdk_flutter/okto_sdk_flutter.dart';
+    <Steps>
+      ### Fetch Supported Networks
+      We will start by creating a new screen with the name `supported_networks_page.dart` and add the required methods.
 
-      class SupportedChainScreen extends StatefulWidget {
-        @override
-        _SupportedChainScreenState createState() => _SupportedChainScreenState();
-      }
+      ```dart filename="lib/screens/supported_networks_page.dart" copy
+import 'package:my_app/okto.dart';
+import 'package:flutter/material.dart';
+import 'package:okto_flutter_sdk/okto_flutter_sdk.dart';
 
-      class _SupportedChainScreenState extends State<SupportedChainScreen> {
+class SupportedNetworksPage extends StatefulWidget {
+  const SupportedNetworksPage({super.key});
 
-        @override
-        void initState() {
-          super.initState();
-          _fetchSupportedData();
-        }
+  @override
+  State<SupportedNetworksPage> createState() => _SupportedNetworksPageState();
+}
 
-        Future<void> _fetchSupportedData() async {
-            final networksResult = await okto.supportedNetworks();
-            final tokensResult = await okto.supportedTokens();
-        }
+class _SupportedNetworksPageState extends State<SupportedNetworksPage> {
+  Future<NetworkDetails>? _supportedNetworks;
 
-        @override
-        Widget build(BuildContext context) {
-          return Scaffold(
-            appBar: AppBar(
-              title: Text('Supported Networks & Tokens'),
+  Future<NetworkDetails> getSupportedNetworks() async {
+    try {
+      final supportedNetworks = await okto.supportedNetworks();
+      return supportedNetworks;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xff5166EE),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Container(
+              alignment: Alignment.center,
+              margin: const EdgeInsets.all(40),
+              child: const Text(
+                'View Supported Networks',
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 30),
+              ),
             ),
-            body: Center(
-                child: TextButton(onPressed: (){
-                    _fetchSupportedData();
-                },
-                child: Text('get supported data'),
-                );
-            );
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  _supportedNetworks = getSupportedNetworks();
+                });
+              },
+              child: const Text('Supported Networks'),
+            ),
+            Expanded(
+              child: _supportedNetworks == null
+                  ? Container()
+                  : FutureBuilder<NetworkDetails>(
+                      future: _supportedNetworks,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const Center(child: CircularProgressIndicator(color: Colors.white));
+                        } else if (snapshot.hasError) {
+                          return Center(child: Text('Error: ${snapshot.error}'));
+                        } else if (snapshot.hasData) {
+                          final supportedNetworks = snapshot.data!;
+                          return Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                               
+                                SizedBox(
+                                  height: MediaQuery.sizeOf(context).height * 0.6,
+                                  child: ListView.builder(
+                                      itemCount: supportedNetworks.data.network.length,
+                                      itemBuilder: (context, index) {
+                                        return Container(
+                                          color: Colors.blue,
+                                          margin: const EdgeInsets.all(5),
+                                          child: ListTile(
+                                            title: Text(
+                                              'Network name: ${supportedNetworks.data.network[index].networkName}',
+                                              style: const TextStyle(color: Colors.white, fontSize: 20),
+                                            ),
+                                            subtitle: Text(
+                                              'Chain ID : ${supportedNetworks.data.network[index].chainId}',
+                                              style: const TextStyle(color: Colors.white, fontSize: 20),
+                                            ),
+                                          ),
+                                        );
+                                      }),
+                                )
+                              ],
+                            ),
+                          );
+                        }
+                        return Container();
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
           );
         }
       }
       ```
+      [View in code](https://github.com/okto-hq/okto-sdk-flutter/blob/main/example/lib/screens/supported_networks_page.dart)
+      ### Fetch Supported Tokens
+      We will start by creating a new screen with the name `supported_tokens_page.dart` and add the required methods.
+
+      ```dart filename="lib/screens/supported_tokens_page.dart" copy
+import 'package:my_app/okto.dart';
+import 'package:flutter/material.dart';
+import 'package:okto_flutter_sdk/okto_flutter_sdk.dart';
+
+class SupportedTokensPage extends StatefulWidget {
+  const SupportedTokensPage({super.key});
+
+  @override
+  State<SupportedTokensPage> createState() => _SupportedTokensPageState();
+}
+
+class _SupportedTokensPageState extends State<SupportedTokensPage> {
+  Future<TokenResponse>? _supportedTokens;
+
+  Future<TokenResponse> getSupportedTokens() async {
+    try {
+      final supportedTokens = await okto.supportedTokens();
+      return supportedTokens;
+    } catch (e) {
+      throw Exception(e);
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: const Color(0xff5166EE),
+      body: SafeArea(
+        child: Column(
+          children: [
+            Container(
+              alignment: Alignment.center,
+              margin: const EdgeInsets.all(40),
+              child: const Text(
+                'View Supported Tokens',
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.w800, fontSize: 30),
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                setState(() {
+                  _supportedTokens = getSupportedTokens();
+                });
+              },
+              child: const Text('Supported Tokens'),
+            ),
+            Expanded(
+              child: _supportedTokens == null
+                  ? Container()
+                  : FutureBuilder<TokenResponse>(
+                      future: _supportedTokens,
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.waiting) {
+                          return const Center(child: CircularProgressIndicator(color: Colors.white));
+                        } else if (snapshot.hasError) {
+                          return Center(child: Text('Error: ${snapshot.error}'));
+                        } else if (snapshot.hasData) {
+                          final supportedTokens = snapshot.data!;
+                          return Padding(
+                            padding: const EdgeInsets.all(20.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                SizedBox(
+                                  height: MediaQuery.sizeOf(context).height * 0.6,
+                                  child: ListView.builder(
+                                      itemCount: supportedTokens.data.tokens.length,
+                                      itemBuilder: (context, index) {
+                                        return Container(
+                                          color: Colors.blue,
+                                          margin: const EdgeInsets.all(5),
+                                          child: Column(
+                                            crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              Text(
+                                                'Network name: ${supportedTokens.data.tokens[index].networkName}',
+                                                style: const TextStyle(color: Colors.white, fontSize: 20),
+                                              ),
+                                              Text(
+                                                'Token address : ${supportedTokens.data.tokens[index].tokenAddress}',
+                                                style: const TextStyle(color: Colors.white, fontSize: 20),
+                                              ),
+                                               Text(
+                                                'Token name : ${supportedTokens.data.tokens[index].tokenName}',
+                                                style: const TextStyle(color: Colors.white, fontSize: 20),
+                                              ),
+                                            ],
+                                          ),
+                                        );
+                                      }
+                                  ),
+                                )
+                              ],
+                            ),
+                          );
+                        }
+                        return Container();
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        }
+      }
+      ```
+      [View in code](https://github.com/okto-hq/okto-sdk-flutter/blob/main/example/lib/screens/supported_tokens_page.dart)
     </Steps>
 
   </Tabs.Tab>
