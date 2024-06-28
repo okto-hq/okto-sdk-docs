@@ -1,0 +1,36 @@
+
+# orderHistory Method
+This method is used to get all the order details of the current user.
+
+## Parameters
+- `order_id` - The order id to get the specific order details.
+- `offset`-  The number of items to skip before starting to collect the result set. Default is 0.
+- `limit` - The number of items to return. Default is 10.
+- `order_state` - The order state to filter the orders. Possible values are `PENDING`, `SUCCESS`, `FAILED`.
+
+```tsx copy
+interface OrderQuery {
+  offset: number;
+  limit: number;
+  order_id: string;
+  order_state: string;
+}
+
+orderHistory: (query?: Partial<OrderQuery>) => Promise<OrderData>;
+```
+
+## Example
+```tsx copy
+import { useOkto, type OktoContextType, type Order} from 'okto-sdk-react';
+
+const { orderHistory } = useOkto() as OktoContextType;
+
+orderHistory({order_id: orderId})
+          .then((orders) => {
+            const order = orders.find((order: any) => order.order_id === orderId);
+            if(order) console.log(order)
+          })
+          .catch((error) => {
+            console.error(`error:`, error);
+          });
+```

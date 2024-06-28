@@ -1,0 +1,50 @@
+
+# setTheme Method
+This method is used to customize the theme of the Okto Wallet Bottomsheet.
+
+## Parameters
+- `textPrimaryColor` (optional) - Text primary color of the theme.
+- `textSecondaryColor` (optional) - Text secondary color of the theme.
+- `textTertiaryColor` (optional) - Text tertiary color of the theme.
+- `accentColor` (optional) - Accent color of the theme.
+- `accent2Color` (optional) - Accent2 color of the theme.
+- `strokBorderColor` (optional) - Stroke border color of the theme.
+- `strokDividerColor` (optional) - Stroke divider color of the theme.
+- `surfaceColor` (optional) - Surface color of the theme.
+- `backgroundColor` (optional) - Background color of the theme.
+
+```tsx copy
+setTheme(
+    {
+        textPrimaryColor: string, 
+        textSecondaryColor: string, 
+        textTertiaryColor: string, 
+        accentColor: string, 
+        accent2Color: string, 
+        strokBorderColor: string, 
+        strokDividerColor: string, 
+        surfaceColor: string, 
+        backgroundColor: string
+    }
+) => void;
+```
+
+## Example
+```tsx copy
+import { useOkto, type OktoContextType} from 'okto-sdk-react';
+ 
+ 
+const { setTheme, getTheme } = useOkto() as OktoContextType;
+
+setTheme({
+  textPrimaryColor: '0xFFFFFFFF',
+  textSecondaryColor: '0xFFFFFFFF',
+  textTertiaryColor: '0xFFFFFFFF',
+  accentColor: '0x80433454',
+  accent2Color: '0x80905BF5',
+  strokBorderColor: '0xFFACACAB',
+  strokDividerColor: '0x4DA8A8A8',
+  surfaceColor: '0xFF1F0A2F',
+  backgroundColor: '0xFF000000',
+});
+```
