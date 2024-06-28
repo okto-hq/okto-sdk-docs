@@ -1,0 +1,36 @@
+# Okto React SDK Overview
+
+The Okto React SDK provides a comprehensive set of functions to manage user authentication, portfolio data, supported networks and tokens, user details, wallet management, order history, NFT order details, transaction statuses, token and NFT transfers, raw transaction executions, and UI theme settings. Below is an overview of the available functions and their respective purposes.
+
+
+## Function Overview
+
+| Category                   | Function                                                                                 | Description                                                              |
+|----------------------------|------------------------------------------------------------------------------------------|--------------------------------------------------------------------------|
+| **Authentication**         | `isLoggedIn: boolean`                                                                    | Indicates if the user is currently logged in.                            |
+|                            | `authenticate(idToken: string, callback: (result: any, error: any) => void): void`       | Authenticates a user using an ID token.                                  |
+|                            | `authenticateWithUserId(userId: string, jwtToken: string, callback: (result: any, error: any) => void): void` | Authenticates a user using a user ID and JWT token.                      |
+|                            | `logOut(): void`                                                                         | Logs out the current user.                                               |
+| **User Management**        | `getUserDetails(): Promise<User>`                                                        | Retrieves the details of the currently authenticated user.               |
+| **Portfolio Management**   | `getPortfolio(): Promise<PortfolioData>`                                                 | Fetches the portfolio data for the current user.                         |
+| **Network and Token Information** | `getSupportedNetworks(): Promise<NetworkData>`                                         | Fetches the list of supported networks.                                  |
+|                            | `getSupportedTokens(): Promise<TokensData>`                                              | Fetches the list of supported tokens.                                    |
+| **Wallet Management**      | `getWallets(): Promise<WalletData>`                                                      | Retrieves the list of wallets associated with the current user.          |
+|                            | `createWallet(): Promise<WalletData>`                                                    | Creates a new wallet for the current user.                               |
+| **Order Management**       | `orderHistory(query: Partial<OrderQuery>): Promise<OrderData>`                           | Fetches the order history based on the provided query.                   |
+| **NFT Management**         | `getNftOrderDetails(query: Partial<NftOrderDetailsQuery>): Promise<NftOrderDetailsData>` | Fetches details of a specific NFT order based on the provided query.     |
+|                            | `transferNft(data: TransferNft): Promise<TransferNftData>`                               | Transfers an NFT based on the provided data.                             |
+|                            | `transferNftWithJobStatus(data: TransferNft): Promise<NftOrderDetails>`                  | Transfers an NFT and provides job status updates based on the provided data. |
+| **Transaction Management** | `getRawTransactionStatus(query: RawTransactionStatusQuery): Promise<RawTransactionStatusData>` | Fetches the status of a raw transaction based on the provided query.     |
+|                            | `executeRawTransaction(data: ExecuteRawTransaction): Promise<ExecuteRawTransactionData>` | Executes a raw transaction based on the provided data.                   |
+|                            | `executeRawTransactionWithJobStatus(data: ExecuteRawTransaction): Promise<RawTransactionStatus>` | Executes a raw transaction and provides job status updates based on the provided data. |
+|                            | `transferTokens(data: TransferTokens): Promise<TransferTokensData>`                      | Transfers tokens based on the provided data.                             |
+|                            | `transferTokensWithJobStatus(data: TransferTokens): Promise<Order>`                      | Transfers tokens and provides job status updates based on the provided data. |
+| **UI Management**          | `showWidgetModal(): void`                                                                | Displays the widget modal.                                               |
+|                            | `closeModal(): void`                                                                     | Closes the currently open modal.                                         |
+| **Theme Management**       | `getTheme(): Theme`                                                                      | Retrieves the current UI theme.                                          |
+|                            | `setTheme(theme: Partial<Theme>): void`                                                  | Sets the UI theme based on the provided theme object.                    |
+
+---
+
+This overview provides a high-level understanding of the functions available in the Okto React SDK. For detailed usage and examples, please refer to the specific function documentation.

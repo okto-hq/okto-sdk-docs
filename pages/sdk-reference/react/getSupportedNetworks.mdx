@@ -1,0 +1,25 @@
+
+# getSupportedNetworks Method
+This method is used to get all whitelisted networks on your API Key.
+
+## Parameters
+None
+
+```tsx copy
+getSupportedNetworks: () => Promise<NetworkData>;
+```
+
+## Example
+```tsx copy
+import { useOkto, type OktoContextType} from 'okto-sdk-react';
+
+const { getSupportedNetworks } = useOkto() as OktoContextType;
+
+getSupportedNetworks()
+    .then((result) => {
+    console.log(result)
+    })
+    .catch((error) => {
+    console.error(`error:`, error);
+    });
+```
