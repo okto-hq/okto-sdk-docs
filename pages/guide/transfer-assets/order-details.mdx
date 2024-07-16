@@ -188,6 +188,8 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                Text('Status: ${orderHistory.status}'),
+                                Text('Total: ${orderHistory.data.total}'),
                                 SizedBox(
                                   height: MediaQuery.sizeOf(context).height * 0.6,
                                   child: ListView.builder(
@@ -240,7 +242,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
         }
       }
     ```
-    [View in code](https://github.com/okto-hq/okto-sdk-flutter/blob/main/example/lib/screens/user_details_page.dart)
+    [View in code](https://github.com/okto-hq/okto-sdk-flutter/blob/main/examples/example1/lib/screens/user_details_page.dart)
 
 </Steps>
 

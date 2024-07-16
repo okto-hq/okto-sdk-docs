@@ -315,12 +315,10 @@ If we want to execute a raw transaction directly on chain, Okto provides a way t
             import 'package:okto_sdk_flutter/okto_sdk_flutter.dart';
 
             class SendRawTransactionScreen extends StatelessWidget {
-              final Okto okto = Okto('your_client_api_key');
-
               @override
               Widget build(BuildContext context) {
-                final TextEditingController fromController = TextEditingController(text: "0x0342A54DD44E8744FD185579Af57845Cb0ac6cB0");
-                final TextEditingController toController = TextEditingController(text: "0x80322ea18633A1f713e987d65Ae78AcCDAB6e55e");
+                final TextEditingController fromController = TextEditingController(text: "from_wallet_address");
+                final TextEditingController toController = TextEditingController(text: "to_wallet_address");
                 final TextEditingController dataController = TextEditingController(text: "0x");
                 final TextEditingController valueController = TextEditingController(text: "0x100000");
 
@@ -352,16 +350,14 @@ If we want to execute a raw transaction directly on chain, Okto provides a way t
                         ElevatedButton(
                           onPressed: () async {
                             final transactionObject = {
-                              'transaction': {
-                                'from': fromController.text,
-                                'to': toController.text,
-                                'data': dataController.text,
-                                'value': valueController.text,
-                              },
+                                "from": fromController.text,
+                                "to": toController.text,
+                                "data": dataController.text,
+                                "value": valueController.text,
                             };
 
                             try {
-                              final result = await okto.executeRawTransaction(networkName: 'POLYGON_TESTNET', transaction: transactionObject);
+                              final result = await okto.executeRawTransaction(networkName: 'POLYGON_TESTNET_AMOY', transaction: transactionObject);
                               print(result.jobId);
                             } catch (error) {
                               print('error: $error');
@@ -384,7 +380,6 @@ If we want to execute a raw transaction directly on chain, Okto provides a way t
             import 'package:okto_sdk_flutter/okto_sdk_flutter.dart';
 
             class SendRawTransactionScreen extends StatelessWidget {
-              final Okto okto = Okto('your_client_api_key');
 
               @override
               Widget build(BuildContext context) {
@@ -393,12 +388,12 @@ If we want to execute a raw transaction directly on chain, Okto provides a way t
                   {
                     "keys": [
                       {
-                        "pubkey": "GQkXkHF8LTwyZiZUcBWwYJeJBFEqR4vRCV4J5Xe7zGiQ",
+                        "pubkey": "FROM_WALLET_ADDRESS",
                         "isSigner": true,
                         "isWritable": true
                       },
                       {
-                        "pubkey": "GEjBy2puN8a53darpz7CTbRvSb6wepzhK7s8C3Dww4yg",
+                        "pubkey": "TO_WALLET_ADDRESS",
                         "isSigner": false,
                         "isWritable": true
                       }
@@ -421,7 +416,7 @@ If we want to execute a raw transaction directly on chain, Okto provides a way t
                   }
                 ]
                 ''');
-                final TextEditingController signersController = TextEditingController(text: '["GQkXkHF8LTwyZiZUcBWwYJeJBFEqR4vRCV4J5Xe7zGiQ"]');
+                final TextEditingController signersController = TextEditingController(text: '["FROM_WALLET_ADDRESS"]');
 
                 return Scaffold(
                   appBar: AppBar(
@@ -443,10 +438,8 @@ If we want to execute a raw transaction directly on chain, Okto provides a way t
                         ElevatedButton(
                           onPressed: () async {
                             final transactionObject = {
-                              'transaction': {
-                                'instructions': instructionsController.text,
-                                'signers': signersController.text,
-                              },
+                                "instructions": instructionsController.text,
+                                "signers": signersController.text,
                             };
 
                             try {
@@ -480,7 +473,7 @@ If we want to execute a raw transaction directly on chain, Okto provides a way t
                 final TextEditingController typeArgumentsController = TextEditingController();
                 final TextEditingController functionArgumentsController = TextEditingController(text: '''
                 [
-                  "0xb7c18d4389feb18d819fbe1c2806fd7f753d2cd42ec04e7ed5f2b19e267737c6",
+                  "WALET_ADDRESS",
                   "1000000"
                 ]
                 ''');
@@ -509,11 +502,9 @@ If we want to execute a raw transaction directly on chain, Okto provides a way t
                         ElevatedButton(
                           onPressed: () async {
                             final transactionObject = {
-                              'transaction': {
-                                'function': functionController.text,
-                                'typeArguments': typeArgumentsController.text,
-                                'functionArguments': functionArgumentsController.text,
-                              },
+                                "function": functionController.text,
+                                "typeArguments": typeArgumentsController.text,
+                                "functionArguments": functionArgumentsController.text,
                             };
 
                             try {

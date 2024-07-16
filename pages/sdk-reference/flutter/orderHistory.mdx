@@ -38,7 +38,7 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
 
   Future<OrderHistoryResponse> getOrderHistory() async {
     try {
-      final orderHistory = await okto.orderHistory();
+      final orderHistory = await okto!.orderHistory();
       return orderHistory;
     } catch (e) {
       throw Exception(e);
@@ -85,6 +85,8 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
+                                Text('Status: ${orderHistory.status}'),
+                                Text('Total: ${orderHistory.data.total}'),
                                 SizedBox(
                                   height: MediaQuery.sizeOf(context).height * 0.6,
                                   child: ListView.builder(
@@ -130,13 +132,12 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
                         return Container();
                       },
                     ),
+                  ),
+                ],
+              ),
             ),
-          ],
-        ),
-      ),
-    );
-  }
-}
-
+          );
+        }
+      }
 ```
-[View in code](https://github.com/okto-hq/okto-sdk-flutter/blob/main/example/lib/screens/order_history_page.dart)
+[View in code](https://github.com/okto-hq/okto-sdk-flutter/blob/main/examples/example1/lib/screens/order_history_page.dart)

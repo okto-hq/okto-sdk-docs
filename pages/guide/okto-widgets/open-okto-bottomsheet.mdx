@@ -63,24 +63,24 @@ import { Steps, Tabs } from "nextra/components";
       import 'package:flutter/material.dart';
       import 'package:okto_sdk_flutter/okto_sdk_flutter.dart';
 
-      class UserProfileScreen extends StatelessWidget {
+      class OktoBottomSheet extends StatelessWidget {
 
         @override
         Widget build(BuildContext context) {
           return Scaffold(
             appBar: AppBar(
-              title: Text('User Profile'),
+              title: Text('Okto Widget'),
             ),
             body: Center(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text('User Profile'),
+                  Text('Okto Bottom Sheet'),
                   ElevatedButton(
                     onPressed: () async {
                       await okto.openBottomSheet(context: context); // you can customize the bottom sheet by passing parameters.
                     },
-                    child: Text('Open Okto Profile'),
+                    child: Text('Open Okto Widget'),
                   ),
                 ],
               ),

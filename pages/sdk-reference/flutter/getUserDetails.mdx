@@ -24,7 +24,7 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
 
   Future<UserDetails> fetchUserDetails() async {
     try {
-      final userDetails = await okto.userDetails();
+      final userDetails = await okto!.userDetails();
       return userDetails;
     } catch (e) {
       throw Exception(e);
@@ -71,13 +71,25 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(
+                                SelectableText(
                                   'User ID: ${userDetails.data.userId}',
                                   style: const TextStyle(color: Colors.white, fontSize: 20),
                                 ),
                                 const SizedBox(height: 10),
                                 Text(
                                   'Email: ${userDetails.data.email}',
+                                  style: const TextStyle(color: Colors.white, fontSize: 20),
+                                ),
+                                SelectableText(
+                                  'Created At: ${userDetails.data.createdAt}',
+                                  style: const TextStyle(color: Colors.white, fontSize: 20),
+                                ),
+                                SelectableText(
+                                  'Freezed: ${userDetails.data.freezed.toString()}',
+                                  style: const TextStyle(color: Colors.white, fontSize: 20),
+                                ),
+                                SelectableText(
+                                  'Freezed Reason: ${userDetails.data.freezeReason}',
                                   style: const TextStyle(color: Colors.white, fontSize: 20),
                                 ),
                               ],
@@ -87,12 +99,13 @@ class _UserDetailsPageState extends State<UserDetailsPage> {
                         return Container();
                       },
                     ),
+                  ),
+                ],
+              ),
             ),
-          ], 
-        ),
-      ),
-    );
-  }
-}
+          );
+        }
+      }
+
 ```
-[View in code](https://github.com/okto-hq/okto-sdk-flutter/blob/main/example/lib/screens/user_details_page.dart)
+[View in code](https://github.com/okto-hq/okto-sdk-flutter/blob/main/examples/example1/lib/screens/user_details_page.dart)
