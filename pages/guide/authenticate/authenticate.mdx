@@ -1,6 +1,7 @@
 import { Steps, Tabs, Callout } from "nextra/components";
 
-<Tabs items={['React Native', 'Flutter']}>
+<Tabs items={['React Native', 'Flutter', 'React']}>
+
 <Tabs.Tab>
 When a user enters our app, seamless authentication becomes the key to their personalized experience. Using the power of [Google OAuth2](https://developers.google.com/identity/protocols/oauth2), we establish user identity efficiently.
 
@@ -125,7 +126,8 @@ Let's get coding and see how we can use the `token_id` and [`authenticate`](/sdk
   [here](https://github.com/okto-hq/okto-sdk-rn-sample)
 </Callout>
   </Tabs.Tab>
-  <Tabs.Tab>
+
+<Tabs.Tab>
 
 When a user enters our app, seamless authentication becomes the key to their personalized experience. Using the power of [Google OAuth2](https://developers.google.com/identity/protocols/oauth2), we establish user identity efficiently. Additionally, we offer an alternative method using JWT for flexible and secure authentication.
 
@@ -280,6 +282,68 @@ Here is how you can authenticate with Okto using both methods:
   [here](https://github.com/okto-hq/okto-sdk-flutter/tree/main/examples/example1)
 </Callout>
   </Tabs.Tab>
+
+<Tabs.Tab>
+When a user enters our app, seamless authentication becomes the key to their personalized experience. Using the power of [Google OAuth2](https://developers.google.com/identity/protocols/oauth2), we establish user identity efficiently.
+
+After a successful log in, Google OAuth2 provides a unique identifier called `token_id` – think of it as their digital fingerprint. This `token_id` becomes crucial for Okto wallet authentication and, if needed, for creating new wallets.
+
+Let's get coding and see how we can use the `token_id` and [`authenticate`](/sdk-reference/react/authenticate) to authenticate with Okto.
+
+> Note: if you just want to test and see how it works, you can use the [following steps](/oauth-steps) to get a `token_id` and go directly to the [Authenticate with Okto](#authenticate-with-okto) section.
+
+
+    <Steps>
+      ### Authenticate with Okto
+      We obtain the `idToken` from Google, we can use it to authenticate with Okto. Utilize the [`authenticate`](/sdk-reference/authenticate) function from the SDK to perform authentication with Okto.
+      > Note: The `idToken` expires in 30 minutes, so it is recommended to authenticate with Okto as soon as possible after obtaining the `idToken`, or the [`authenticate`](/sdk-reference/authenticate) process will fail.
+
+      ```tsx
+      import {
+        useOkto,
+        type OktoContextType,
+      } from 'okto-sdk-react';
+      ...
+
+      const LoginScreen = () => {
+          const { authenticate } = useOkto() as OktoContextType;
+
+          ...
+
+          async const handleGoogleSignIn(){
+              try {
+                  ...
+                  const { idToken } = response;
+                  authenticate(idToken, (result, error) => {
+                      if (result) {
+                          console.log('authentication successful');
+                      }
+                      if (error) {
+                          console.error('authentication error:', error);
+                      }
+                  });
+              } catch (error) {
+                  console.log("Something went wrong. Please try again");
+              }
+          }
+      }
+      ```
+
+      #### Existing user
+      If the user already has an Okto wallet, the `result` will contain the authentication status
+
+      #### New user
+      If the user does not have an Okto wallet, they will get a UI prompt to [create a new wallet](/guide/authenticate/create-wallet.mdx).
+
+      After a successful authentication, the `result` will contain the authentication status. You can use this information to determine if the user has authenticated or not.
+    </Steps>
+<Callout type="info" emoji="📱">
+  We have a react native sample app integrated with Okto SDK that you can use as
+  a starting point. You can find it
+  [here](https://github.com/okto-hq/okto-sdk-react/example)
+</Callout>
+  </Tabs.Tab>
+
 </Tabs>
 
 

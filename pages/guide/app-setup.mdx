@@ -6,7 +6,7 @@ So, feel free to glance over those steps, since our main focus is on the feature
 
 Let's get started with the setup.  
 
-<Tabs items={['React Native', 'Flutter']}>
+<Tabs items={['React Native', 'Flutter', 'React']}>
   <Tabs.Tab>
   <Callout type="info" emoji="📱">
     We have a react native sample app integrated with Okto SDK that you can use as a starting point. You can find it [here](https://github.com/okto-hq/okto-sdk-rn-sample) 
@@ -17,7 +17,7 @@ Let's get started with the setup.
         <Tabs items={['pnpm', 'npm', 'yarn']}>
             <Tabs.Tab>
                 ```bash filename="bash" copy
-                pnpm i @react-navigation/native react-native-screens react-native-safe-area-context react-native-dropdown-picker
+                pnpm i okto-sdk-react
                 ```
             </Tabs.Tab>
             <Tabs.Tab>
@@ -218,6 +218,75 @@ class _LoginPageState extends State<LoginPage> {
 
    
     Great! With that, the setup is complete. You can now start building the app with Okto. 🚀
+    </Steps>
+    
+  </Tabs.Tab>
+
+
+  <Tabs.Tab>
+  <Callout type="info" emoji="📱">
+    We have a react native sample app integrated with Okto SDK that you can use as a starting point. You can find it [here](https://github.com/okto-hq/okto-sdk-react/tree/main/example) 
+</Callout>
+    <Steps>
+        ### Install required packages
+        First, let's install the necessary packages.
+        <Tabs items={['pnpm', 'npm', 'yarn']}>
+            <Tabs.Tab>
+                ```bash filename="bash" copy
+                pnpm i okto-sdk-react
+                ```
+            </Tabs.Tab>
+            <Tabs.Tab>
+                ```bash filename="bash" copy
+                npm i okto-sdk-react
+                ```
+            </Tabs.Tab>
+            <Tabs.Tab>
+                ```bash filename="bash" copy
+                yarn add okto-sdk-react
+                ```
+            </Tabs.Tab>
+        </Tabs>
+
+        ### Setup Okto Provider
+       To utilize the SDK within your application, follow these steps:
+
+        Wrap your application with the OktoProvider component, providing the necessary configuration parameters:
+
+        ```tsx filename="App.tsx" copy
+        import { OktoProvider, BuildType } from 'okto-sdk-react';
+
+        <OktoProvider apiKey={OKTO_CLIENT_API} buildType={BuildType.SANDBOX}>
+            <App />
+        </OktoProvider>
+        ```
+        Access SDK functionalities within your components:
+
+
+         ### Use Okto Functions
+
+        ```tsx filename="App.tsx" copy
+        import {
+          useOkto,
+          type OktoContextType,
+        } from 'okto-sdk-react';
+
+
+        export default function App(){
+          const {
+            authenticate,
+          } = useOkto() as OktoContextType;
+          return (
+            <Button
+                title="authenticate"
+                onPress={() => {
+                    authenticate(idToken!, handleAuthenticate);
+                }}
+                />
+            )
+        }
+        ```
+        Great! With that, the setup is complete. You can now start building the app with Okto. 🚀
     </Steps>
   </Tabs.Tab>
 </Tabs>
