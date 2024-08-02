@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "export": "next build && next export"
+    "export": "next build && touch out/.nojekyll",
+    "serve": "next build && serve out"
   },
   "repository": {
     "type": "git",
@@ -19,14 +20,16 @@
   },
   "homepage": "https://github.com/shuding/nextra-docs-template#readme",
   "dependencies": {
-    "next": "^13.0.6",
+    "next": "^14.2.5",
     "nextra": "latest",
     "nextra-theme-docs": "latest",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0"
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
     "@types/node": "18.11.10",
+    "serve": "^14.2.3",
     "typescript": "^4.9.3"
-  }
+  },
+  "packageManager": "pnpm@8.11.0+sha512.9df87c16c98db27b4e051d787e67f2207ec47e809ccb07bf7b5ec4acdcd1613355839a38d0b900144923d6a7057700b74d2a0ccb1558beb241647a1206a9a7ab"
 }
