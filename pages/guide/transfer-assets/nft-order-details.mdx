@@ -115,6 +115,7 @@ Once the NFT transfer is initiated, the API will return a `order_id`, which can 
     ```
 </Steps>
 </Tabs.Tab>
+
 <Tabs.Tab>
 <Steps>
 
@@ -280,4 +281,53 @@ class _OrderDetailsNftPageState extends State<OrderDetailsNftPage> {
 
 </Steps>
 </Tabs.Tab>
+
+<Tabs.Tab>
+<Steps>
+    ### Fetch Order Details
+    We will be using the [`getNftOrderDetails`](/sdk-reference/react/getNftOrderDetails) method to fetch all the NFT order details for the user. Then we can use the `order_id` to check our current order details.
+    
+    We will create a new screen named `nft-order-details.tsx` and fetch all the orders and filter the order details using the `order_id`.
+
+    ```tsx filename="screen/nft-order-details.tsx" copy
+    import React, { useState, useEffect } from 'react';
+    import { useOkto } from 'okto-sdk-react';
+    import { useParams } from 'react-router-dom'; 
+
+    const NftOrderDetailsScreen = () => {
+        const { getNftOrderDetails } = useOkto();
+        const { orderId } = useParams();
+        const [order, setOrder] = useState(null);
+
+        useEffect(() => {
+            getNftOrderDetails({ order_id: orderId })
+                .then((orders) => {
+                    const order = orders.find((order) => order.order_id === orderId);
+                    if (order) setOrder(order);
+                })
+                .catch((error) => {
+                    console.error('error:', error);
+                });
+        }, [orderId, getNftOrderDetails]);
+
+        return (
+            <div style={{ padding: '20px' }}>
+                {order ? (
+                    <div>
+                        <h2>NFT Order Details</h2>
+                        <p><strong>Order ID:</strong> {order.order_id}</p>
+                        <p><strong>NFT Name:</strong> {order.nft_name}</p>
+                        <p><strong>Quantity:</strong> {order.quantity}</p>
+                        <p><strong>Price:</strong> {order.price}</p>
+                    </div>
+                ) : (
+                    <p>Loading order details...</p>
+                )}
+            </div>
+        );
+    };
+    ```
+</Steps>
+</Tabs.Tab>
+
 </Tabs>
