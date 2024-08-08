@@ -1,6 +1,5 @@
 {
     "authenticate": "Authenticate",
-    "set-pin": "Set PIN",
     "create-wallet": "Create Wallet",
     "refresh-token": "Refresh Token",
     "logout": "Logout",
