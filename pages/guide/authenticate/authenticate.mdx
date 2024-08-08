@@ -283,61 +283,120 @@ Here is how you can authenticate with Okto using both methods:
   </Tabs.Tab>
 
 <Tabs.Tab>
-When a user enters our app, seamless authentication becomes the key to their personalized experience. Using the power of [Google OAuth2](https://developers.google.com/identity/protocols/oauth2), we establish user identity efficiently.
+When a user enters our app, seamless authentication becomes the key to their personalized experience. Using the power of [Google OAuth2](https://developers.google.com/identity/protocols/oauth2), we establish user identity efficiently. Additionally, we offer an alternative method using JWT for flexible and secure authentication.
+
+## Authentication Methods
+
+### Method 1: Google OAuth2
 
 After a successful log in, Google OAuth2 provides a unique identifier called `token_id` – think of it as their digital fingerprint. This `token_id` becomes crucial for Okto wallet authentication and, if needed, for creating new wallets.
 
-Let's get coding and see how we can use the `token_id` and [`authenticate`](/sdk-reference/react/authenticate) to authenticate with Okto.
+Let's get coding and see how we can use the `token_id` and [`authenticate`](/sdk-reference/flutter/authenticate) to authenticate with Okto.
 
 > Note: if you just want to test and see how it works, you can use the [following steps](/oauth-steps) to get a `token_id` and go directly to the [Authenticate with Okto](#authenticate-with-okto) section.
 
+### Method 2: JWT Authentication
 
-    <Steps>
-      ### Authenticate with Okto
-      We obtain the `idToken` from Google, we can use it to authenticate with Okto. Utilize the [`authenticate`](/sdk-reference/authenticate) function from the SDK to perform authentication with Okto.
-      > Note: The `idToken` expires in 30 minutes, so it is recommended to authenticate with Okto as soon as possible after obtaining the `idToken`, or the [`authenticate`](/sdk-reference/authenticate) process will fail.
+We also support a flexible JWT-based authentication. The client will provide us a JWT directly, which can be verified using methods such as phone OTP or any other verification mechanism. This JWT is then used to authenticate with Okto.
 
-      ```tsx
-      import {
-        useOkto,
-        type OktoContextType,
-      } from 'okto-sdk-react';
-      ...
+To use this method, the provided JWT is passed to the `authenticateWithUserId` method for verification and authentication.
 
-      const LoginScreen = () => {
-          const { authenticate } = useOkto() as OktoContextType;
+### Authenticate with Okto using Google
 
-          ...
+```tsx filename="login.jsx" copy
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useOkto } from "okto-sdk-react";
+import { GoogleLogin } from "@react-oauth/google";
+import axios from "axios";
 
-          async const handleGoogleSignIn(){
-              try {
-                  ...
-                  const { idToken } = response;
-                  authenticate(idToken, (result, error) => {
-                      if (result) {
-                          console.log('authentication successful');
-                      }
-                      if (error) {
-                          console.error('authentication error:', error);
-                      }
-                  });
-              } catch (error) {
-                  console.log("Something went wrong. Please try again");
-              }
-          }
+function LoginPage() {
+
+  console.log("LoginPage component rendered");
+  const navigate = useNavigate();
+  const { authenticate } = useOkto();
+  const [authToken, setAuthToken] = useState();
+  const BASE_URL = "https://sandbox-api.okto.tech";
+  const OKTO_CLIENT_API = "";
+
+  const containerStyle = {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+    padding: '20px',
+    maxWidth: '800px',
+    margin: '0 auto',
+  };
+
+   const apiService = axios.create({
+    baseURL: BASE_URL,
+    headers: {
+      "x-api-key": OKTO_CLIENT_API,
+      "Content-Type": "application/json",
+    },
+  });
+
+  const setPin = (idToken, token, reloginPin) => {
+    return apiService.post("/api/v1/set_pin", {
+      id_token: idToken,
+      token: token,
+      relogin_pin: reloginPin,
+      purpose: "set_pin",
+    });
+  };
+
+  const handleGoogleLogin = async (credentialResponse) => {
+    console.log("Google login response:", credentialResponse);
+    const idToken = credentialResponse.credential;
+    console.log("google idtoken: ", idToken);
+    authenticate(idToken, async (authResponse, error) => {
+      if (authResponse) {
+        console.log("Authentication check: ", authResponse);
+        setAuthToken(authResponse.auth_token);
+        if (!authToken && authResponse.action === "signup") {
+          console.log("User Signup");
+          const pinToken = authResponse.token;
+          await setPin(idToken, pinToken, "0000");
+          await authenticate(idToken, async (res, err) => {
+            if (res) {
+              setAuthToken(res.auth_token);
+            }
+          });
+        }
+        console.log("auth token received", authToken);
+        navigate("/home");
       }
-      ```
+      if (error) {
+        console.error("Authentication error:", error);
+      }
+    });
+  };
 
-      #### Existing user
-      If the user already has an Okto wallet, the `result` will contain the authentication status
+  return (
+    <div style={containerStyle}>
+      <h1>Login</h1>
+      {!authToken ? (
+        <GoogleLogin
+          onSuccess={handleGoogleLogin}
+          onError={(error) => {
+            console.log("Login Failed", error);
+          }}
+          useOneTap
+          promptMomentNotification={(notification) =>
+            console.log("Prompt moment notification:", notification)
+          }
+        />
+      ) : (
+        <> Authenticated </>
+      )}
+    </div>
+  );
+}
+export default LoginPage;
 
-      #### New user
-      If the user does not have an Okto wallet, they will get a UI prompt to [create a new wallet](/guide/authenticate/create-wallet.mdx).
-
-      After a successful authentication, the `result` will contain the authentication status. You can use this information to determine if the user has authenticated or not.
-    </Steps>
+```
 <Callout type="info" emoji="📱">
-  We have a react native sample app integrated with Okto SDK that you can use as
+  We have a react sample web app integrated with Okto SDK that you can use as
   a starting point. You can find it
   [here](https://github.com/okto-hq/okto-sdk-react/example)
 </Callout>
