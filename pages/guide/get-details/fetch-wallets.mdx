@@ -2,7 +2,7 @@ import { Steps, Tabs } from "nextra/components";
 
 Let's continue by adding more information to the User Profile Screen. Add a new section to the screen that will display all wallet information of the user.
 
-<Tabs items={['React Native', 'Flutter']}>
+<Tabs items={['React Native', 'Flutter', 'React']}>
   <Tabs.Tab>
     <Steps>
       ### Fetch Wallets
@@ -202,6 +202,47 @@ class _ViewWalletPageState extends State<ViewWalletPage> {
       [View in code](https://github.com/okto-hq/okto-sdk-flutter/blob/main/examples/example1/lib/screens/view_wallet_page.dart)
     </Steps>
 
+  </Tabs.Tab>
+
+  <Tabs.Tab>
+    <Steps>
+      ### Fetch Wallets
+      ```tsx filename="homePage.jsx" copy
+      import { useOkto } from "okto-sdk-react";
+      import React, { useState } from 'react';
+
+      function HomePage() {
+        const [wallets, setWallets] = useState(null);
+        const [error, setError] = useState(null);
+        const { getUserDetails, getPortfolio, createWallet, transferTokens, orderHistory } = useOkto();
+  
+        const fetchWallets = async () => {
+          try {
+            const walletsData = await createWallet();
+            console.log(walletsData)
+            setWallets(walletsData);
+            setActiveSection('wallets');
+          } catch (error) {
+            setError(`Failed to fetch wallets: ${error.message}`);
+          }
+        };
+
+        return (
+          <div style={containerStyle}>
+            <h1>Home Page</h1>
+            <button onClick={fetchWallets}>View Wallets</button>
+            {userDetails && (
+              <div>
+                <h2>User Wallets:</h2>
+                <pre>{JSON.stringify(wallets, null, 2)}</pre>
+              </div>
+            )}
+          </div>
+        );
+      }
+      export default HomePage;
+      ```
+    </Steps>
   </Tabs.Tab>
 </Tabs>
 
