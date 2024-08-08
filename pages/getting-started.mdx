@@ -8,7 +8,7 @@ In this part we will integrate Okto Wallet in React Native/Flutter whether it's 
 </Callout>
 <Tabs items={['Existing Project', 'New Project']}>
     <Tabs.Tab>
-      <Tabs items={['React Native', 'Flutter']}>
+      <Tabs items={['React Native', 'Flutter', 'React']}>
         <Tabs.Tab>
           <Steps>
             ### Installing
@@ -45,6 +45,7 @@ In this part we will integrate Okto Wallet in React Native/Flutter whether it's 
             And we are done🎉! You are now ready to use the SDK in your app.
           </Steps>
         </Tabs.Tab>
+        
         <Tabs.Tab>
           <Steps>
             ### Installing
@@ -68,10 +69,48 @@ In this part we will integrate Okto Wallet in React Native/Flutter whether it's 
             And we are done🎉! You are now ready to use the SDK in your app.
           </Steps>
         </Tabs.Tab>
+
+        <Tabs.Tab>
+          <Steps>
+            ### Installing
+            Add the SDK to your app using your preferred package manager.
+            <Tabs items={['pnpm', 'npm', 'yarn']}>
+                <Tabs.Tab>
+                    ```bash filename="bash" copy
+                    pnpm i okto-sdk-react @react-oauth/google axios
+                    ```
+                </Tabs.Tab>
+                <Tabs.Tab>
+                    ```bash filename="bash" copy
+                    npm i okto-sdk-react @react-oauth/google axios
+                    ```
+                </Tabs.Tab>
+                <Tabs.Tab>
+                    ```bash filename="bash" copy
+                    yarn add okto-sdk-react @react-oauth/google axios
+                    ```
+                </Tabs.Tab>
+            </Tabs>
+
+            ### Initialize the SDK
+            You need to first intialize the SDK with the API key to get started. 
+            You can do this in the root file of your app, for example `App.tsx` or `index.tsx`.
+            ```tsx filename="App.tsx" copy
+            import { OktoProvider, BuildType } from 'okto-sdk-react';
+
+            <OktoProvider apiKey={OKTO_CLIENT_API} buildType={BuildType.SANDBOX}>
+                <App />
+            </OktoProvider>
+            ```
+
+            And we are done🎉! You are now ready to use the SDK in your app.
+          </Steps>
+        </Tabs.Tab>
+        
       </Tabs>
     </Tabs.Tab>
     <Tabs.Tab>
-      <Tabs items={['React Native', 'Flutter']}>
+      <Tabs items={['React Native', 'Flutter', 'React']}>
         <Tabs.Tab>
           <Steps>
             ### Create a new project
@@ -184,6 +223,7 @@ In this part we will integrate Okto Wallet in React Native/Flutter whether it's 
             And we are done🎉! We have setup a new react native app, integrated Okto Wallet and successfully run the app.
           </Steps>
         </Tabs.Tab>
+        
         <Tabs.Tab>
           <Steps>
             ### Create a new project
@@ -219,6 +259,50 @@ In this part we will integrate Okto Wallet in React Native/Flutter whether it's 
             And we are done🎉! We have setup a new Flutter app, integrated Okto Wallet, and successfully run the app.
           </Steps>
         </Tabs.Tab>
+
+        <Tabs.Tab>
+          <Steps>
+            ### Create a new project
+            If you are creating a new project, you can use one of the following commands to create a new project.
+          
+            ```bash filename="bash" copy
+            npx create-react-app my-app
+            ```
+
+            ### Installing
+            Add the SDK to your app using your preferred package manager.
+            <Tabs items={['pnpm', 'npm', 'yarn']}>
+                <Tabs.Tab>
+                    ```bash filename="bash" copy
+                    pnpm i okto-sdk-react @react-oauth/google axios
+                    ```
+                </Tabs.Tab>
+                <Tabs.Tab>
+                    ```bash filename="bash" copy
+                    npm i okto-sdk-react @react-oauth/google axios
+                    ```
+                </Tabs.Tab>
+                <Tabs.Tab>
+                    ```bash filename="bash" copy
+                    yarn add okto-sdk-react @react-oauth/google axios
+                    ```
+                </Tabs.Tab>
+            </Tabs>
+
+            ### Initialize the SDK
+            You need to first intialize the SDK with the API key to get started. 
+            You can do this in the root file of your app, for example `App.tsx` or `index.tsx`.
+            ```tsx filename="App.tsx" copy
+            import { OktoProvider, BuildType } from 'okto-sdk-react';
+ 
+            <OktoProvider apiKey={OKTO_CLIENT_API} buildType={BuildType.SANDBOX}>
+                <App />
+            </OktoProvider>
+            ```
+            And we are done🎉! We have setup a new react app, integrated Okto Wallet and successfully run the app.
+          </Steps>
+        </Tabs.Tab>
+        
       </Tabs>
     </Tabs.Tab>
 </Tabs>
