@@ -166,8 +166,6 @@ Here is how you can authenticate with Okto using both methods:
       ### Authenticate with okto using google sign in
       Now that we have set up the Google Sign-In library, let's handle the sign-in process. Inside the login_page.dart, create a function to handle the Google Sign-In process, and call this function when the user presses a button.
 
-      > Note: After authenticating for the first time  it is required to call the `setpin` method.  
-      > If the user is authenticating for the first time `okto.authenticate()` will return an `AuthenticationResponse` object, else it will return an `AuthTokenResponse` object.  
       
       > Note: The `idToken` expires in 30 minutes, so it is recommended to authenticate with Okto as soon as possible after obtaining the `idToken`, or the authentication process will fail.
       
@@ -209,18 +207,19 @@ Here is how you can authenticate with Okto using both methods:
                     final GoogleSignInAuthentication? googleAuth = await googleUser?.authentication;
                     if (googleAuth != null) {
                       final String? idToken = googleAuth.idToken;
-                      final res = await okto!.authenticate(idToken: idToken!);
-                      if (res is AuthenticationResponse) {
-                      await okto!.setPin(pin: 'USER_PIN'); // Call only on sign up
-                      }
+                      await okto!.authenticate(idToken: idToken!);
                       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const HomePage()));
                     }
                   } catch (e) {
-                      throw Exception(e);
+                    print(e.toString());
+                    setState(() {
+                      error = e.toString();
+                    });
                   }
                 },
                 child: const Text('Login with Google')),
-
+            Text(error),
+            const SizedBox(height: 20)
           ],
         ),
       ),
