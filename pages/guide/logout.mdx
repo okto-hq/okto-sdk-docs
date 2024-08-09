@@ -3,31 +3,27 @@ import { Steps, Tabs } from 'nextra/components';
 Finally, we can add a log out function for the user. This will revoke the access token and sign out from the Google account as well as from Okto. The user will be redirected to the login screen after the logout.
 
 
-<Tabs items={['React Native', 'Flutter']}>  
+<Tabs items={['React Native', 'Flutter', 'React']}>  
   <Tabs.Tab>
 <Steps>
     ### Add logout function
     Lets start by adding a function that can handle the logout. This function will sign out the user from the Google account and we can use the `logout` method from Okto to expire the access token and refresh token and end the session from Okto Wallet as well.
 
     ```tsx filename="screen/user-profile.tsx" copy
-    import { logout } from 'rn-okto-sdk';
+    import { useOkto } from 'okto-sdk-react-native';
     import { GoogleSignin } from "@react-native-google-signin/google-signin";
 
     ...
 
     const UserProfileScreen = () => {
-        
+        const { logout } = useOkto();
         ...
 
         const handleLogout = async () => {
             try {
                 await GoogleSignin.revokeAccess();
                 await GoogleSignin.signOut();
-                logout((result, error) => {
-                    if(result){
-                        navigation.navigate("Login");
-                    }
-                });
+                await logout();
             } catch (error) {
                 console.error(error);
             }
@@ -62,6 +58,7 @@ Finally, we can add a log out function for the user. This will revoke the access
     ```
 </Steps>
 </Tabs.Tab>
+
 <Tabs.Tab>
 <Steps>
 ### Create a logout screen
@@ -105,5 +102,53 @@ class _LogoutScreenState extends State<LogoutScreen> {
 ```
 </Steps>
 </Tabs.Tab>
+
+  <Tabs.Tab>
+    <Steps>
+        ### Add logout function
+        Lets start by adding a function that can handle the logout. This function will sign out the user from the Google account and we can use the `logout` method from Okto to expire the access token and refresh token and end the session from Okto Wallet as well.
+
+        ```tsx filename="screen/user-profile.tsx" copy
+        import { useOkto } from 'okto-sdk-react';
+        ...
+
+        const UserProfileScreen = () => {
+            const { logout } = useOkto();
+            ...
+
+            const handleLogout = async () => {
+                try {
+                    await logout();
+                } catch (error) {
+                    console.error(error);
+                }
+            };
+        };
+        ```
+
+        ### Add logout button
+        Now we can add a logout button at the top of the user profile screen to trigger the logout function.
+
+        ```tsx filename="screen/user-profile.tsx" copy
+        const UserProfileScreen = () => {
+            ...
+
+            return (
+                <div style={{ flex: 1, backgroundColor: '#fff', padding: '20px' }}>
+                    <div style={{ display: 'flex', justifyContent: 'flex-end', marginTop: '10px' }}>
+                        <button
+                            onClick={handleLogout}
+                            style={{ padding: '10px 20px', backgroundColor: 'red', color: '#fff', border: 'none', cursor: 'pointer' }}
+                        >
+                            Logout
+                        </button>
+                    </div>                    
+                </div>
+            );
+        }
+        ```
+    </Steps>
+  </Tabs.Tab>
+
 </Tabs>
 

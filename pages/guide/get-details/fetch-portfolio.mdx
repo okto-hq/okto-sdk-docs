@@ -2,7 +2,7 @@ import { Steps, Tabs } from "nextra/components";
 
 We have received the user details and their wallets as well. Now we will get the user's portfolio details. This returns all the token assets owned by the user across all the wallets.
 
-<Tabs items={['React Native', 'Flutter']}>
+<Tabs items={['React Native', 'Flutter', 'React']}>
   <Tabs.Tab>
     <Steps>
       ### Fetch Portfolio
@@ -253,6 +253,46 @@ class _UserPortfolioPageState extends State<UserPortfolioPage> {
 </Steps>
 
   </Tabs.Tab>
-</Tabs>
 
-Now that the user details and their wallets are displayed, in the next step, we will fetch the user's portfolio details and display them in the app.
+  <Tabs.Tab>
+    <Steps>
+      ### Fetch Portfolio
+      ```tsx filename="homePage.jsx" copy
+      import { useOkto } from "okto-sdk-react";
+      import React, { useState } from 'react';
+
+      function HomePage() {
+        const [portfolioData, setPortfolioData] = useState(null);
+        const [error, setError] = useState(null);
+        const { getUserDetails, getPortfolio, createWallet, transferTokens, orderHistory } = useOkto();
+  
+        const fetchPortfolio = async () => {
+          try {
+            const portfolio = await getPortfolio();
+            setPortfolioData(portfolio);
+            setActiveSection('portfolio');
+          } catch (error) {
+            setError(`Failed to fetch portfolio: ${error.message}`);
+          }
+        };
+
+        return (
+          <div style={containerStyle}>
+            <h1>Home Page</h1>
+            <button onClick={fetchPortfolio}>View Portfolio</button>
+            {portfolioData && (
+              <div>
+                <h2>Portfolio:</h2>
+                <pre>{JSON.stringify(portfolioData, null, 2)}</pre>
+              </div>
+            )}
+          </div>
+        );
+      }
+      export default HomePage;
+      ```
+    </Steps>
+
+  </Tabs.Tab>
+
+</Tabs>

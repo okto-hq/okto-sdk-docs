@@ -2,7 +2,7 @@ import { Steps, Tabs } from "nextra/components";
 
 Before the user can transfer assets from and to their wallets, they need to know the networks and tokens supported by your API Key.
 
-<Tabs items={['React Native', 'Flutter']}>
+<Tabs items={['React Native', 'Flutter', 'React']}>
   <Tabs.Tab>
     <Steps>
       ### Fetch Supported Networks and Tokens
@@ -317,6 +317,61 @@ class _SupportedTokensPageState extends State<SupportedTokensPage> {
       }
       ```
       [View in code](https://github.com/okto-hq/okto-sdk-flutter/blob/main/examples/example1/lib/screens/supported_tokens_page.dart)
+    </Steps>
+
+  </Tabs.Tab>
+
+  <Tabs.Tab>
+    <Steps>
+      ### Fetch Supported Networks and Tokens
+      ```tsx filename="homePage.jsx" copy
+      import { useOkto } from "okto-sdk-react";
+      import React, { useState } from 'react';
+
+      function HomePage() {
+        const [networks, setNetworks] = useState([]);
+        const [tokens, setTokens] = useState([]);
+        const [error, setError] = useState(null);
+        const { getSupportedNetworks, getSupportedTokens } = useOkto();
+  
+        const fetchSupportedNetwork = async () => {
+          try {
+            const details = await getSupportedNetworks();
+            setNetworks(details);
+          } catch (error) {
+            setError(`Failed to fetch: ${error.message}`);
+          }
+        };
+
+        const fetchSupportedToken = async () => {
+          try {
+            const details = await getSupportedTokens();
+            setTokens(details);
+          } catch (error) {
+            setError(`Failed to fetch: ${error.message}`);
+          }
+        };
+
+        return (
+          <div style={containerStyle}>
+            <h1>Home Page</h1>
+
+            <button onClick={fetchSupportedNetwork}>View User Details</button>
+            <div>
+              <h2>Networks: </h2>
+              <pre>{JSON.stringify(networks, null, 2)}</pre>
+            </div>
+
+            <button onClick={fetchSupportedToken}>View User Details</button>
+            <div>
+              <h2>Tokens: </h2>
+              <pre>{JSON.stringify(tokens, null, 2)}</pre>
+            </div>
+          </div>
+        );
+      }
+      export default HomePage;
+      ```
     </Steps>
 
   </Tabs.Tab>
