@@ -1,6 +1,6 @@
 import { Steps, Tabs } from "nextra/components";
 
-<Tabs items={['React Native', 'Flutter']}>  
+<Tabs items={['React Native', 'Flutter', 'React']}>  
   
   <Tabs.Tab>
   Okto Bottomsheet is opened first when a new user `authenticates` with Okto and gets prompted to [`create wallet`](/guide/authenticate/create-wallet). 
@@ -104,4 +104,42 @@ import { Steps, Tabs } from "nextra/components";
     </Steps>
 
   </Tabs.Tab>
+
+  <Tabs.Tab>
+    <Steps>
+      ### Add Button to Open Bottom Sheet
+      Let's add a button in `user-profile.tsx` to open the bottom sheet.
+
+      ```tsx filename="user-profile.tsx" copy
+      import { View, Button, Text } from 'react-native';
+      import { useOkto, type OktoContextType } from 'okto-sdk-react';
+      import React from 'react';
+
+      const UserProfileScreen = () => {
+        const { showWidgetModal } = useOkto() as OktoContextType;
+
+        return (
+        <div style={{ padding: '20px' }}>
+            <h2>User Profile</h2>
+
+            {/* ... other user profile details ... */}
+
+            <button
+                onClick={() => {
+                    showWidgetModal();
+                }}
+                style={{ padding: '10px 20px', backgroundColor: '#007bff', color: '#fff', border: 'none', cursor: 'pointer' }}
+            >
+                Open Okto Profile
+            </button>
+        </div>
+    );
+      };
+
+      export default UserProfileScreen;
+      ```
+    </Steps>
+
+  </Tabs.Tab>
+
 </Tabs>

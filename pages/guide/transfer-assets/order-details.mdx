@@ -1,6 +1,6 @@
 import { Steps, Tabs } from 'nextra/components';
 
-<Tabs items={["React Native", "Flutter"]}>
+<Tabs items={["React Native", "Flutter", "React"]}>
 <Tabs.Tab>
 Once the token transfer is initiated, the API will return a `order_id`, which can be used to track the status of the transfer along with other order details.
 
@@ -115,6 +115,7 @@ Once the token transfer is initiated, the API will return a `order_id`, which ca
     ```
 </Steps>
 </Tabs.Tab>
+
 <Tabs.Tab>
 Once the token transfer is initiated, the API will return a `order_id`, which can be used to track the status of the transfer along with other order details.  
 
@@ -251,4 +252,56 @@ class _OrderHistoryPageState extends State<OrderHistoryPage> {
   
 
 </Tabs.Tab>
+
+<Tabs.Tab>
+Once the token transfer is initiated, the API will return a `order_id`, which can be used to track the status of the transfer along with other order details.
+
+<Steps>
+    ### Fetch Order Details
+    We will be using the [`orderHistory`](/sdk-reference/react/orderHistory) method to fetch all the order details for the user. Then we can use the `order_id` to check our current order details.
+    
+    We will create a new screen named `order-details.tsx` and fetch all the orders and filter the order details using the `order_id`.
+
+
+    ```tsx filename="screen/order-details.jsx" copy
+    import React, { useState, useEffect } from 'react';
+    import { useOkto } from 'okto-sdk-react';
+
+    const OrderDetailsScreen = ({ route }) => {
+        const { orderHistory } = useOkto();
+        const { orderId } = route.params;
+        const [order, setOrder] = useState(null);
+
+        useEffect(() => {
+            orderHistory({ order_id: orderId })
+                .then((orders) => {
+                    const order = orders.find((order) => order.order_id === orderId);
+                    if (order) setOrder(order);
+                })
+                .catch((error) => {
+                    console.error('error:', error);
+                });
+        }, [orderId, orderHistory]);
+
+        return (
+            <div style={{ padding: '20px' }}>
+                {order ? (
+                    <div>
+                        <h2>Order Details</h2>
+                        <p><strong>Order ID:</strong> {order.order_id}</p>
+                        <p><strong>Product Name:</strong> {order.product_name}</p>
+                        <p><strong>Quantity:</strong> {order.quantity}</p>
+                        <p><strong>Price:</strong> {order.price}</p>
+                    </div>
+                ) : (
+                    <p>Loading order details...</p>
+                )}
+            </div>
+        );
+    };
+    ```
+
+</Steps>
+</Tabs.Tab>
+
 </Tabs>

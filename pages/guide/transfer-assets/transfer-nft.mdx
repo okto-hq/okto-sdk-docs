@@ -2,11 +2,11 @@ import { Steps, Tabs } from 'nextra/components';
 
 After being able to transfer tokens and track the orders, we will add a Functionality to transfer NFTs from one account to another.
 
-<Tabs items={["React Native", "Flutter"]}>
+<Tabs items={["React Native", "Flutter", "React"]}>
 <Tabs.Tab>
 <Steps>
     ### Adding required fields
-    We will be using the [`transferNFT`](/sdk-reference/transferNFT) method to transfer NFTs from one account to another. This method requires the following fields:
+    We will be using the [`transferNFT`](/sdk-reference/react-native/transferNFT) method to transfer NFTs from one account to another. This method requires the following fields:
     - `operationType`: The type of operation to be performed. In this case, it will be `NFT_TRANSFER`.
     - `quantity`: The quantity of NFTs to be transferred.
     - `recipientAddress`: The address of the recipient account.
@@ -129,6 +129,7 @@ After being able to transfer tokens and track the orders, we will add a Function
     ```
 </Steps>
 </Tabs.Tab>
+
 <Tabs.Tab>
 <Steps>
  ### Adding required fields
@@ -272,4 +273,117 @@ class _TransferNftPageState extends State<TransferNftPage> {
  [View in code](https://github.com/okto-hq/okto-sdk-flutter/blob/main/examples/example1/lib/screens/transfer_nft_page.dart)
 </Steps>
 </Tabs.Tab>
+
+<Tabs.Tab>
+<Steps>
+    ### Adding required fields
+    We will be using the [`transferNFT`](/sdk-reference/react/transferNFT) method to transfer NFTs from one account to another. This method requires the following fields:
+    - `operationType`: The type of operation to be performed. In this case, it will be `NFT_TRANSFER`.
+    - `quantity`: The quantity of NFTs to be transferred.
+    - `recipientAddress`: The address of the recipient account.
+    - `networkName`: The name of the network to perform the transfer on.
+    - `nftAddress`: The address of the NFT to be transferred.
+    - `collectionAddress`: The address of the collection containing the NFT.
+    - `collectionName`: The name of the collection containing the NFT.
+
+    We will create a new screen named `transfer-nft.tsx` and start by creating states and a method to handle the submission of the form fields.
+
+    ```tsx filename="screen/transfer-nft.tsx" copy
+    import React, { useState } from 'react';
+    import { useOkto, type OktoContextType} from 'okto-sdk-react';
+
+    const TransferNFTScreen = () => {
+        const { transferNft } = useOkto() as OktoContextType;
+        const operationType = "NFT_TRANSFER"
+        const [networkName, setNetworkName] = useState<string>("APTOS_TESTNET")
+        const [collectionAddress, setCollectionAddress] = useState<string>("0x171e643e8e8dabc66b838b9055dbdf88647cf6601b164f5987f50a497bedfbe1")
+        const [collectionName, setCollectionName] = useState<string>("super avengers")
+        const [quantity, setQuantity] = useState<string>("1")
+        const [recipientAddress, setRecipientAddress] = useState<string>("0x46e5fb2f9af287a5bcd9756ff35494c41b7371446da3daf98e1f1de58331c55f")
+        const [nftAddress, setNftAddress] = useState<string>("0xf137ad32d4d695c9eb7cb4831e6198924afe5fb8c51576e8a5b5b07f6da8e0d3")
+
+        const handleSubmit = () => {
+            transferNft(
+                {
+                    operation_type: operationType,
+                    network_name: networkName,
+                    collection_address: collection_address,
+                    collection_name: collection_name,
+                    quantity: quantity,
+                    recipient_address: recipientAddress,
+                    nft_address: nftAddress
+                }).then((result) => {
+                    console.log(result)
+                }).catch((error) => {
+                    console.error(`error:`, error);
+                });
+           
+        }
+    }
+    ```
+
+    ### Add Form
+    We will add form fields to the screen to capture the required fields. Additionally, we will include a button to submit the form.
+
+    ```tsx filename="screen/transfer-token.tsx" copy
+
+    const TransferNFTScreen = () => {
+        
+        ...
+
+        return (
+        <div style={{ flex: 1, backgroundColor: '#fff', padding: '20px' }}>
+            <h2>Transfer NFT</h2>
+            <input
+                type="text"
+                value={networkName}
+                onChange={(e) => setNetworkName(e.target.value)}
+                placeholder="Enter Network Name"
+                style={{ display: 'block', marginBottom: '10px', padding: '10px' }}
+            />
+            <input
+                type="text"
+                value={collectionAddress}
+                onChange={(e) => setCollectionAddress(e.target.value)}
+                placeholder="Enter Collection Address"
+                style={{ display: 'block', marginBottom: '10px', padding: '10px' }}
+            />
+            <input
+                type="text"
+                value={collectionName}
+                onChange={(e) => setCollectionName(e.target.value)}
+                placeholder="Enter Collection Name"
+                style={{ display: 'block', marginBottom: '10px', padding: '10px' }}
+            />
+            <input
+                type="text"
+                value={quantity}
+                onChange={(e) => setQuantity(e.target.value)}
+                placeholder="Enter Quantity"
+                style={{ display: 'block', marginBottom: '10px', padding: '10px' }}
+            />
+            <input
+                type="text"
+                value={recipientAddress}
+                onChange={(e) => setRecipientAddress(e.target.value)}
+                placeholder="Enter Recipient Address"
+                style={{ display: 'block', marginBottom: '10px', padding: '10px' }}
+            />
+            <input
+                type="text"
+                value={nftAddress}
+                onChange={(e) => setNftAddress(e.target.value)}
+                placeholder="Enter NFT Address"
+                style={{ display: 'block', marginBottom: '10px', padding: '10px' }}
+            />
+            <button onClick={handleSubmit} style={{ padding: '10px 20px', backgroundColor: '#007bff', color: '#fff', border: 'none', cursor: 'pointer' }}>
+                Transfer NFT
+            </button>
+        </div>
+        );
+    }
+    ```
+</Steps>
+</Tabs.Tab>
+
 </Tabs>

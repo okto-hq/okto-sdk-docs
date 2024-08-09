@@ -6,7 +6,7 @@ If we want to execute a raw transaction directly on chain, Okto provides a way t
     ### Send a transaction
     Create a new screen and name it `send-raw-transaction`:
     
-    <Tabs items={["React Native", "Flutter"]}>
+    <Tabs items={["React Native", "Flutter", "React"]}>
       <Tabs.Tab>
         #### React Native
 
@@ -525,6 +525,237 @@ If we want to execute a raw transaction directly on chain, Okto provides a way t
             ```
             </Tabs.Tab>
         </Tabs>
+      </Tabs.Tab>
+
+      <Tabs.Tab>
+        #### React
+
+        <Tabs items={["EVM", "Solana", "Aptos"]}>
+            <Tabs.Tab>
+            For example purposes we will execute a Polygon transaction.
+            ```tsx filename="send-raw-transaction.tsx" copy
+            import { useOkto, type OktoContextType} from 'okto-sdk-react';
+            import { useState } from 'react';
+
+            const SendRawTransactionScreen = () => {
+                const { executeRawTransaction } = useOkto() as OktoContextType;
+                const [network, setNetwork] = useState<string>("POLYGON_TESTNET");
+                const [from, setFrom] = useState<string>("0x0342A54DD44E8744FD185579Af57845Cb0ac6cB0");
+                const [to, setTo] = useState<string>("0x80322ea18633A1f713e987d65Ae78AcCDAB6e55e");
+                const [data, setData] = useState<string>("0x");
+                const [value, setValue] = useState<string>("0x100000");
+
+                const sendTransaction = async () => {
+                    const requestData = {
+                        network_name: network,
+                        transaction: {
+                            from,
+                            to,
+                            data,
+                            value,
+                        },
+                    }
+
+                    executeRawTransaction(requestData)
+                            .then((result) => {
+                                console.log(result.jobId)
+                            })
+                            .catch((error) => {
+                                console.error(`error:`, error);
+                            });
+                }
+
+                return (
+                  <div style={{ padding: '20px' }}>
+                      <h2>Execute Raw Polygon Transaction</h2>
+                      <input
+                          type="text"
+                          placeholder="From"
+                          value={from}
+                          onChange={(e) => setFrom(e.target.value)}
+                          style={{ display: 'block', marginBottom: '10px', padding: '10px' }}
+                      />
+                      <input
+                          type="text"
+                          placeholder="To"
+                          value={to}
+                          onChange={(e) => setTo(e.target.value)}
+                          style={{ display: 'block', marginBottom: '10px', padding: '10px' }}
+                      />
+                      <input
+                          type="text"
+                          placeholder="Data"
+                          value={data}
+                          onChange={(e) => setData(e.target.value)}
+                          style={{ display: 'block', marginBottom: '10px', padding: '10px' }}
+                      />
+                      <input
+                          type="text"
+                          placeholder="Value"
+                          value={value}
+                          onChange={(e) => setValue(e.target.value)}
+                          style={{ display: 'block', marginBottom: '10px', padding: '10px' }}
+                      />
+                      <button onClick={sendTransaction} style={{ padding: '10px 20px', backgroundColor: '#007bff', color: '#fff', border: 'none', cursor: 'pointer' }}>
+                          Send Transaction
+                      </button>
+                  </div>
+                )
+            }
+            ```
+            </Tabs.Tab>
+            <Tabs.Tab>
+            For example purposes we will execute a Solana transaction.
+            ```tsx filename="send-raw-transaction.tsx" copy
+            import { useOkto, type OktoContextType} from 'okto-sdk-react';
+            import { useState } from 'react';
+
+            const SendRawTransactionScreen = () => {
+                const { executeRawTransaction } = useOkto() as OktoContextType;
+                const [network, setNetwork] = useState<string>("SOLANA_DEVNET");
+                const [instructions, setInstructions] = useState<any[]>([
+                    {
+                        "keys": [
+                            {
+                                "pubkey": "GQkXkHF8LTwyZiZUcBWwYJeJBFEqR4vRCV4J5Xe7zGiQ",
+                                "isSigner": true,
+                                "isWritable": true
+                            },
+                            {
+                                "pubkey": "GEjBy2puN8a53darpz7CTbRvSb6wepzhK7s8C3Dww4yg",
+                                "isSigner": false,
+                                "isWritable": true
+                            }
+                        ],
+                        "programId": "11111111111111111111111111111111",
+                        "data": [
+                            2,
+                            0,
+                            0,
+                            0,
+                            128,
+                            150,
+                            152,
+                            0,
+                            0,
+                            0,
+                            0,
+                            0
+                        ]
+                    }
+                ]);
+                const [signers, setSigners] = useState<string[]>(["GQkXkHF8LTwyZiZUcBWwYJeJBFEqR4vRCV4J5Xe7zGiQ"]);
+
+                const sendTransaction = async () => {
+                    const requestData = {
+                        network_name: network,
+                        transaction: {
+                            instructions,
+                            signers,
+                        },
+                    }
+
+                    executeRawTransaction(requestData)
+                            .then((result) => {
+                                console.log(result.jobId)
+                            })
+                            .catch((error) => {
+                                console.error(`error:`, error);
+                            });
+                }
+
+                return (
+                    <div style={{ padding: '20px' }}>
+                        <h2>Execute Raw Solana Transaction</h2>
+                        <textarea
+                            placeholder="Instructions"
+                            value={instructions}
+                            onChange={(e) => setInstructions(e.target.value)}
+                            style={{ display: 'block', width: '100%', height: '100px', marginBottom: '10px', padding: '10px' }}
+                        />
+                        <textarea
+                            placeholder="Signers"
+                            value={signers}
+                            onChange={(e) => setSigners(e.target.value)}
+                            style={{ display: 'block', width: '100%', height: '50px', marginBottom: '10px', padding: '10px' }}
+                        />
+                        <button onClick={sendTransaction} style={{ padding: '10px 20px', backgroundColor: '#007bff', color: '#fff', border: 'none', cursor: 'pointer' }}>
+                            Send Transaction
+                        </button>
+                    </div>
+                );
+            }
+            ```
+            </Tabs.Tab>
+            <Tabs.Tab>
+            For example purposes we will execute an Aptos transaction.
+            ```tsx filename="send-raw-transaction.tsx" copy
+            import { useOkto, type OktoContextType} from 'okto-sdk-react';
+            import { useState } from 'react';
+
+            const SendRawTransactionScreen = () => {
+                const { executeRawTransaction } = useOkto() as OktoContextType;
+                const [network, setNetwork] = useState<string>("APTOS_TESTNET");
+                const [func, setFunction] = useState<string>("0x1::aptos_account::transfer");
+                const [typeArguments, setTypeArguments] = useState<any[]>([]);
+                const [functionArguments, setFunctionArguments] = useState<any[]>([
+                        "0xb7c18d4389feb18d819fbe1c2806fd7f753d2cd42ec04e7ed5f2b19e267737c6",
+                        "1000000"
+                    ]);
+
+                const sendTransaction = async () => {
+                    const requestData = {
+                        network_name: network,
+                        transaction: {
+                            function: func,
+                            typeArguments,
+                            functionArguments
+                        },
+                    }
+
+                    executeRawTransaction(requestData)
+                            .then((result) => {
+                                console.log(result.jobId)
+                            })
+                            .catch((error) => {
+                                console.error(`error:`, error);
+                            });
+                }
+
+                return (
+                      <div style={{ padding: '20px' }}>
+                          <h2>Execute Raw Aptos Transaction</h2>
+                          <input
+                              type="text"
+                              placeholder="Function"
+                              value={func}
+                              onChange={(e) => setFunction(e.target.value)}
+                              style={{ display: 'block', marginBottom: '10px', padding: '10px', width: '100%' }}
+                          />
+                          <input
+                              type="text"
+                              placeholder="Type Arguments"
+                              value={JSON.stringify(typeArguments)}
+                              onChange={(e) => setTypeArguments(JSON.parse(e.target.value))}
+                              style={{ display: 'block', marginBottom: '10px', padding: '10px', width: '100%' }}
+                          />
+                          <input
+                              type="text"
+                              placeholder="Function Arguments"
+                              value={JSON.stringify(functionArguments)}
+                              onChange={(e) => setFunctionArguments(JSON.parse(e.target.value))}
+                              style={{ display: 'block', marginBottom: '10px', padding: '10px', width: '100%' }}
+                          />
+                          <button onClick={sendTransaction} style={{ padding: '10px 20px', backgroundColor: '#007bff', color: '#fff', border: 'none', cursor: 'pointer' }}>
+                              Send Transaction
+                          </button>
+                      </div>
+                  );
+            }
+            ```
+            </Tabs.Tab>
+        </Tabs>
+
       </Tabs.Tab>
     </Tabs>
 

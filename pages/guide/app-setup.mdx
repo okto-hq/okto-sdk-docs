@@ -248,43 +248,52 @@ class _LoginPageState extends State<LoginPage> {
             </Tabs.Tab>
         </Tabs>
 
-        ### Setup Okto Provider
+        ### Setup Google and Okto Provider
        To utilize the SDK within your application, follow these steps:
+
+        ```tsx filename="index.js" copy
+        import React from 'react';
+        import ReactDOM from 'react-dom/client';
+        import { GoogleOAuthProvider } from '@react-oauth/google';
+        import App from './App';
+
+        const root = ReactDOM.createRoot(document.getElementById('root'));
+        const GOOGLE_CLIENT_ID = ""
+
+        root.render(
+        <React.StrictMode>
+          <GoogleOAuthProvider clientId = {GOOGLE_CLIENT_ID}>
+            <App />
+          </GoogleOAuthProvider>
+        </React.StrictMode>
+        );
+        ```
 
         Wrap your application with the OktoProvider component, providing the necessary configuration parameters:
 
-        ```tsx filename="App.tsx" copy
+        ```tsx filename="App.js" copy
+        import React from 'react';
         import { OktoProvider, BuildType } from 'okto-sdk-react';
+        import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+        import LoginPage from './LoginPage';
+        import HomePage from './HomePage';
 
-        <OktoProvider apiKey={OKTO_CLIENT_API} buildType={BuildType.SANDBOX}>
-            <App />
-        </OktoProvider>
-        ```
-        Access SDK functionalities within your components:
+        const OKTO_CLIENT_API_KEY = "";
 
-
-         ### Use Okto Functions
-
-        ```tsx filename="App.tsx" copy
-        import {
-          useOkto,
-          type OktoContextType,
-        } from 'okto-sdk-react';
-
-
-        export default function App(){
-          const {
-            authenticate,
-          } = useOkto() as OktoContextType;
+        function App() {
+          console.log('App component rendered');
           return (
-            <Button
-                title="authenticate"
-                onPress={() => {
-                    authenticate(idToken!, handleAuthenticate);
-                }}
-                />
-            )
+            <Router>
+              <OktoProvider apiKey={OKTO_CLIENT_API_KEY} buildType={BuildType.SANDBOX}>
+                <Routes>
+                  <Route path="/" element={<LoginPage />} />
+                  <Route path="/home" element={<HomePage />} />
+                </Routes>
+              </OktoProvider>
+            </Router>
+          );
         }
+        export default App;
         ```
         Great! With that, the setup is complete. You can now start building the app with Okto. 🚀
     </Steps>
