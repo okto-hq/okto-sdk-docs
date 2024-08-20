@@ -16,7 +16,6 @@ Authenticate user with `idToken` received from Google OAuth2.
 
   If the user does not have a wallet, a [wallet prompt](/guide/authenticate/create-wallet) will be shown to the user to create a wallet.
 
-  This method requires to setpin after authentication.
   ```dart copy
   try {
     await okto.authenticate(idToken: 'idToken');
