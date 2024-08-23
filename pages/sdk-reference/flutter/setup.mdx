@@ -1,0 +1,45 @@
+
+# Flutter App Setup to use Okto SDK
+Okto Flutter SDK relies on google sign in to authenticate users. To use the Okto Flutter SDK in your flutter app, you need to set up google sign in for your flutter project.
+
+### Create Web, Android and iOS Client IDs on your Google Cloud Project.
+1. Follow this guide to [create all the client ids](/guide/google-authentication-setup).
+
+## Android Setup
+1. After creating the Android & Web Client ID
+2. Copy the Web Client ID.
+3. Create a file `strings.xml` in `android/app/src/main/res/values/` folder, if its not already present.
+4. Add the following code to `strings.xml` file.
+```xml
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="default_web_client_id">PASTE_YOUR_WEB_CLIENT_ID_HERE</string>
+</resources>
+```
+5. And We are good to go for android.
+
+## iOS Setup
+1. After creating the iOS Client ID
+2. Download plist file from Google Cloud for iOS.
+3. Rename it to GoogleService-Info.plist
+4. Paste it inside ios/Runner directory.
+5. Copy your Client ID and iOS URL scheme from Google Cloud
+6. Open your info.plist file, present inside ios/Runner, and add the following code.
+```xml
+<key>GIDClientID</key>
+	<string>PASTE_YOUR_IOS_CLIENT_ID_HERE</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>PASTE_YOUR_IOS_URL_SCHEME_HERE</string>
+			</array>
+		</dict>
+	</array>
+```
+8. Run `flutter build ios` in your terminal.
+7. And We are good to go for iOS.
+
