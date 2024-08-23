@@ -62,10 +62,26 @@ This guide will walk you through the steps to set up a project in Google Console
     <div style={{ width: "80%" }}>
         ![Android Client](/google-auth/create-web-clientid.png)
     </div>
+
+    ### Creating an iOS Client ID
+
+    1. In Google Cloud Console, navigate to the "Credentials" page under "APIs & Services".
+    2. Click on "Create credentials" and select "OAuth client ID".
+    3. Choose "iOS" as the application type.
+    4. In the "Bundle ID" field, enter the bundle id of your iOS app, you can get this from XCode or `info.plist` (e.g., `com.example.myapp`).
+    5. Click "Create" to generate your iOS client ID.
+    6. Copy the client ID and iOS URL scheme provided.
+    7. Download the plist file and rename it to `GoogleService-Info.plist`.
+    8. Add the `GoogleService-Info.plist` file to your iOS project.
+
+    <div style={{ width: "80%" }}>
+        ![iOS Client](/google-auth/create-ios-clientid.png)
+    </div>
+
     
 
     ### Conclusion
 
-    You have successfully set up a project in Google Console, created an OAuth consent screen, and generated web and Android client IDs for Google authentication. You can now integrate Google authentication into Android applications using the provided client IDs.
+    You have successfully set up a project in Google Console, created an OAuth consent screen, and generated web, Android & iOS client IDs for Google authentication. You can now integrate Google authentication into Android/iOS applications using the provided client IDs.
 
 </Steps>
