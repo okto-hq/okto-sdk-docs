@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/shuding/nextra-docs-template#readme",
   "dependencies": {
+    "@cookbookdev/docsbot": "^4.21.23",
     "next": "^14.2.5",
     "nextra": "latest",
     "nextra-theme-docs": "latest",
